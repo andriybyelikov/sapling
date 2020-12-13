@@ -3,6 +3,6 @@
 
 #include <stdio.h>
 
-void *fetch_token(FILE *i);
+void *fetch_terminal(FILE *input_file, void *user_ptr);
 
 #endif

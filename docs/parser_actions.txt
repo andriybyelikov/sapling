@@ -1,0 +1,3 @@
+0 accepting
+1 build productions/parse tree, log state and production stacks
+2 attributed actions: build lexer automaton

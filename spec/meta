@@ -1,6 +1,5 @@
-t_blank         -> [ \t\r\n]+;
-t_linecomment   -> "--".*"\n";
-
+gobble__t_blank         -> [ \t\r\n]+;
+gobble__t_linecomment   -> "--".*"\n";
 t_kleenestar    -> "*";
 t_kleeneplus    -> "+";
 t_rightarrow    -> "->";
@@ -9,12 +8,12 @@ t_terminator    -> ";";
 t_disjunction   -> "|";
 t_lpar          -> "(";
 t_rpar          -> ")";
-t_symbol        -> [a-z][a-z0-9_]+;
+t_symbol        -> [a-z][a-z0-9_]*;
 t_literal       -> "\""(.|"\\".)*"\"";
 t_union         -> "[".*"]";
 
-
-start           -> production start | production;
+start           -> productions;
+productions     -> production productions | production;
 production      -> t_symbol t_rightarrow expr t_terminator;
 expr            -> expr_0 t_disjunction expr | expr_0;
 expr_0          -> expr_1 expr_0 | expr_1;

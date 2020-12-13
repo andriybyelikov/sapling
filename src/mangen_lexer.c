@@ -1,63 +1,84 @@
 #include <stdio.h>
-#include "token.h"
-#include "mangen_tokens.h"
+#include <libsapling/terminal.h>
+#include "lexer_action.h"
+#include "mangen_terminals.h"
 
 static
-void *emtk(char *buf, int bufc, int id)
+void *build_terminal(char *buf, int bufc, int id)
 {
     buf[bufc] = 0;
-    return mktk(id, buf);
+    return terminal(id, buf);
 }
 
-void *fetch_token(FILE *i)
+void *fetch_terminal(FILE *input_file, void *user_ptr)
 {
 	char c;         // single character buffer
 	int s = 0;      // state
 	char buf[4096]; // lexeme buffer
 	int bufc = 0;   // lexeme buffer cursor
+	void *terminal; // terminal buffer
 
 	while (1) {
-		c = getc(i);
+		c = getc(input_file);
 		switch (s) {
 		case 0:
 			switch (c) {
 			case EOF:
-				return emtk(buf, bufc, t_eof);
+				terminal = build_terminal(buf, bufc, t_eof);
+				lexer_action(terminal, user_ptr);
+				return terminal;
 			case ' ': case '\t': case '\r': case '\n':
+				terminal = build_terminal(buf, bufc, t_blank);
+				lexer_action(terminal, user_ptr);
+				s = 0;
 				continue;
 			case '*':
 				buf[bufc++] = c;
-				return emtk(buf, bufc, t_kleenestar);
+				terminal = build_terminal(buf, bufc, t_kleenestar);
+				lexer_action(terminal, user_ptr);
+				return terminal;
 			case '+':
 				buf[bufc++] = c;
-				return emtk(buf, bufc, t_kleeneplus);
+				terminal = build_terminal(buf, bufc, t_kleeneplus);
+				lexer_action(terminal, user_ptr);
+				return terminal;
 			case '-':
 				buf[bufc++] = c;
 				s = 10;
 				continue;
 			case '.':
 				buf[bufc++] = c;
-				return emtk(buf, bufc, t_any);
+				terminal = build_terminal(buf, bufc, t_any);
+				lexer_action(terminal, user_ptr);
+				return terminal;
 			case '[':
 				buf[bufc++] = c;
 				s = 30;
 				continue;
 			case ';':
 				buf[bufc++] = c;
-				return emtk(buf, bufc, t_terminator);
+				terminal = build_terminal(buf, bufc, t_terminator);
+				lexer_action(terminal, user_ptr);
+				return terminal;
 			case '"':
 				buf[bufc++] = c;
 				s = 40;
 				continue;
 			case '|':
 				buf[bufc++] = c;
-				return emtk(buf, bufc, t_disjunction);
+				terminal = build_terminal(buf, bufc, t_disjunction);
+				lexer_action(terminal, user_ptr);
+				return terminal;
 			case '(':
 				buf[bufc++] = c;
-				return emtk(buf, bufc, t_lpar);
+				terminal = build_terminal(buf, bufc, t_lpar);
+				lexer_action(terminal, user_ptr);
+				return terminal;
 			case ')':
 				buf[bufc++] = c;
-				return emtk(buf, bufc, t_rpar);
+				terminal = build_terminal(buf, bufc, t_rpar);
+				lexer_action(terminal, user_ptr);
+				return terminal;
 			default:
 				if (('a' <= c && c <= 'z')) {
 					buf[bufc++] = c;
@@ -70,7 +91,9 @@ void *fetch_token(FILE *i)
 			switch (c) {
 			case '>':
 				buf[bufc++] = c;
-				return emtk(buf, bufc, t_rightarrow);
+				terminal = build_terminal(buf, bufc, t_rightarrow);
+				lexer_action(terminal, user_ptr);
+				return terminal;
 			case '-':
 				bufc--; // captured '-' is part of comment
 				s = 60;
@@ -82,14 +105,18 @@ void *fetch_token(FILE *i)
 				buf[bufc++] = c;
 				continue;
 			} else {
-				ungetc(c, i);
-				return emtk(buf, bufc, t_symbol);
+				ungetc(c, input_file);
+				terminal = build_terminal(buf, bufc, t_symbol);
+				lexer_action(terminal, user_ptr);
+				return terminal;
 			}
 		break;
 		case 30:
 			if (c == ']') {
 				buf[bufc++] = c;
-				return emtk(buf, bufc, t_union);
+				terminal = build_terminal(buf, bufc, t_union);
+				lexer_action(terminal, user_ptr);
+				return terminal;
 			}
 			buf[bufc++] = c;
 			continue;
@@ -97,7 +124,9 @@ void *fetch_token(FILE *i)
 		case 40:
 			if (c == '\"') {
 				buf[bufc++] = c;
-				return emtk(buf, bufc, t_literal);
+				terminal = build_terminal(buf, bufc, t_literal);
+				lexer_action(terminal, user_ptr);
+				return terminal;
 			} else if (c == '\\') {
 				buf[bufc++] = c;
 				s = 50;
@@ -113,6 +142,8 @@ void *fetch_token(FILE *i)
 		break;
 		case 60:
 			if (c == '\n') {
+				terminal = build_terminal(buf, bufc, t_linecomment);
+				lexer_action(terminal, user_ptr);
 				s = 0;
 				continue;
 			}

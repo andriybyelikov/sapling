@@ -1,10 +1,10 @@
-#ifndef GEN_TOKENS
-#define GEN_TOKENS
+#ifndef MANGEN_TERMINALS
+#define MANGEN_TERMINALS
 
 enum {
     t_eof,
-    // t_blank,
-    // t_linecomment,
+    t_blank,
+    t_linecomment,
     t_kleenestar,
     t_kleeneplus,
     t_rightarrow,
@@ -16,14 +16,14 @@ enum {
     t_symbol,
     t_literal,
     t_union,
-    num_tokens
+    NUM_TERMINALS
 };
 
 static
-const char *token_str[] = {
+const char *terminal_str[] = {
     "t_eof",
-    // "t_blank",
-    // "t_linecomment",
+    "t_blank",
+    "t_linecomment",
     "t_kleenestar",
     "t_kleeneplus",
     "t_rightarrow",

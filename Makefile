@@ -1,15 +1,16 @@
-OBJDIR  := obj
+INCDIR  := include
 SRCDIR  := src
+OBJDIR  := obj
 BINARY  := sapling
 
 CC      := gcc
-CFLAGS  := -std=c11 -pedantic -I$(SRCDIR) -g
+CFLAGS  := -std=c11 -pedantic -I$(SRCDIR) -I$(INCDIR) -g
 LDFLAGS := -lsapling
 
 SOURCES := $(wildcard $(SRCDIR)/*.c)
 OBJECTS := $(addprefix $(OBJDIR)/, $(notdir $(SOURCES:.c=.o)))
 
-.PHONY: all clean
+.PHONY: all clean install
 
 all: $(BINARY)
 
@@ -24,3 +25,8 @@ $(OBJDIR):
 
 clean:
 	rm -rf $(OBJDIR) $(BINARY)
+
+install:
+	cp sapling /usr/local/bin
+	gzip -kf sapling.1
+	cp sapling.1.gz /usr/local/man/man1

@@ -8,6 +8,7 @@ enum {
     OPTION_FDUMP_PARSE_TREE,
     OPTION_FPRINT_TERMINALS,
     OPTION_FPRINT_NONTERMINALS,
+    OPTION_FPRINT_PRODUCTIONS,
     OPTION_FDUMP_LEXER_AUTOMATON,
     NUM_OPTIONS
 };
@@ -20,6 +21,7 @@ const char *option_str[] = {
     "-fdump-parse-tree",
     "-fprint-terminals",
     "-fprint-nonterminals",
+    "-fprint-productions",
     "-fdump-lexer-automaton"
 };
 

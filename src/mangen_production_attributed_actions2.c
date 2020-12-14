@@ -1,3 +1,4 @@
+#include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -79,6 +80,27 @@ void production_attibuted_actions2(void *user_ptr, int pid)
                     user->final_rea = a;
                 else
                     rea__union(&user->final_rea, &a);
+            }
+
+            if (user->options[OPTION_FPRINT_PRODUCTIONS]
+                && !user->in_terminals_section) {
+                void *expr = parse_tree__get_child_by_string(&production, "expr");
+                while (expr != NULL) {
+                    fprintf(stdout, "%s -> ", id);
+                    void *expr_0 = parse_tree__get_child_by_string(&expr, "expr_0");
+                    while (expr_0 != NULL) {
+                        {
+                            void *expr_1 = parse_tree__get_child_by_string(&expr_0, "expr_1");
+                            void *expr_4 = parse_tree__get_child_by_string(&expr_1, "expr_4");
+                            void *t_symbol = parse_tree__get_child_by_string(&expr_4, "t_symbol");
+                            void *lexeme = parse_tree__get_child_by_position(&t_symbol, 0);
+                            printf("%s ", parse_tree__node__get_string(&lexeme));
+                        }
+                        expr_0 = parse_tree__get_child_by_string(&expr_0, "expr_0");
+                    }
+                    printf("\n");
+                    expr = parse_tree__get_child_by_string(&expr, "expr");
+                }
             }
         }
         break;

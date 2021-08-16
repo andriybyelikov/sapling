@@ -1,14 +1,13 @@
-#include <libsapling/terminal.h>
-#include <libsapling/typed_stack.h>
+#include <libsapling/cc/terminal.h>
+#include <libsapling/dm/stack.h>
 #include "parser_actions.h"
+#include "state_stack.h"
 #include "mangen_terminals.h"
 #include "mangen_productions.h"
 
-define_typed_stack(int)
-
-void parser_actions0(void *user_ptr, void **state_stack, void *terminal)
+void parser_actions0(void *user_ptr, node_t *state_stack, terminal_t terminal)
 {
-    int state = stack_int__access(state_stack);
+    int state = state_stack__access(state_stack);
     switch (state) {
     case 0:
         pre_state_action1(user_ptr, state_stack);
@@ -18,7 +17,7 @@ void parser_actions0(void *user_ptr, void **state_stack, void *terminal)
             shift(10);
             break;
         default:
-            error(stack_int__access(state_stack));
+            error(state_stack__access(state_stack));
             break;
         }
         post_state_action1(user_ptr);
@@ -31,7 +30,7 @@ void parser_actions0(void *user_ptr, void **state_stack, void *terminal)
             shift(20);
             break;
         default:
-            error(stack_int__access(state_stack));
+            error(state_stack__access(state_stack));
             break;
         }
         post_state_action1(user_ptr);
@@ -60,7 +59,7 @@ void parser_actions0(void *user_ptr, void **state_stack, void *terminal)
             shift(40);
             break;
         default:
-            error(stack_int__access(state_stack));
+            error(state_stack__access(state_stack));
             break;
         }
         post_state_action1(user_ptr);
@@ -71,15 +70,15 @@ void parser_actions0(void *user_ptr, void **state_stack, void *terminal)
             reduce(13);
             post_reduce_action1(user_ptr, 13);
             production_attibuted_actions2(user_ptr, 13);
-            switch (stack_int__access(state_stack)) {
+            switch (state_stack__access(state_stack)) {
             case 20:
             case 40:
             case 100:
             case 130:
-                stack_int__insert(state_stack, 50);
+                state_stack__insert(state_stack, 50);
                 break;
             default:
-                error(stack_int__access(state_stack));
+                error(state_stack__access(state_stack));
                 break;
             }
         }
@@ -91,15 +90,15 @@ void parser_actions0(void *user_ptr, void **state_stack, void *terminal)
             reduce(14);
             post_reduce_action1(user_ptr, 14);
             production_attibuted_actions2(user_ptr, 14);
-            switch (stack_int__access(state_stack)) {
+            switch (state_stack__access(state_stack)) {
             case 20:
             case 40:
             case 100:
             case 130:
-                stack_int__insert(state_stack, 50);
+                state_stack__insert(state_stack, 50);
                 break;
             default:
-                error(stack_int__access(state_stack));
+                error(state_stack__access(state_stack));
                 break;
             }
         }
@@ -111,15 +110,15 @@ void parser_actions0(void *user_ptr, void **state_stack, void *terminal)
             reduce(15);
             post_reduce_action1(user_ptr, 15);
             production_attibuted_actions2(user_ptr, 15);
-            switch (stack_int__access(state_stack)) {
+            switch (state_stack__access(state_stack)) {
             case 20:
             case 40:
             case 100:
             case 130:
-                stack_int__insert(state_stack, 50);
+                state_stack__insert(state_stack, 50);
                 break;
             default:
-                error(stack_int__access(state_stack));
+                error(state_stack__access(state_stack));
                 break;
             }
         }
@@ -131,15 +130,15 @@ void parser_actions0(void *user_ptr, void **state_stack, void *terminal)
             reduce(16);
             post_reduce_action1(user_ptr, 16);
             production_attibuted_actions2(user_ptr, 16);
-            switch (stack_int__access(state_stack)) {
+            switch (state_stack__access(state_stack)) {
             case 20:
             case 40:
             case 100:
             case 130:
-                stack_int__insert(state_stack, 50);
+                state_stack__insert(state_stack, 50);
                 break;
             default:
-                error(stack_int__access(state_stack));
+                error(state_stack__access(state_stack));
                 break;
             }
         }
@@ -169,7 +168,7 @@ void parser_actions0(void *user_ptr, void **state_stack, void *terminal)
             shift(40);
             break;
         default:
-            error(stack_int__access(state_stack));
+            error(state_stack__access(state_stack));
             break;
         }
         post_state_action1(user_ptr);
@@ -190,15 +189,15 @@ void parser_actions0(void *user_ptr, void **state_stack, void *terminal)
                 reduce(10);
                 post_reduce_action1(user_ptr, 10);
                 production_attibuted_actions2(user_ptr, 10);
-                switch (stack_int__access(state_stack)) {
+                switch (state_stack__access(state_stack)) {
                 case 20:
                 case 40:
                 case 100:
                 case 130:
-                    stack_int__insert(state_stack, 100);
+                    state_stack__insert(state_stack, 100);
                     break;
                 default:
-                    error(stack_int__access(state_stack));
+                    error(state_stack__access(state_stack));
                     break;
                 }
             }
@@ -212,15 +211,15 @@ void parser_actions0(void *user_ptr, void **state_stack, void *terminal)
             reduce(11);
             post_reduce_action1(user_ptr, 11);
             production_attibuted_actions2(user_ptr, 11);
-            switch (stack_int__access(state_stack)) {
+            switch (state_stack__access(state_stack)) {
             case 20:
             case 40:
             case 100:
             case 130:
-                stack_int__insert(state_stack, 80);
+                state_stack__insert(state_stack, 80);
                 break;
             default:
-                error(stack_int__access(state_stack));
+                error(state_stack__access(state_stack));
                 break;
             }
         }
@@ -232,15 +231,15 @@ void parser_actions0(void *user_ptr, void **state_stack, void *terminal)
             reduce(12);
             post_reduce_action1(user_ptr, 12);
             production_attibuted_actions2(user_ptr, 12);
-            switch (stack_int__access(state_stack)) {
+            switch (state_stack__access(state_stack)) {
             case 20:
             case 40:
             case 100:
             case 130:
-                stack_int__insert(state_stack, 90);
+                state_stack__insert(state_stack, 90);
                 break;
             default:
-                error(stack_int__access(state_stack));
+                error(state_stack__access(state_stack));
                 break;
             }
         }
@@ -252,15 +251,15 @@ void parser_actions0(void *user_ptr, void **state_stack, void *terminal)
             reduce(8);
             post_reduce_action1(user_ptr, 8);
             production_attibuted_actions2(user_ptr, 8);
-            switch (stack_int__access(state_stack)) {
+            switch (state_stack__access(state_stack)) {
             case 20:
             case 40:
             case 100:
             case 130:
-                stack_int__insert(state_stack, 100);
+                state_stack__insert(state_stack, 100);
                 break;
             default:
-                error(stack_int__access(state_stack));
+                error(state_stack__access(state_stack));
                 break;
             }
         }
@@ -272,15 +271,15 @@ void parser_actions0(void *user_ptr, void **state_stack, void *terminal)
             reduce(9);
             post_reduce_action1(user_ptr, 9);
             production_attibuted_actions2(user_ptr, 9);
-            switch (stack_int__access(state_stack)) {
+            switch (state_stack__access(state_stack)) {
             case 20:
             case 40:
             case 100:
             case 130:
-                stack_int__insert(state_stack, 100);
+                state_stack__insert(state_stack, 100);
                 break;
             default:
-                error(stack_int__access(state_stack));
+                error(state_stack__access(state_stack));
                 break;
             }
         }
@@ -314,17 +313,17 @@ void parser_actions0(void *user_ptr, void **state_stack, void *terminal)
                 reduce(7);
                 post_reduce_action1(user_ptr, 7);
                 production_attibuted_actions2(user_ptr, 7);
-                switch (stack_int__access(state_stack)) {
+                switch (state_stack__access(state_stack)) {
                 case 20:
                 case 40:
                 case 130:
-                    stack_int__insert(state_stack, 120);
+                    state_stack__insert(state_stack, 120);
                     break;
                 case 100:
-                    stack_int__insert(state_stack, 110);
+                    state_stack__insert(state_stack, 110);
                     break;
                 default:
-                    error(stack_int__access(state_stack));
+                    error(state_stack__access(state_stack));
                     break;
                 }
             }
@@ -338,17 +337,17 @@ void parser_actions0(void *user_ptr, void **state_stack, void *terminal)
             reduce(6);
             post_reduce_action1(user_ptr, 6);
             production_attibuted_actions2(user_ptr, 6);
-            switch (stack_int__access(state_stack)) {
+            switch (state_stack__access(state_stack)) {
             case 20:
             case 40:
             case 130:
-                stack_int__insert(state_stack, 120);
+                state_stack__insert(state_stack, 120);
                 break;
             case 100:
-                stack_int__insert(state_stack, 110);
+                state_stack__insert(state_stack, 110);
                 break;
             default:
-                error(stack_int__access(state_stack));
+                error(state_stack__access(state_stack));
                 break;
             }
         }
@@ -366,18 +365,18 @@ void parser_actions0(void *user_ptr, void **state_stack, void *terminal)
                 reduce(5);
                 post_reduce_action1(user_ptr, 5);
                 production_attibuted_actions2(user_ptr, 5);
-                switch (stack_int__access(state_stack)) {
+                switch (state_stack__access(state_stack)) {
                 case 20:
-                    stack_int__insert(state_stack, 140);
+                    state_stack__insert(state_stack, 140);
                     break;
                 case 130:
-                    stack_int__insert(state_stack, 190);
+                    state_stack__insert(state_stack, 190);
                     break;
                 case 40:
-                    stack_int__insert(state_stack, 170);
+                    state_stack__insert(state_stack, 170);
                     break;
                 default:
-                    error(stack_int__access(state_stack));
+                    error(state_stack__access(state_stack));
                     break;
                 }
             }
@@ -409,7 +408,7 @@ void parser_actions0(void *user_ptr, void **state_stack, void *terminal)
             shift(40);
             break;
         default:
-            error(stack_int__access(state_stack));
+            error(state_stack__access(state_stack));
             break;
         }
         post_state_action1(user_ptr);
@@ -422,7 +421,7 @@ void parser_actions0(void *user_ptr, void **state_stack, void *terminal)
             shift(150);
             break;
         default:
-            error(stack_int__access(state_stack));
+            error(state_stack__access(state_stack));
             break;
         }
         post_state_action1(user_ptr);
@@ -433,13 +432,13 @@ void parser_actions0(void *user_ptr, void **state_stack, void *terminal)
             reduce(3);
             post_reduce_action1(user_ptr, 3);
             production_attibuted_actions2(user_ptr, 3);
-            switch (stack_int__access(state_stack)) {
+            switch (state_stack__access(state_stack)) {
             case 0:
             case 160:
-                stack_int__insert(state_stack, 160);
+                state_stack__insert(state_stack, 160);
                 break;
             default:
-                error(stack_int__access(state_stack));
+                error(state_stack__access(state_stack));
                 break;
             }
         }
@@ -457,12 +456,12 @@ void parser_actions0(void *user_ptr, void **state_stack, void *terminal)
                 reduce(2);
                 post_reduce_action1(user_ptr, 2);
                 production_attibuted_actions2(user_ptr, 2);
-                switch (stack_int__access(state_stack)) {
+                switch (state_stack__access(state_stack)) {
                 case 160:
-                    stack_int__insert(state_stack, 200);
+                    state_stack__insert(state_stack, 200);
                     break;
                 default:
-                    error(stack_int__access(state_stack));
+                    error(state_stack__access(state_stack));
                     break;
                 }
             }
@@ -478,7 +477,7 @@ void parser_actions0(void *user_ptr, void **state_stack, void *terminal)
             shift(180);
             break;
         default:
-            error(stack_int__access(state_stack));
+            error(state_stack__access(state_stack));
             break;
         }
         post_state_action1(user_ptr);
@@ -489,15 +488,15 @@ void parser_actions0(void *user_ptr, void **state_stack, void *terminal)
             reduce(17);
             post_reduce_action1(user_ptr, 17);
             production_attibuted_actions2(user_ptr, 17);
-            switch (stack_int__access(state_stack)) {
+            switch (state_stack__access(state_stack)) {
             case 20:
             case 40:
             case 100:
             case 130:
-                stack_int__insert(state_stack, 50);
+                state_stack__insert(state_stack, 50);
                 break;
             default:
-                error(stack_int__access(state_stack));
+                error(state_stack__access(state_stack));
             }
         }
         post_state_action1(user_ptr);
@@ -508,18 +507,18 @@ void parser_actions0(void *user_ptr, void **state_stack, void *terminal)
             reduce(4);
             post_reduce_action1(user_ptr, 4);
             production_attibuted_actions2(user_ptr, 4);
-            switch (stack_int__access(state_stack)) {
+            switch (state_stack__access(state_stack)) {
             case 20:
-                stack_int__insert(state_stack, 140);
+                state_stack__insert(state_stack, 140);
                 break;
             case 130:
-                stack_int__insert(state_stack, 190);
+                state_stack__insert(state_stack, 190);
                 break;
             case 40:
-                stack_int__insert(state_stack, 170);
+                state_stack__insert(state_stack, 170);
                 break;
             default:
-                error(stack_int__access(state_stack));
+                error(state_stack__access(state_stack));
                 break;
             }
         }
@@ -532,15 +531,15 @@ void parser_actions0(void *user_ptr, void **state_stack, void *terminal)
             reduce(1);
             post_reduce_action1(user_ptr, 1);
             production_attibuted_actions2(user_ptr, 1);
-            switch (stack_int__access(state_stack)) {
+            switch (state_stack__access(state_stack)) {
             case 0:
-                stack_int__insert(state_stack, 210);
+                state_stack__insert(state_stack, 210);
                 break;
             case 160:
-                stack_int__insert(state_stack, 200);
+                state_stack__insert(state_stack, 200);
                 break;
             default:
-                error(stack_int__access(state_stack));
+                error(state_stack__access(state_stack));
                 break;
             }
         }

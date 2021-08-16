@@ -10,11 +10,12 @@ enum {
     sym__expr_1,
     sym__expr_2,
     sym__expr_3,
-    sym__expr_4
+    sym__expr_4,
+    NUM_NONTERMINALS
 };
 
 static
-const char *psym_str[] = {
+char *psym_str[] = {
     "start",
     "productions",
     "production",

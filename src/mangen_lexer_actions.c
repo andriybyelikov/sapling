@@ -1,8 +1,8 @@
-#include <libsapling/terminal.h>
+#include <libsapling/cc/terminal.h>
 #include "mangen_terminals.h"
 #include "mangen_user_data.h"
 
-void lexer_action(void *terminal, void *user_ptr)
+void lexer_action(terminal_t terminal, void *user_ptr)
 {
     struct user *user = user_ptr;
     switch (terminal__id(terminal)) {

@@ -1,16 +1,16 @@
 #include <stdio.h>
-#include <libsapling/terminal.h>
+#include <libsapling/cc/terminal.h>
 #include "lexer_action.h"
 #include "mangen_terminals.h"
 
 static
-void *build_terminal(char *buf, int bufc, int id)
+terminal_t build_terminal(char *buf, int bufc, int id)
 {
     buf[bufc] = 0;
-    return terminal(id, buf);
+    return new_terminal(id, buf);
 }
 
-void *fetch_terminal(FILE *input_file, void *user_ptr)
+terminal_t fetch_terminal(FILE *input_file, void *user_ptr)
 {
 	char c;         // single character buffer
 	int s = 0;      // state

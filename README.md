@@ -4,7 +4,7 @@ A general-purpose compiler
 
 ## Dependencies
 
-- [libsapling v0.4.0](https://github.com/andriybyelikov/libsapling/releases/tag/v0.4.0)
+[libsapling](https://github.com/andriybyelikov/libsapling)
 
 ## Installation
 
@@ -15,6 +15,7 @@ Linux/Unix system. This will install ```sapling``` and its man page.
 
 ```
 {terminals}
+
 start -> {starting_symbol};
 {nonterminals}
 ```

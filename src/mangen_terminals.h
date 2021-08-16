@@ -20,7 +20,7 @@ enum {
 };
 
 static
-const char *terminal_str[] = {
+char *terminal_str[] = {
     "t_eof",
     "t_blank",
     "t_linecomment",

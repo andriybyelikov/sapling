@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <libsapling/terminal.h>
+#include <libsapling/cc/terminal.h>
 
 #include "options.h"
 
@@ -44,7 +44,7 @@ int main(int argc, char *argv[])
 {
     if (argc < 2) {
         printf("Usage: sapling [-foption...] spec_file\n");
-        printf("Options: [=file] optional file where to dump output\n");
+        printf("Options: [=file] optional file where to dump the output\n");
         printf("-fprint-lexer-output-only[=file]  Prints the lexer's output terminals without invoking the parser.\n");
         printf("-flog-state-stack                 Logs the parsing state stack during parsing.\n");
         printf("-flog-production-stack            Logs the production stack during parsing.\n");
@@ -89,8 +89,9 @@ int main(int argc, char *argv[])
             .in_terminals_section = 1,
             .parse_tree_stack = NULL,
             .build_regex = 1,
-            .rea_stack = NULL,
-            .final_rea = NULL
+            .lexer_stack = NULL,
+            .lexer_final = NULL,
+            .productions = NULL
         };
         if (options[OPTION_FPRINT_LEXER_OUTPUT_ONLY]) {
             const char *output_filename = foption_get_file(argv[options_argi[OPTION_FPRINT_LEXER_OUTPUT_ONLY]]);

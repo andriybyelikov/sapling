@@ -1,0 +1,13 @@
+f0()
+{
+    echo "sed -i 's/\("$2"[ ]*=\).*/\1 "$3"/' "$1
+}
+
+f1()
+{
+    maxdepth=$(if [[ $# -eq 3 ]]; then echo "-maxdepth $3"; fi)
+    echo "$(find $1 $maxdepth -name $2 | sed 's/\//\\\//g')"
+}
+
+f0 Makefile.am sapling_SOURCES "$(f1 src *.c)" | sh
+f0 Makefile.am noinst_HEADERS "$(f1 . *.h)" | sh

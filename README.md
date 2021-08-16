@@ -6,10 +6,24 @@ A general-purpose compiler
 
 [libsapling](https://github.com/andriybyelikov/libsapling)
 
-## Installation
+## Building from source and installing
 
-Compile the library with ```make``` then run ```sudo make install``` on your
-Linux/Unix system. This will install ```sapling``` and its man page.
+Using GNU Autotools.
+
+```
+$ autoreconf --install
+$ mkdir build
+$ cd build
+$ ../configure
+$ make
+$ sudo make install
+```
+
+## Arch Linux packages
+
+[Link to repository with PKGBUILD scripts](https://github.com/andriybyelikov/archlinux-sapling-packages)
+
+---
 
 ## Specification
 

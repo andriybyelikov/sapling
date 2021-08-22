@@ -47,10 +47,11 @@ int main(int argc, char *argv[])
         printf("Options: [=file] optional file where to dump the output\n");
         printf("-fprint-lexer-output-only[=file]  Prints the lexer's output terminals without invoking the parser.\n");
         printf("-flog-state-stack                 Logs the parsing state stack during parsing.\n");
-        printf("-flog-production-stack            Logs the production stack during parsing.\n");
+        printf("-flog-parse-tree-stack            Logs the production stack during parsing.\n");
         printf("-fdump-parse-tree[=file]          Dumps the parse tree of the specification file in DOT.\n");
         printf("-fprint-terminals                 Prints the specification's terminal symbols.\n");
         printf("-fprint-nonterminals              Prints the specification's nonterminal symbols.\n");
+        printf("-fprint-productions               Prints the specification's productions.\n");
         printf("-fdump-lexer-automaton[=file]     Dumps the specification's lexer automaton in DOT.\n");
         exit(EXIT_SUCCESS);
     }
@@ -91,6 +92,12 @@ int main(int argc, char *argv[])
             .build_regex = 1,
             .lexer_stack = NULL,
             .lexer_final = NULL,
+            .cnt_term = 0,
+            .terminals = NULL,
+            .terminals2 = NULL,
+            .cnt_nonterm = 0,
+            .nonterminals = NULL,
+            .nonterminals2 = NULL,
             .productions = NULL
         };
         if (options[OPTION_FPRINT_LEXER_OUTPUT_ONLY]) {

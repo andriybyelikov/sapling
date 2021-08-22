@@ -15,7 +15,7 @@ enum {
     t_rpar,
     t_symbol,
     t_literal,
-    t_union,
+    t_class,
     NUM_TERMINALS
 };
 
@@ -34,7 +34,7 @@ char *terminal_str[] = {
     "t_rpar",
     "t_symbol",
     "t_literal",
-    "t_union"
+    "t_class"
 };
 
 #endif

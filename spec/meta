@@ -1,5 +1,5 @@
-gobble__t_blank         -> [ \t\r\n]+;
-gobble__t_linecomment   -> "--".*"\n";
+t_gobble__blank         -> [ \t\r\n]+;
+t_gobble__linecomment   -> "--".*"\n";
 t_kleenestar    -> "*";
 t_kleeneplus    -> "+";
 t_rightarrow    -> "->";
@@ -10,7 +10,7 @@ t_lpar          -> "(";
 t_rpar          -> ")";
 t_symbol        -> [a-z][a-z0-9_]*;
 t_literal       -> "\""(.|"\\".)*"\"";
-t_union         -> "[".*"]";
+t_class         -> "[".*"]";
 
 start           -> productions;
 productions     -> production productions | production;
@@ -22,6 +22,6 @@ expr_2          -> expr_4 t_kleenestar;
 expr_3          -> expr_4 t_kleeneplus;
 expr_4          -> t_symbol
                  | t_literal
-                 | t_union
+                 | t_class
                  | t_any
                  | t_lpar expr t_rpar;

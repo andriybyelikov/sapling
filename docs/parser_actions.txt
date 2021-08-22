@@ -1,3 +1,14 @@
-0 accepting
-1 build productions/parse tree, log state and production stacks
-2 attributed actions: build lexer automaton
+PARSER ROUTINES
+
+LEVEL 0: Minimal routines to accept an input
+    Accept
+    Call high lever routines { 1, 2 }
+
+LEVEL 1: Utility routines to diagnose the parser's states and build the parse
+         tree
+    pre-state   -> Log state stack state
+    pre-shift   -> Push terminal node to parse tree node stack
+    post-reduce -> Push nonterminal node to parse tree node stack
+    post-state  -> Log parse tree nodes stack state
+
+LEVEL 2: Internal parser actions

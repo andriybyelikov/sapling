@@ -46,7 +46,7 @@ void parser_actions0(void *user_ptr, node_t *state_stack, terminal_t terminal)
             pre_shift_action1(user_ptr, terminal);
             shift(31);
             break;
-        case t_union:
+        case t_class:
             pre_shift_action1(user_ptr, terminal);
             shift(32);
             break;
@@ -155,7 +155,7 @@ void parser_actions0(void *user_ptr, node_t *state_stack, terminal_t terminal)
             pre_shift_action1(user_ptr, terminal);
             shift(31);
             break;
-        case t_union:
+        case t_class:
             pre_shift_action1(user_ptr, terminal);
             shift(32);
             break;
@@ -296,7 +296,7 @@ void parser_actions0(void *user_ptr, node_t *state_stack, terminal_t terminal)
             pre_shift_action1(user_ptr, terminal);
             shift(31);
             break;
-        case t_union:
+        case t_class:
             pre_shift_action1(user_ptr, terminal);
             shift(32);
             break;
@@ -395,7 +395,7 @@ void parser_actions0(void *user_ptr, node_t *state_stack, terminal_t terminal)
             pre_shift_action1(user_ptr, terminal);
             shift(31);
             break;
-        case t_union:
+        case t_class:
             pre_shift_action1(user_ptr, terminal);
             shift(32);
             break;

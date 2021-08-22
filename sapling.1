@@ -1,4 +1,4 @@
-.TH SAPLING 1 "2020-12-10" "0.1.0-rc.1" "sapling"
+.TH SAPLING 1 "2021-08-22" "0.1.0-rc1" "sapling"
 
 .SH NAME
 sapling \- general\-purpose compiler
@@ -26,10 +26,11 @@ to standard output.
 .B \-fprint\-lexer\-output\-only[=\fIfile\fR]
 
 .SS \fI Parser Diagnostics
-.B \-flog\-state\-stack \-flog\-production\-stack
+.B \-flog\-state\-stack \-flog\-parse\-tree\-stack
 .B \-fdump\-parse\-tree[=\fIfile\fR]
 
 .SS \fI Output Diagnostics
 .B \-fprint\-terminals
 .B \-fprint\-nonterminals
+.B \-fprint\-productions
 .B \-fdump\-lexer\-automaton[=\fIfile\fR]

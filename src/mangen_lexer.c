@@ -114,7 +114,7 @@ terminal_t fetch_terminal(FILE *input_file, void *user_ptr)
 		case 30:
 			if (c == ']') {
 				buf[bufc++] = c;
-				terminal = build_terminal(buf, bufc, t_union);
+				terminal = build_terminal(buf, bufc, t_class);
 				lexer_action(terminal, user_ptr);
 				return terminal;
 			}

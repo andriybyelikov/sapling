@@ -19,7 +19,7 @@ $ make
 $ sudo make install
 ```
 
-## Arch Linux packages
+## ![Arch Linux logo](https://raw.githubusercontent.com/unixporn/distro-icons/71c205b588a9ea021705867ebfccbd859a196192/SVG/arch.svg) Arch Linux packages
 
 [Link to repository with PKGBUILD scripts](https://github.com/andriybyelikov/archlinux-sapling-packages)
 
@@ -34,5 +34,5 @@ start -> {starting_symbol};
 {nonterminals}
 ```
 
-Terminal symbols prefixed with ```gobble__``` are not emitted from the lexer to
-the parser.
+Terminal symbols prefixed with ```t_gobble__``` are not emitted from the lexer
+to the parser.

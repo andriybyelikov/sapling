@@ -1,10 +1,43 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <libsapling/dm/avl.h>
+#include <libsapling/dm/trie.h>
+#include <libsapling/dm/typed/typed_common.h>
 #include <libsapling/cc/terminal.h>
 #include "lexer.h"
 #include "state_stack.h"
 #include "mangen_productions.h"
 #include "parser_actions.h"
+#include "mangen_user_data.h"
+
+
+static
+int cmpi(const void *a, const void *b)
+{
+    return *(int *)a <= *(int *)b;
+}
+
+static
+int equi(const void *a, const void *b)
+{
+    return *(int *)a == *(int *)b;
+}
+
+typedef struct {
+    int id;
+    const char *str;
+} idxstr_t;
+
+static
+void fpd_idxstr(FILE *stream, const void *data)
+{
+    idxstr_t *a = (idxstr_t *)data;
+    fprintf(stream, "(%d, \"%s\")", a->id, a->str);
+}
+
+IMPLEMENT_TYPED_AVL(idxstr_avl, idxstr_t, cmpi, equi, fpd_idxstr)
+IMPLEMENT_TYPED_TRIE(int_trie, int, fpfdata_int)
+
 
 static int _cont;
 static FILE *_input_file;
@@ -42,6 +75,14 @@ void parse(FILE *input_file, void *user_ptr)
     _state_stack = NULL;
     _cont = 1;
     state_stack__insert(&_state_stack, 0);
+
+    struct user *user = user_ptr;
+    int_trie__insert(&user->terminals, "t_eof", user->cnt_term);
+    idxstr_avl__insert(&user->terminals2,
+        (idxstr_t){ user->cnt_term, "t_eof" },
+        idxstr_avl__cmp_predicate);
+    user->cnt_term++;
+
     while (_cont)
 		parser_actions0(user_ptr, &_state_stack, _terminal);
 }

@@ -32,7 +32,7 @@ void lexer_action(terminal_t terminal, void *user_ptr)
         break;
     case t_literal:
         break;
-    case t_union:
+    case t_class:
         break;
     }
 }

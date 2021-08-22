@@ -15,11 +15,8 @@ void push_terminal_to_parse_tree_stack(terminal_t terminal,
 {
     node_t node = parse_tree__create_node(terminal_str[terminal__id(terminal)]);
     char *buf = malloc(2 * (strlen(terminal__lexeme(terminal)) + 1));
-    {
-        text__escape(buf, terminal__lexeme(terminal));
-        parse_tree__append_child(&node, parse_tree__create_node(buf));
-    }
-	free(buf);
+    text__escape(buf, terminal__lexeme(terminal));
+    parse_tree__append_child(&node, parse_tree__create_node(buf));
 	node_stack__insert(parse_tree_stack, node);
 }
 

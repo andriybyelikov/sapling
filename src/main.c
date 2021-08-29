@@ -53,6 +53,7 @@ int main(int argc, char *argv[])
         printf("-fprint-nonterminals              Prints the specification's nonterminal symbols.\n");
         printf("-fprint-productions               Prints the specification's productions.\n");
         printf("-fdump-lexer-automaton[=file]     Dumps the specification's lexer automaton in DOT.\n");
+        printf("-fprint-slr-tables                Prints the specification's Simple LR parsing tables.\n");
         exit(EXIT_SUCCESS);
     }
 

@@ -13,6 +13,10 @@
 #include <libsapling/cc/production.h>
 #include <libsapling/dm/typed/typed_common.h>
 
+#include <libsapling/cc/parser/aux/production_set.h>
+#include <libsapling/cc/parser/slr.h>
+#include <libsapling/cc/parser/follow.h>
+
 #include "parse_tree_stack.h"
 
 #include "options.h"
@@ -20,27 +24,11 @@
 #include "mangen_productions.h"
 #include "mangen_combined_ids.h"
 
-static
-void print_production(FILE *stream, const void *data)
-{
-    production_t prod = *(production_t *)data;
-
-    fprintf(stream, "[%d -> ", production__id(prod));
-    int i;
-    for (i = 0; i < production__len(prod) - 1; i++) {
-        fprintf(stream, "%d ", *production__get(prod, i));
-    }
-    fprintf(stream, "%d]", *production__get(prod, i));
-}
-
-IMPLEMENT_TYPED_PATH(prod_path, production_t, print_production, dummy_cmp)
-IMPLEMENT_TYPED_QUEUE(prod_queue, production_t, print_production)
 IMPLEMENT_TYPED_STACK(state_node_stack, node_t, NULL)
-IMPLEMENT_TYPED_QUEUE(pbody_queue, int, fpfdata_int)
-IMPLEMENT_TYPED_PATH(str_path, const char *, fpfdata_str, dummy_cmp)
-IMPLEMENT_TYPED_QUEUE(str_queue, const char *, fpfdata_str)
-
-IMPLEMENT_TYPED_TRIE(int_trie, int, fpfdata_int)
+IMPLEMENT_TYPED_QUEUE(pbody_queue, int, int__print)
+IMPLEMENT_TYPED_PATH(str_path, const char *, string__print, dummy_cmp)
+IMPLEMENT_TYPED_QUEUE(str_queue, const char *, string__print)
+IMPLEMENT_TYPED_TRIE(int_trie, int, int__print)
 
 
 static
@@ -144,8 +132,8 @@ void print_production_human_readable(FILE *stream, node_t *productions,
     node_t *terminals, node_t *nonterminals)
 {
     struct info_pphr info = { stream, terminals, nonterminals };
-    prod_path__access(U_QT, productions, &info, prod_path__predicate_1,
-        apply_print_production);
+    production_path__access(U_QT, productions, &info,
+        production_path__predicate_1, apply_print_production);
 }
 
 
@@ -206,32 +194,14 @@ void production_attibuted_actions2(void *user_ptr, int pid)
         {
             if (user->options[OPTION_FPRINT_TERMINALS]) {
                 print_avl_str_line_by_line(stdout, &user->terminals2);
-                /*fprintf(stdout, "TERMINALS\n");
-                fprintf(stdout, "[trie] terminal x id = ");
-                int_trie__print_data(stdout, &user->terminals);
-                fprintf(stdout, "\n");
-                fprintf(stdout, "[avl] id x terminal = ");
-                idxstr_avl__print_data(stdout, &user->terminals2);
-                fprintf(stdout, "\n");
-                fprintf(stdout, "\n");*/
             }
             if (user->options[OPTION_FPRINT_NONTERMINALS]) {
                 print_avl_str_line_by_line(stdout, &user->nonterminals2);
-                /*fprintf(stdout, "NONTERMINALS\n");
-                fprintf(stdout, "[trie] nonterminal x id = ");
-                int_trie__print_data(stdout, &user->nonterminals);
-                fprintf(stdout, "\n");
-                fprintf(stdout, "[avl] id x nonterminal = ");
-                idxstr_avl__print_data(stdout, &user->nonterminals2);
-                fprintf(stdout, "\n");
-                fprintf(stdout, "\n");*/
             }
             if (user->options[OPTION_FPRINT_PRODUCTIONS]) {
                 print_production_human_readable(stdout, &user->productions,
                     &user->terminals2, &user->nonterminals2);
-                /*fprintf(stdout, "productions = ");
-                prod_queue__print_data(stdout, &user->productions);
-                fprintf(stdout, "\n");*/
+                //production_path__print_data(stdout, &user->productions);
             }
             if (user->options[OPTION_FDUMP_PARSE_TREE]) {
                 FILE *output_file = user->parse_tree_filename == NULL ? stdout : fopen(user->parse_tree_filename, "w");
@@ -245,21 +215,22 @@ void production_attibuted_actions2(void *user_ptr, int pid)
             if (user->options[OPTION_FDUMP_LEXER_AUTOMATON]) {
                 FILE *output_file = user->lexer_automaton_filename == NULL ? stdout : fopen(user->lexer_automaton_filename, "w");
                 {
-                    lexer__dump_dot(output_file, &user->lexer_final, fpfdata_str);
+                    lexer__dump_dot(output_file, &user->lexer_final, string__print);
                 }
                 if (output_file != stdout)
                     fclose(output_file);
             }
-            /*if (user->options[OPTION_FDUMP_PARSER_AUTOMATON]) {
-                void *symbols = NULL; // strings
-                for (int i = 0; i < NUM_TERMINALS; i++)
-                    queue_ptr__insert(&symbols, terminal_str[i]);
-                for (int i = 0; i < NUM_NONTERMINALS; i++)
-                    queue_ptr__insert(&symbols, psym_str[i]);
-                void *slr = NULL;
-                slr__build(&slr, NULL, NUM_TERMINALS, NUM_TERMINALS + NUM_NONTERMINALS, &user->productions);
-                slr__dot_dump(stdout, &slr, &symbols, NUM_TERMINALS, NULL);
-            }*/
+            if (user->options[OPTION_FPRINT_SLR_TABLES]) {
+                grammar_t g = new_grammar(&user->productions,
+                    idxstr_avl__length(&user->terminals2),
+                    idxstr_avl__length(&user->terminals2)
+                        + idxstr_avl__length(&user->nonterminals2));
+                node_t *C = slr__build_set_of_sets_of_lr0_items(g);
+                
+                action_table_t at = action_table__build(g, C);
+                goto_table_t gt = goto_table__build(g, C);
+                slr__print_tables(stdout, at, gt, C, g);
+            }
         }
         break;
     case 1: // productions -> production productions;
@@ -277,11 +248,18 @@ void production_attibuted_actions2(void *user_ptr, int pid)
             if (!strcmp(id, "start")) {
                 user->in_terminals_section = 0;
                 user->build_regex = 0;
+
+                int_trie__insert(&user->terminals, "t_eof", user->cnt_term);
+                idxstr_avl__insert(&user->terminals2,
+                    (idxstr_t){ user->cnt_term, "t_eof" },
+                    idxstr_avl__cmp_predicate);
+                user->cnt_term++;
             }
 
             if (user->in_terminals_section) {
                 if (user->options[OPTION_FPRINT_TERMINALS]
-                    || user->options[OPTION_FPRINT_PRODUCTIONS]) {
+                    || user->options[OPTION_FPRINT_PRODUCTIONS]
+                    || user->options[OPTION_FPRINT_SLR_TABLES]) {
                         int_trie__insert(&user->terminals, id, user->cnt_term);
                         idxstr_avl__insert(&user->terminals2,
                             (idxstr_t){ user->cnt_term, id },
@@ -290,7 +268,8 @@ void production_attibuted_actions2(void *user_ptr, int pid)
                     }
             } else {
                 if (user->options[OPTION_FPRINT_NONTERMINALS]
-                    || user->options[OPTION_FPRINT_PRODUCTIONS]) {
+                    || user->options[OPTION_FPRINT_PRODUCTIONS]
+                    || user->options[OPTION_FPRINT_SLR_TABLES]) {
                     get_or_assign_id_to_grammar_symbol(id, &user->terminals,
                         &user->nonterminals, &user->nonterminals2,
                         &user->cnt_nonterm);
@@ -311,7 +290,7 @@ void production_attibuted_actions2(void *user_ptr, int pid)
             }
 
             if (!user->in_terminals_section
-                && user->options[OPTION_FPRINT_PRODUCTIONS]) {
+                && (user->options[OPTION_FPRINT_PRODUCTIONS] || user->options[OPTION_FPRINT_SLR_TABLES])) {
                 node_t body = NULL;
                 node_t expr = parse_tree__get_child_by_string(&_production, "expr");
                 while (expr != NULL) {
@@ -342,7 +321,7 @@ void production_attibuted_actions2(void *user_ptr, int pid)
                                 &user->cnt_nonterm);
 
                     production_t p = new_production(int_id + int_trie__length(&user->terminals), &body);
-                    prod_queue__insert(&user->productions, p);
+                    production_queue__insert(&user->productions, p);
 
                     body = NULL;
                     expr = parse_tree__get_child_by_string(&expr, "expr");
@@ -456,8 +435,6 @@ void production_attibuted_actions2(void *user_ptr, int pid)
         {
             // build anything automaton
             if (user->build_regex) {
-                // retrieve lexeme -- no need
-
                 // build automaton and push it to lexer_stack
                 node_t anything = NULL;
                 lexer__anything(&anything);

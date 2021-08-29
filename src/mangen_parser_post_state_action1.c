@@ -8,7 +8,7 @@ void post_state_action1(void *user_ptr)
 {
     struct user *user = user_ptr;
     if (user->options[OPTION_FLOG_PARSE_TREE_STACK]) {
-        parse_tree_stack__print_data(stdout, &user->parse_tree_stack);
+        parse_tree_stack__print(stdout, &user->parse_tree_stack);
         fprintf(stdout, "\n");
     }
 }

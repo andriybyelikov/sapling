@@ -10,6 +10,7 @@ enum {
     OPTION_FPRINT_NONTERMINALS,
     OPTION_FPRINT_PRODUCTIONS,
     OPTION_FDUMP_LEXER_AUTOMATON,
+    OPTION_FPRINT_SLR_TABLES,
     NUM_OPTIONS
 };
 
@@ -22,7 +23,8 @@ const char *option_str[] = {
     "-fprint-terminals",
     "-fprint-nonterminals",
     "-fprint-productions",
-    "-fdump-lexer-automaton"
+    "-fdump-lexer-automaton",
+    "-fprint-slr-tables"
 };
 
 #endif

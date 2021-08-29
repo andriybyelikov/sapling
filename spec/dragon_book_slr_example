@@ -1,0 +1,10 @@
+t_id   -> [a-z][a-z0-9_]*;
+t_plus -> "+";
+t_star -> "*";
+t_lpar -> "(";
+t_rpar -> ")";
+
+start  -> e;
+e      -> e t_plus t | t;
+t      -> t t_star f | f;
+f      -> t_lpar e t_rpar | t_id;

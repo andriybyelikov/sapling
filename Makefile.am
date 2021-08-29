@@ -1,6 +1,6 @@
 bin_PROGRAMS = sapling
 sapling_LDADD = -lsapling
-AM_CFLAGS = -std=c11 -pedantic
+AM_CFLAGS = -std=c11 -pedantic -lm
 AM_CPPFLAGS = -I$(srcdir)/include -I$(srcdir)/src
 dist_man_MANS = sapling.1
 

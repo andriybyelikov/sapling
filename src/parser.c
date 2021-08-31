@@ -10,19 +10,6 @@
 #include "parser_actions.h"
 #include "mangen_user_data.h"
 
-
-static
-int cmpi(const void *a, const void *b)
-{
-    return *(int *)a <= *(int *)b;
-}
-
-static
-int equi(const void *a, const void *b)
-{
-    return *(int *)a == *(int *)b;
-}
-
 typedef struct {
     int id;
     const char *str;
@@ -35,7 +22,7 @@ void fpd_idxstr(FILE *stream, const void *data)
     fprintf(stream, "(%d, \"%s\")", a->id, a->str);
 }
 
-IMPLEMENT_TYPED_AVL(idxstr_avl, idxstr_t, cmpi, equi, fpd_idxstr)
+IMPLEMENT_TYPED_AVL(idxstr_avl, idxstr_t, int__compare, int__equals, fpd_idxstr)
 IMPLEMENT_TYPED_TRIE(int_trie, int, int__print)
 
 
@@ -43,6 +30,12 @@ static int _cont;
 static FILE *_input_file;
 static terminal_t _terminal;
 static node_t _state_stack;
+
+void error(int state)
+{
+    fprintf(stderr, "Parsing error on state %d! Aborting...\n", state);
+    exit(EXIT_FAILURE);
+}
 
 void shift(int next_state)
 {
@@ -55,12 +48,6 @@ void reduce(int pid)
 {
 	for (int i = 0; i < pnsym[pid]; i++)
         state_stack__delete(&_state_stack);
-}
-
-void error(int state)
-{
-    fprintf(stderr, "Parsing error on state %d! Aborting...\n", state);
-    exit(EXIT_FAILURE);
 }
 
 void accept(void)

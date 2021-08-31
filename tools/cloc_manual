@@ -1,0 +1,4 @@
+#! /bin/sh
+
+cloc --include-lang=C,C/C++\ Header {include,src} \
+    --exclude-list-file=tools/autofiles

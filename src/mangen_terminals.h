@@ -2,9 +2,8 @@
 #define MANGEN_TERMINALS
 
 enum {
-    t_eof,
-    t_blank,
-    t_linecomment,
+    t_gobble__blank,
+    t_gobble__linecomment,
     t_kleenestar,
     t_kleeneplus,
     t_rightarrow,
@@ -16,14 +15,14 @@ enum {
     t_symbol,
     t_literal,
     t_class,
+    t_eof,
     NUM_TERMINALS
 };
 
 static
 char *terminal_str[] = {
-    "t_eof",
-    "t_blank",
-    "t_linecomment",
+    "t_gobble__blank",
+    "t_gobble__linecomment",
     "t_kleenestar",
     "t_kleeneplus",
     "t_rightarrow",
@@ -34,7 +33,8 @@ char *terminal_str[] = {
     "t_rpar",
     "t_symbol",
     "t_literal",
-    "t_class"
+    "t_class",
+    "t_eof"
 };
 
 #endif

@@ -8,9 +8,9 @@ void lexer_action(terminal_t terminal, void *user_ptr)
     switch (terminal__id(terminal)) {
     case t_eof:
         break;
-    case t_blank:
+    case t_gobble__blank:
         break;
-    case t_linecomment:
+    case t_gobble__linecomment:
         break;
     case t_kleenestar:
         break;

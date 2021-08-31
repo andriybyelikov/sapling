@@ -1,6 +1,7 @@
 #ifndef MANGEN_COMBINED_IDS
 #define MANGEN_COMBINED_IDS
 
+#include <string.h>
 #include "mangen_terminals.h"
 #include "mangen_productions.h"
 

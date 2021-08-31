@@ -28,7 +28,7 @@ terminal_t fetch_terminal(FILE *input_file, void *user_ptr)
 				lexer_action(terminal, user_ptr);
 				return terminal;
 			case ' ': case '\t': case '\r': case '\n':
-				terminal = build_terminal(buf, bufc, t_blank);
+				terminal = build_terminal(buf, bufc, t_gobble__blank);
 				lexer_action(terminal, user_ptr);
 				s = 0;
 				continue;
@@ -142,7 +142,7 @@ terminal_t fetch_terminal(FILE *input_file, void *user_ptr)
 		break;
 		case 60:
 			if (c == '\n') {
-				terminal = build_terminal(buf, bufc, t_linecomment);
+				terminal = build_terminal(buf, bufc, t_gobble__linecomment);
 				lexer_action(terminal, user_ptr);
 				s = 0;
 				continue;

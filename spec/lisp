@@ -1,0 +1,12 @@
+t_gobble__blank       -> [ \t\r\n]+;
+t_gobble__linecomment -> "--".*"\n";
+t_lpar                -> "(";
+t_rpar                -> ")";
+t_symbol              -> [a-z][a-z0-9_]*;
+t_string              -> "\""(.|"\\".)*"\"";
+t_integer             -> [0-9]+;
+t_hexadecimal         -> [0-9A-Fa-f]+;
+
+start -> list;
+list  -> t_lpar t_symbol args t_rpar;
+args  -> t_symbol | t_integer | t_hexadecimal | list;

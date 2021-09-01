@@ -15,6 +15,7 @@ enum {
     t_symbol,
     t_literal,
     t_class,
+    t_lisp_routine,
     t_eof,
     NUM_TERMINALS
 };
@@ -34,6 +35,7 @@ char *terminal_str[] = {
     "t_symbol",
     "t_literal",
     "t_class",
+    "t_lisp_routine",
     "t_eof",
 };
 

@@ -298,7 +298,8 @@ void production_attibuted_actions2(void *user_ptr, int pid)
                 node_t body = NULL;
                 node_t expr = parse_tree__get_child_by_string(&_production, "expr");
                 while (expr != NULL) {
-                    node_t expr_0 = parse_tree__get_child_by_string(&expr, "expr_0");
+                    node_t expr_a = parse_tree__get_child_by_string(&expr, "expr_a");
+                    node_t expr_0 = parse_tree__get_child_by_string(&expr_a, "expr_0");
                     while (expr_0 != NULL) {
                         {
                             node_t expr_1 = parse_tree__get_child_by_string(&expr_0, "expr_1");
@@ -348,7 +349,11 @@ void production_attibuted_actions2(void *user_ptr, int pid)
         break;
     case 5: // expr -> expr_0;
         break;
-    case 6: // expr_0 -> expr_1 expr_0;
+    case 6: // expr_a -> expr_0 t_lisp_routine;
+        break;
+    case 7: // expr_a -> expr_0;
+        break;
+    case 8: // expr_0 -> expr_1 expr_0;
         {
             // apply concatenation to expr_1 expr_0
             if (user->build_regex) {
@@ -361,15 +366,15 @@ void production_attibuted_actions2(void *user_ptr, int pid)
             }
         }
         break;
-    case 7: // expr_0 -> expr_1;
+    case 9: // expr_0 -> expr_1;
         break;
-    case 8: // expr_1 -> expr_2;
+    case 10: // expr_1 -> expr_2;
         break;
-    case 9: // expr_1 -> expr_3;
+    case 11: // expr_1 -> expr_3;
         break;
-    case 10: // expr_1 -> expr_4;
+    case 12: // expr_1 -> expr_4;
         break;
-    case 11: // expr_2 -> expr_4 t_kleenestar;
+    case 13: // expr_2 -> expr_4 t_kleenestar;
         {
             // apply kleene star to expr_4 automaton
             if (user->build_regex) {
@@ -380,7 +385,7 @@ void production_attibuted_actions2(void *user_ptr, int pid)
             }
         }
         break;
-    case 12: // expr_3 -> expr_4 t_kleeneplus;
+    case 14: // expr_3 -> expr_4 t_kleeneplus;
         {
             // apply kleene plus to expr_4 automaton
             if (user->build_regex) {
@@ -391,9 +396,9 @@ void production_attibuted_actions2(void *user_ptr, int pid)
             }
         }
         break;
-    case 13: // expr_4 -> t_symbol;
+    case 15: // expr_4 -> t_symbol;
         break;
-    case 14: // expr_4 -> t_literal;
+    case 16: // expr_4 -> t_literal;
         {
             // build literal automaton
             if (user->build_regex) {
@@ -414,7 +419,7 @@ void production_attibuted_actions2(void *user_ptr, int pid)
             }
         }
         break;
-    case 15: // expr_4 -> t_class;
+    case 17: // expr_4 -> t_class;
         {
             // build class automaton
             if (user->build_regex) {
@@ -435,7 +440,7 @@ void production_attibuted_actions2(void *user_ptr, int pid)
             }
         }
         break;
-    case 16: // expr_4 -> t_any;
+    case 18: // expr_4 -> t_any;
         {
             // build anything automaton
             if (user->build_regex) {
@@ -446,7 +451,7 @@ void production_attibuted_actions2(void *user_ptr, int pid)
             }
         }
         break;
-    case 17: // expr_4 -> t_lpar expr t_rpar;
+    case 19: // expr_4 -> t_lpar expr t_rpar;
         break;
     default:
         break;

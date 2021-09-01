@@ -32,6 +32,8 @@ void lexer_action(terminal_t terminal, void *user_ptr)
         break;
     case t_class:
         break;
+    case t_lisp_routine:
+        break;
     case t_eof:
         break;
     }

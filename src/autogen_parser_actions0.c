@@ -15,10 +15,10 @@ void parser_goto(node_t *state_stack, int A)
     switch (state_stack__access(state_stack)) {
     case 0:
         switch (A) {
-        case 15:
+        case 16:
             state_stack__insert(state_stack, 2);
             break;
-        case 16:
+        case 17:
             state_stack__insert(state_stack, 3);
             break;
         default:
@@ -42,10 +42,10 @@ void parser_goto(node_t *state_stack, int A)
         break;
     case 3:
         switch (A) {
-        case 15:
+        case 16:
             state_stack__insert(state_stack, 5);
             break;
-        case 16:
+        case 17:
             state_stack__insert(state_stack, 3);
             break;
         default:
@@ -55,23 +55,26 @@ void parser_goto(node_t *state_stack, int A)
         break;
     case 4:
         switch (A) {
-        case 17:
+        case 18:
             state_stack__insert(state_stack, 11);
             break;
-        case 18:
+        case 19:
             state_stack__insert(state_stack, 12);
             break;
-        case 19:
+        case 20:
             state_stack__insert(state_stack, 13);
             break;
-        case 20:
+        case 21:
             state_stack__insert(state_stack, 14);
             break;
-        case 21:
+        case 22:
             state_stack__insert(state_stack, 15);
             break;
-        case 22:
+        case 23:
             state_stack__insert(state_stack, 16);
+            break;
+        case 24:
+            state_stack__insert(state_stack, 17);
             break;
         default:
             error(state_stack__access(state_stack));
@@ -94,23 +97,26 @@ void parser_goto(node_t *state_stack, int A)
         break;
     case 7:
         switch (A) {
-        case 17:
-            state_stack__insert(state_stack, 17);
-            break;
         case 18:
-            state_stack__insert(state_stack, 12);
+            state_stack__insert(state_stack, 18);
             break;
         case 19:
-            state_stack__insert(state_stack, 13);
+            state_stack__insert(state_stack, 12);
             break;
         case 20:
-            state_stack__insert(state_stack, 14);
+            state_stack__insert(state_stack, 13);
             break;
         case 21:
-            state_stack__insert(state_stack, 15);
+            state_stack__insert(state_stack, 14);
             break;
         case 22:
+            state_stack__insert(state_stack, 15);
+            break;
+        case 23:
             state_stack__insert(state_stack, 16);
+            break;
+        case 24:
+            state_stack__insert(state_stack, 17);
             break;
         default:
             error(state_stack__access(state_stack));
@@ -154,21 +160,6 @@ void parser_goto(node_t *state_stack, int A)
         break;
     case 13:
         switch (A) {
-        case 18:
-            state_stack__insert(state_stack, 20);
-            break;
-        case 19:
-            state_stack__insert(state_stack, 13);
-            break;
-        case 20:
-            state_stack__insert(state_stack, 14);
-            break;
-        case 21:
-            state_stack__insert(state_stack, 15);
-            break;
-        case 22:
-            state_stack__insert(state_stack, 16);
-            break;
         default:
             error(state_stack__access(state_stack));
             break;
@@ -176,6 +167,21 @@ void parser_goto(node_t *state_stack, int A)
         break;
     case 14:
         switch (A) {
+        case 20:
+            state_stack__insert(state_stack, 22);
+            break;
+        case 21:
+            state_stack__insert(state_stack, 14);
+            break;
+        case 22:
+            state_stack__insert(state_stack, 15);
+            break;
+        case 23:
+            state_stack__insert(state_stack, 16);
+            break;
+        case 24:
+            state_stack__insert(state_stack, 17);
+            break;
         default:
             error(state_stack__access(state_stack));
             break;
@@ -211,24 +217,6 @@ void parser_goto(node_t *state_stack, int A)
         break;
     case 19:
         switch (A) {
-        case 17:
-            state_stack__insert(state_stack, 24);
-            break;
-        case 18:
-            state_stack__insert(state_stack, 12);
-            break;
-        case 19:
-            state_stack__insert(state_stack, 13);
-            break;
-        case 20:
-            state_stack__insert(state_stack, 14);
-            break;
-        case 21:
-            state_stack__insert(state_stack, 15);
-            break;
-        case 22:
-            state_stack__insert(state_stack, 16);
-            break;
         default:
             error(state_stack__access(state_stack));
             break;
@@ -236,6 +224,27 @@ void parser_goto(node_t *state_stack, int A)
         break;
     case 20:
         switch (A) {
+        case 18:
+            state_stack__insert(state_stack, 26);
+            break;
+        case 19:
+            state_stack__insert(state_stack, 12);
+            break;
+        case 20:
+            state_stack__insert(state_stack, 13);
+            break;
+        case 21:
+            state_stack__insert(state_stack, 14);
+            break;
+        case 22:
+            state_stack__insert(state_stack, 15);
+            break;
+        case 23:
+            state_stack__insert(state_stack, 16);
+            break;
+        case 24:
+            state_stack__insert(state_stack, 17);
+            break;
         default:
             error(state_stack__access(state_stack));
             break;
@@ -263,6 +272,20 @@ void parser_goto(node_t *state_stack, int A)
         }
         break;
     case 24:
+        switch (A) {
+        default:
+            error(state_stack__access(state_stack));
+            break;
+        }
+        break;
+    case 25:
+        switch (A) {
+        default:
+            error(state_stack__access(state_stack));
+            break;
+        }
+        break;
+    case 26:
         switch (A) {
         default:
             error(state_stack__access(state_stack));
@@ -334,7 +357,7 @@ void parser_actions0(void *user_ptr, node_t *state_stack, terminal_t terminal)
             int reduction_ocurred = 0;
             /* handle terminals (ACTION table) */
             switch (terminal__id(terminal)) {
-            case 13:
+            case 14:
                 reduce(0);
                 post_reduce_action1(user_ptr, 0);
                 production_attibuted_actions2(user_ptr, 0);
@@ -363,7 +386,7 @@ void parser_actions0(void *user_ptr, node_t *state_stack, terminal_t terminal)
                 pre_shift_action1(user_ptr, terminal);
                 shift(1);
                 break;
-            case 13:
+            case 14:
                 reduce(2);
                 post_reduce_action1(user_ptr, 2);
                 production_attibuted_actions2(user_ptr, 2);
@@ -427,7 +450,7 @@ void parser_actions0(void *user_ptr, node_t *state_stack, terminal_t terminal)
             int reduction_ocurred = 0;
             /* handle terminals (ACTION table) */
             switch (terminal__id(terminal)) {
-            case 13:
+            case 14:
                 reduce(1);
                 post_reduce_action1(user_ptr, 1);
                 production_attibuted_actions2(user_ptr, 1);
@@ -453,63 +476,69 @@ void parser_actions0(void *user_ptr, node_t *state_stack, terminal_t terminal)
             /* handle terminals (ACTION table) */
             switch (terminal__id(terminal)) {
             case 2:
-                reduce(16);
-                post_reduce_action1(user_ptr, 16);
-                production_attibuted_actions2(user_ptr, 16);
+                reduce(18);
+                post_reduce_action1(user_ptr, 18);
+                production_attibuted_actions2(user_ptr, 18);
                 reduction_ocurred = 1;
                 break;
             case 3:
-                reduce(16);
-                post_reduce_action1(user_ptr, 16);
-                production_attibuted_actions2(user_ptr, 16);
+                reduce(18);
+                post_reduce_action1(user_ptr, 18);
+                production_attibuted_actions2(user_ptr, 18);
                 reduction_ocurred = 1;
                 break;
             case 5:
-                reduce(16);
-                post_reduce_action1(user_ptr, 16);
-                production_attibuted_actions2(user_ptr, 16);
+                reduce(18);
+                post_reduce_action1(user_ptr, 18);
+                production_attibuted_actions2(user_ptr, 18);
                 reduction_ocurred = 1;
                 break;
             case 6:
-                reduce(16);
-                post_reduce_action1(user_ptr, 16);
-                production_attibuted_actions2(user_ptr, 16);
+                reduce(18);
+                post_reduce_action1(user_ptr, 18);
+                production_attibuted_actions2(user_ptr, 18);
                 reduction_ocurred = 1;
                 break;
             case 7:
-                reduce(16);
-                post_reduce_action1(user_ptr, 16);
-                production_attibuted_actions2(user_ptr, 16);
+                reduce(18);
+                post_reduce_action1(user_ptr, 18);
+                production_attibuted_actions2(user_ptr, 18);
                 reduction_ocurred = 1;
                 break;
             case 8:
-                reduce(16);
-                post_reduce_action1(user_ptr, 16);
-                production_attibuted_actions2(user_ptr, 16);
+                reduce(18);
+                post_reduce_action1(user_ptr, 18);
+                production_attibuted_actions2(user_ptr, 18);
                 reduction_ocurred = 1;
                 break;
             case 9:
-                reduce(16);
-                post_reduce_action1(user_ptr, 16);
-                production_attibuted_actions2(user_ptr, 16);
+                reduce(18);
+                post_reduce_action1(user_ptr, 18);
+                production_attibuted_actions2(user_ptr, 18);
                 reduction_ocurred = 1;
                 break;
             case 10:
-                reduce(16);
-                post_reduce_action1(user_ptr, 16);
-                production_attibuted_actions2(user_ptr, 16);
+                reduce(18);
+                post_reduce_action1(user_ptr, 18);
+                production_attibuted_actions2(user_ptr, 18);
                 reduction_ocurred = 1;
                 break;
             case 11:
-                reduce(16);
-                post_reduce_action1(user_ptr, 16);
-                production_attibuted_actions2(user_ptr, 16);
+                reduce(18);
+                post_reduce_action1(user_ptr, 18);
+                production_attibuted_actions2(user_ptr, 18);
                 reduction_ocurred = 1;
                 break;
             case 12:
-                reduce(16);
-                post_reduce_action1(user_ptr, 16);
-                production_attibuted_actions2(user_ptr, 16);
+                reduce(18);
+                post_reduce_action1(user_ptr, 18);
+                production_attibuted_actions2(user_ptr, 18);
+                reduction_ocurred = 1;
+                break;
+            case 13:
+                reduce(18);
+                post_reduce_action1(user_ptr, 18);
+                production_attibuted_actions2(user_ptr, 18);
                 reduction_ocurred = 1;
                 break;
             default:
@@ -571,63 +600,69 @@ void parser_actions0(void *user_ptr, node_t *state_stack, terminal_t terminal)
             /* handle terminals (ACTION table) */
             switch (terminal__id(terminal)) {
             case 2:
-                reduce(13);
-                post_reduce_action1(user_ptr, 13);
-                production_attibuted_actions2(user_ptr, 13);
+                reduce(15);
+                post_reduce_action1(user_ptr, 15);
+                production_attibuted_actions2(user_ptr, 15);
                 reduction_ocurred = 1;
                 break;
             case 3:
-                reduce(13);
-                post_reduce_action1(user_ptr, 13);
-                production_attibuted_actions2(user_ptr, 13);
+                reduce(15);
+                post_reduce_action1(user_ptr, 15);
+                production_attibuted_actions2(user_ptr, 15);
                 reduction_ocurred = 1;
                 break;
             case 5:
-                reduce(13);
-                post_reduce_action1(user_ptr, 13);
-                production_attibuted_actions2(user_ptr, 13);
+                reduce(15);
+                post_reduce_action1(user_ptr, 15);
+                production_attibuted_actions2(user_ptr, 15);
                 reduction_ocurred = 1;
                 break;
             case 6:
-                reduce(13);
-                post_reduce_action1(user_ptr, 13);
-                production_attibuted_actions2(user_ptr, 13);
+                reduce(15);
+                post_reduce_action1(user_ptr, 15);
+                production_attibuted_actions2(user_ptr, 15);
                 reduction_ocurred = 1;
                 break;
             case 7:
-                reduce(13);
-                post_reduce_action1(user_ptr, 13);
-                production_attibuted_actions2(user_ptr, 13);
+                reduce(15);
+                post_reduce_action1(user_ptr, 15);
+                production_attibuted_actions2(user_ptr, 15);
                 reduction_ocurred = 1;
                 break;
             case 8:
-                reduce(13);
-                post_reduce_action1(user_ptr, 13);
-                production_attibuted_actions2(user_ptr, 13);
+                reduce(15);
+                post_reduce_action1(user_ptr, 15);
+                production_attibuted_actions2(user_ptr, 15);
                 reduction_ocurred = 1;
                 break;
             case 9:
-                reduce(13);
-                post_reduce_action1(user_ptr, 13);
-                production_attibuted_actions2(user_ptr, 13);
+                reduce(15);
+                post_reduce_action1(user_ptr, 15);
+                production_attibuted_actions2(user_ptr, 15);
                 reduction_ocurred = 1;
                 break;
             case 10:
-                reduce(13);
-                post_reduce_action1(user_ptr, 13);
-                production_attibuted_actions2(user_ptr, 13);
+                reduce(15);
+                post_reduce_action1(user_ptr, 15);
+                production_attibuted_actions2(user_ptr, 15);
                 reduction_ocurred = 1;
                 break;
             case 11:
-                reduce(13);
-                post_reduce_action1(user_ptr, 13);
-                production_attibuted_actions2(user_ptr, 13);
+                reduce(15);
+                post_reduce_action1(user_ptr, 15);
+                production_attibuted_actions2(user_ptr, 15);
                 reduction_ocurred = 1;
                 break;
             case 12:
-                reduce(13);
-                post_reduce_action1(user_ptr, 13);
-                production_attibuted_actions2(user_ptr, 13);
+                reduce(15);
+                post_reduce_action1(user_ptr, 15);
+                production_attibuted_actions2(user_ptr, 15);
+                reduction_ocurred = 1;
+                break;
+            case 13:
+                reduce(15);
+                post_reduce_action1(user_ptr, 15);
+                production_attibuted_actions2(user_ptr, 15);
                 reduction_ocurred = 1;
                 break;
             default:
@@ -650,63 +685,69 @@ void parser_actions0(void *user_ptr, node_t *state_stack, terminal_t terminal)
             /* handle terminals (ACTION table) */
             switch (terminal__id(terminal)) {
             case 2:
-                reduce(14);
-                post_reduce_action1(user_ptr, 14);
-                production_attibuted_actions2(user_ptr, 14);
+                reduce(16);
+                post_reduce_action1(user_ptr, 16);
+                production_attibuted_actions2(user_ptr, 16);
                 reduction_ocurred = 1;
                 break;
             case 3:
-                reduce(14);
-                post_reduce_action1(user_ptr, 14);
-                production_attibuted_actions2(user_ptr, 14);
+                reduce(16);
+                post_reduce_action1(user_ptr, 16);
+                production_attibuted_actions2(user_ptr, 16);
                 reduction_ocurred = 1;
                 break;
             case 5:
-                reduce(14);
-                post_reduce_action1(user_ptr, 14);
-                production_attibuted_actions2(user_ptr, 14);
+                reduce(16);
+                post_reduce_action1(user_ptr, 16);
+                production_attibuted_actions2(user_ptr, 16);
                 reduction_ocurred = 1;
                 break;
             case 6:
-                reduce(14);
-                post_reduce_action1(user_ptr, 14);
-                production_attibuted_actions2(user_ptr, 14);
+                reduce(16);
+                post_reduce_action1(user_ptr, 16);
+                production_attibuted_actions2(user_ptr, 16);
                 reduction_ocurred = 1;
                 break;
             case 7:
-                reduce(14);
-                post_reduce_action1(user_ptr, 14);
-                production_attibuted_actions2(user_ptr, 14);
+                reduce(16);
+                post_reduce_action1(user_ptr, 16);
+                production_attibuted_actions2(user_ptr, 16);
                 reduction_ocurred = 1;
                 break;
             case 8:
-                reduce(14);
-                post_reduce_action1(user_ptr, 14);
-                production_attibuted_actions2(user_ptr, 14);
+                reduce(16);
+                post_reduce_action1(user_ptr, 16);
+                production_attibuted_actions2(user_ptr, 16);
                 reduction_ocurred = 1;
                 break;
             case 9:
-                reduce(14);
-                post_reduce_action1(user_ptr, 14);
-                production_attibuted_actions2(user_ptr, 14);
+                reduce(16);
+                post_reduce_action1(user_ptr, 16);
+                production_attibuted_actions2(user_ptr, 16);
                 reduction_ocurred = 1;
                 break;
             case 10:
-                reduce(14);
-                post_reduce_action1(user_ptr, 14);
-                production_attibuted_actions2(user_ptr, 14);
+                reduce(16);
+                post_reduce_action1(user_ptr, 16);
+                production_attibuted_actions2(user_ptr, 16);
                 reduction_ocurred = 1;
                 break;
             case 11:
-                reduce(14);
-                post_reduce_action1(user_ptr, 14);
-                production_attibuted_actions2(user_ptr, 14);
+                reduce(16);
+                post_reduce_action1(user_ptr, 16);
+                production_attibuted_actions2(user_ptr, 16);
                 reduction_ocurred = 1;
                 break;
             case 12:
-                reduce(14);
-                post_reduce_action1(user_ptr, 14);
-                production_attibuted_actions2(user_ptr, 14);
+                reduce(16);
+                post_reduce_action1(user_ptr, 16);
+                production_attibuted_actions2(user_ptr, 16);
+                reduction_ocurred = 1;
+                break;
+            case 13:
+                reduce(16);
+                post_reduce_action1(user_ptr, 16);
+                production_attibuted_actions2(user_ptr, 16);
                 reduction_ocurred = 1;
                 break;
             default:
@@ -729,63 +770,69 @@ void parser_actions0(void *user_ptr, node_t *state_stack, terminal_t terminal)
             /* handle terminals (ACTION table) */
             switch (terminal__id(terminal)) {
             case 2:
-                reduce(15);
-                post_reduce_action1(user_ptr, 15);
-                production_attibuted_actions2(user_ptr, 15);
+                reduce(17);
+                post_reduce_action1(user_ptr, 17);
+                production_attibuted_actions2(user_ptr, 17);
                 reduction_ocurred = 1;
                 break;
             case 3:
-                reduce(15);
-                post_reduce_action1(user_ptr, 15);
-                production_attibuted_actions2(user_ptr, 15);
+                reduce(17);
+                post_reduce_action1(user_ptr, 17);
+                production_attibuted_actions2(user_ptr, 17);
                 reduction_ocurred = 1;
                 break;
             case 5:
-                reduce(15);
-                post_reduce_action1(user_ptr, 15);
-                production_attibuted_actions2(user_ptr, 15);
+                reduce(17);
+                post_reduce_action1(user_ptr, 17);
+                production_attibuted_actions2(user_ptr, 17);
                 reduction_ocurred = 1;
                 break;
             case 6:
-                reduce(15);
-                post_reduce_action1(user_ptr, 15);
-                production_attibuted_actions2(user_ptr, 15);
+                reduce(17);
+                post_reduce_action1(user_ptr, 17);
+                production_attibuted_actions2(user_ptr, 17);
                 reduction_ocurred = 1;
                 break;
             case 7:
-                reduce(15);
-                post_reduce_action1(user_ptr, 15);
-                production_attibuted_actions2(user_ptr, 15);
+                reduce(17);
+                post_reduce_action1(user_ptr, 17);
+                production_attibuted_actions2(user_ptr, 17);
                 reduction_ocurred = 1;
                 break;
             case 8:
-                reduce(15);
-                post_reduce_action1(user_ptr, 15);
-                production_attibuted_actions2(user_ptr, 15);
+                reduce(17);
+                post_reduce_action1(user_ptr, 17);
+                production_attibuted_actions2(user_ptr, 17);
                 reduction_ocurred = 1;
                 break;
             case 9:
-                reduce(15);
-                post_reduce_action1(user_ptr, 15);
-                production_attibuted_actions2(user_ptr, 15);
+                reduce(17);
+                post_reduce_action1(user_ptr, 17);
+                production_attibuted_actions2(user_ptr, 17);
                 reduction_ocurred = 1;
                 break;
             case 10:
-                reduce(15);
-                post_reduce_action1(user_ptr, 15);
-                production_attibuted_actions2(user_ptr, 15);
+                reduce(17);
+                post_reduce_action1(user_ptr, 17);
+                production_attibuted_actions2(user_ptr, 17);
                 reduction_ocurred = 1;
                 break;
             case 11:
-                reduce(15);
-                post_reduce_action1(user_ptr, 15);
-                production_attibuted_actions2(user_ptr, 15);
+                reduce(17);
+                post_reduce_action1(user_ptr, 17);
+                production_attibuted_actions2(user_ptr, 17);
                 reduction_ocurred = 1;
                 break;
             case 12:
-                reduce(15);
-                post_reduce_action1(user_ptr, 15);
-                production_attibuted_actions2(user_ptr, 15);
+                reduce(17);
+                post_reduce_action1(user_ptr, 17);
+                production_attibuted_actions2(user_ptr, 17);
+                reduction_ocurred = 1;
+                break;
+            case 13:
+                reduce(17);
+                post_reduce_action1(user_ptr, 17);
+                production_attibuted_actions2(user_ptr, 17);
                 reduction_ocurred = 1;
                 break;
             default:
@@ -809,7 +856,7 @@ void parser_actions0(void *user_ptr, node_t *state_stack, terminal_t terminal)
             switch (terminal__id(terminal)) {
             case 6:
                 pre_shift_action1(user_ptr, terminal);
-                shift(18);
+                shift(19);
                 break;
             default:
                 error(state_stack__access(state_stack));
@@ -838,7 +885,7 @@ void parser_actions0(void *user_ptr, node_t *state_stack, terminal_t terminal)
                 break;
             case 7:
                 pre_shift_action1(user_ptr, terminal);
-                shift(19);
+                shift(20);
                 break;
             case 9:
                 reduce(5);
@@ -865,10 +912,6 @@ void parser_actions0(void *user_ptr, node_t *state_stack, terminal_t terminal)
             int reduction_ocurred = 0;
             /* handle terminals (ACTION table) */
             switch (terminal__id(terminal)) {
-            case 5:
-                pre_shift_action1(user_ptr, terminal);
-                shift(6);
-                break;
             case 6:
                 reduce(7);
                 post_reduce_action1(user_ptr, 7);
@@ -881,27 +924,15 @@ void parser_actions0(void *user_ptr, node_t *state_stack, terminal_t terminal)
                 production_attibuted_actions2(user_ptr, 7);
                 reduction_ocurred = 1;
                 break;
-            case 8:
-                pre_shift_action1(user_ptr, terminal);
-                shift(7);
-                break;
             case 9:
                 reduce(7);
                 post_reduce_action1(user_ptr, 7);
                 production_attibuted_actions2(user_ptr, 7);
                 reduction_ocurred = 1;
                 break;
-            case 10:
+            case 13:
                 pre_shift_action1(user_ptr, terminal);
-                shift(8);
-                break;
-            case 11:
-                pre_shift_action1(user_ptr, terminal);
-                shift(9);
-                break;
-            case 12:
-                pre_shift_action1(user_ptr, terminal);
-                shift(10);
+                shift(21);
                 break;
             default:
                 error(state_stack__access(state_stack));
@@ -923,51 +954,47 @@ void parser_actions0(void *user_ptr, node_t *state_stack, terminal_t terminal)
             /* handle terminals (ACTION table) */
             switch (terminal__id(terminal)) {
             case 5:
-                reduce(8);
-                post_reduce_action1(user_ptr, 8);
-                production_attibuted_actions2(user_ptr, 8);
-                reduction_ocurred = 1;
+                pre_shift_action1(user_ptr, terminal);
+                shift(6);
                 break;
             case 6:
-                reduce(8);
-                post_reduce_action1(user_ptr, 8);
-                production_attibuted_actions2(user_ptr, 8);
+                reduce(9);
+                post_reduce_action1(user_ptr, 9);
+                production_attibuted_actions2(user_ptr, 9);
                 reduction_ocurred = 1;
                 break;
             case 7:
-                reduce(8);
-                post_reduce_action1(user_ptr, 8);
-                production_attibuted_actions2(user_ptr, 8);
+                reduce(9);
+                post_reduce_action1(user_ptr, 9);
+                production_attibuted_actions2(user_ptr, 9);
                 reduction_ocurred = 1;
                 break;
             case 8:
-                reduce(8);
-                post_reduce_action1(user_ptr, 8);
-                production_attibuted_actions2(user_ptr, 8);
-                reduction_ocurred = 1;
+                pre_shift_action1(user_ptr, terminal);
+                shift(7);
                 break;
             case 9:
-                reduce(8);
-                post_reduce_action1(user_ptr, 8);
-                production_attibuted_actions2(user_ptr, 8);
+                reduce(9);
+                post_reduce_action1(user_ptr, 9);
+                production_attibuted_actions2(user_ptr, 9);
                 reduction_ocurred = 1;
                 break;
             case 10:
-                reduce(8);
-                post_reduce_action1(user_ptr, 8);
-                production_attibuted_actions2(user_ptr, 8);
-                reduction_ocurred = 1;
+                pre_shift_action1(user_ptr, terminal);
+                shift(8);
                 break;
             case 11:
-                reduce(8);
-                post_reduce_action1(user_ptr, 8);
-                production_attibuted_actions2(user_ptr, 8);
-                reduction_ocurred = 1;
+                pre_shift_action1(user_ptr, terminal);
+                shift(9);
                 break;
             case 12:
-                reduce(8);
-                post_reduce_action1(user_ptr, 8);
-                production_attibuted_actions2(user_ptr, 8);
+                pre_shift_action1(user_ptr, terminal);
+                shift(10);
+                break;
+            case 13:
+                reduce(9);
+                post_reduce_action1(user_ptr, 9);
+                production_attibuted_actions2(user_ptr, 9);
                 reduction_ocurred = 1;
                 break;
             default:
@@ -990,51 +1017,57 @@ void parser_actions0(void *user_ptr, node_t *state_stack, terminal_t terminal)
             /* handle terminals (ACTION table) */
             switch (terminal__id(terminal)) {
             case 5:
-                reduce(9);
-                post_reduce_action1(user_ptr, 9);
-                production_attibuted_actions2(user_ptr, 9);
+                reduce(10);
+                post_reduce_action1(user_ptr, 10);
+                production_attibuted_actions2(user_ptr, 10);
                 reduction_ocurred = 1;
                 break;
             case 6:
-                reduce(9);
-                post_reduce_action1(user_ptr, 9);
-                production_attibuted_actions2(user_ptr, 9);
+                reduce(10);
+                post_reduce_action1(user_ptr, 10);
+                production_attibuted_actions2(user_ptr, 10);
                 reduction_ocurred = 1;
                 break;
             case 7:
-                reduce(9);
-                post_reduce_action1(user_ptr, 9);
-                production_attibuted_actions2(user_ptr, 9);
+                reduce(10);
+                post_reduce_action1(user_ptr, 10);
+                production_attibuted_actions2(user_ptr, 10);
                 reduction_ocurred = 1;
                 break;
             case 8:
-                reduce(9);
-                post_reduce_action1(user_ptr, 9);
-                production_attibuted_actions2(user_ptr, 9);
+                reduce(10);
+                post_reduce_action1(user_ptr, 10);
+                production_attibuted_actions2(user_ptr, 10);
                 reduction_ocurred = 1;
                 break;
             case 9:
-                reduce(9);
-                post_reduce_action1(user_ptr, 9);
-                production_attibuted_actions2(user_ptr, 9);
+                reduce(10);
+                post_reduce_action1(user_ptr, 10);
+                production_attibuted_actions2(user_ptr, 10);
                 reduction_ocurred = 1;
                 break;
             case 10:
-                reduce(9);
-                post_reduce_action1(user_ptr, 9);
-                production_attibuted_actions2(user_ptr, 9);
+                reduce(10);
+                post_reduce_action1(user_ptr, 10);
+                production_attibuted_actions2(user_ptr, 10);
                 reduction_ocurred = 1;
                 break;
             case 11:
-                reduce(9);
-                post_reduce_action1(user_ptr, 9);
-                production_attibuted_actions2(user_ptr, 9);
+                reduce(10);
+                post_reduce_action1(user_ptr, 10);
+                production_attibuted_actions2(user_ptr, 10);
                 reduction_ocurred = 1;
                 break;
             case 12:
-                reduce(9);
-                post_reduce_action1(user_ptr, 9);
-                production_attibuted_actions2(user_ptr, 9);
+                reduce(10);
+                post_reduce_action1(user_ptr, 10);
+                production_attibuted_actions2(user_ptr, 10);
+                reduction_ocurred = 1;
+                break;
+            case 13:
+                reduce(10);
+                post_reduce_action1(user_ptr, 10);
+                production_attibuted_actions2(user_ptr, 10);
                 reduction_ocurred = 1;
                 break;
             default:
@@ -1056,60 +1089,58 @@ void parser_actions0(void *user_ptr, node_t *state_stack, terminal_t terminal)
             int reduction_ocurred = 0;
             /* handle terminals (ACTION table) */
             switch (terminal__id(terminal)) {
-            case 2:
-                pre_shift_action1(user_ptr, terminal);
-                shift(21);
-                break;
-            case 3:
-                pre_shift_action1(user_ptr, terminal);
-                shift(22);
-                break;
             case 5:
-                reduce(10);
-                post_reduce_action1(user_ptr, 10);
-                production_attibuted_actions2(user_ptr, 10);
+                reduce(11);
+                post_reduce_action1(user_ptr, 11);
+                production_attibuted_actions2(user_ptr, 11);
                 reduction_ocurred = 1;
                 break;
             case 6:
-                reduce(10);
-                post_reduce_action1(user_ptr, 10);
-                production_attibuted_actions2(user_ptr, 10);
+                reduce(11);
+                post_reduce_action1(user_ptr, 11);
+                production_attibuted_actions2(user_ptr, 11);
                 reduction_ocurred = 1;
                 break;
             case 7:
-                reduce(10);
-                post_reduce_action1(user_ptr, 10);
-                production_attibuted_actions2(user_ptr, 10);
+                reduce(11);
+                post_reduce_action1(user_ptr, 11);
+                production_attibuted_actions2(user_ptr, 11);
                 reduction_ocurred = 1;
                 break;
             case 8:
-                reduce(10);
-                post_reduce_action1(user_ptr, 10);
-                production_attibuted_actions2(user_ptr, 10);
+                reduce(11);
+                post_reduce_action1(user_ptr, 11);
+                production_attibuted_actions2(user_ptr, 11);
                 reduction_ocurred = 1;
                 break;
             case 9:
-                reduce(10);
-                post_reduce_action1(user_ptr, 10);
-                production_attibuted_actions2(user_ptr, 10);
+                reduce(11);
+                post_reduce_action1(user_ptr, 11);
+                production_attibuted_actions2(user_ptr, 11);
                 reduction_ocurred = 1;
                 break;
             case 10:
-                reduce(10);
-                post_reduce_action1(user_ptr, 10);
-                production_attibuted_actions2(user_ptr, 10);
+                reduce(11);
+                post_reduce_action1(user_ptr, 11);
+                production_attibuted_actions2(user_ptr, 11);
                 reduction_ocurred = 1;
                 break;
             case 11:
-                reduce(10);
-                post_reduce_action1(user_ptr, 10);
-                production_attibuted_actions2(user_ptr, 10);
+                reduce(11);
+                post_reduce_action1(user_ptr, 11);
+                production_attibuted_actions2(user_ptr, 11);
                 reduction_ocurred = 1;
                 break;
             case 12:
-                reduce(10);
-                post_reduce_action1(user_ptr, 10);
-                production_attibuted_actions2(user_ptr, 10);
+                reduce(11);
+                post_reduce_action1(user_ptr, 11);
+                production_attibuted_actions2(user_ptr, 11);
+                reduction_ocurred = 1;
+                break;
+            case 13:
+                reduce(11);
+                post_reduce_action1(user_ptr, 11);
+                production_attibuted_actions2(user_ptr, 11);
                 reduction_ocurred = 1;
                 break;
             default:
@@ -1131,9 +1162,67 @@ void parser_actions0(void *user_ptr, node_t *state_stack, terminal_t terminal)
             int reduction_ocurred = 0;
             /* handle terminals (ACTION table) */
             switch (terminal__id(terminal)) {
-            case 9:
+            case 2:
                 pre_shift_action1(user_ptr, terminal);
                 shift(23);
+                break;
+            case 3:
+                pre_shift_action1(user_ptr, terminal);
+                shift(24);
+                break;
+            case 5:
+                reduce(12);
+                post_reduce_action1(user_ptr, 12);
+                production_attibuted_actions2(user_ptr, 12);
+                reduction_ocurred = 1;
+                break;
+            case 6:
+                reduce(12);
+                post_reduce_action1(user_ptr, 12);
+                production_attibuted_actions2(user_ptr, 12);
+                reduction_ocurred = 1;
+                break;
+            case 7:
+                reduce(12);
+                post_reduce_action1(user_ptr, 12);
+                production_attibuted_actions2(user_ptr, 12);
+                reduction_ocurred = 1;
+                break;
+            case 8:
+                reduce(12);
+                post_reduce_action1(user_ptr, 12);
+                production_attibuted_actions2(user_ptr, 12);
+                reduction_ocurred = 1;
+                break;
+            case 9:
+                reduce(12);
+                post_reduce_action1(user_ptr, 12);
+                production_attibuted_actions2(user_ptr, 12);
+                reduction_ocurred = 1;
+                break;
+            case 10:
+                reduce(12);
+                post_reduce_action1(user_ptr, 12);
+                production_attibuted_actions2(user_ptr, 12);
+                reduction_ocurred = 1;
+                break;
+            case 11:
+                reduce(12);
+                post_reduce_action1(user_ptr, 12);
+                production_attibuted_actions2(user_ptr, 12);
+                reduction_ocurred = 1;
+                break;
+            case 12:
+                reduce(12);
+                post_reduce_action1(user_ptr, 12);
+                production_attibuted_actions2(user_ptr, 12);
+                reduction_ocurred = 1;
+                break;
+            case 13:
+                reduce(12);
+                post_reduce_action1(user_ptr, 12);
+                production_attibuted_actions2(user_ptr, 12);
+                reduction_ocurred = 1;
                 break;
             default:
                 error(state_stack__access(state_stack));
@@ -1154,13 +1243,36 @@ void parser_actions0(void *user_ptr, node_t *state_stack, terminal_t terminal)
             int reduction_ocurred = 0;
             /* handle terminals (ACTION table) */
             switch (terminal__id(terminal)) {
+            case 9:
+                pre_shift_action1(user_ptr, terminal);
+                shift(25);
+                break;
+            default:
+                error(state_stack__access(state_stack));
+                break;
+            }
+            /* handle nonterminals (GOTO table) */
+            if (reduction_ocurred) {
+                int A = psym_str_idx(
+                    *parse_tree__data(parse_tree_stack__access(parse_tree_stack)));
+                parser_goto(state_stack, A);
+            }
+        }
+        post_state_action1(user_ptr);
+        break;
+    case 19:
+        pre_state_action1(user_ptr, state_stack);
+        {
+            int reduction_ocurred = 0;
+            /* handle terminals (ACTION table) */
+            switch (terminal__id(terminal)) {
             case 10:
                 reduce(3);
                 post_reduce_action1(user_ptr, 3);
                 production_attibuted_actions2(user_ptr, 3);
                 reduction_ocurred = 1;
                 break;
-            case 13:
+            case 14:
                 reduce(3);
                 post_reduce_action1(user_ptr, 3);
                 production_attibuted_actions2(user_ptr, 3);
@@ -1179,7 +1291,7 @@ void parser_actions0(void *user_ptr, node_t *state_stack, terminal_t terminal)
         }
         post_state_action1(user_ptr);
         break;
-    case 19:
+    case 20:
         pre_state_action1(user_ptr, state_stack);
         {
             int reduction_ocurred = 0;
@@ -1218,95 +1330,28 @@ void parser_actions0(void *user_ptr, node_t *state_stack, terminal_t terminal)
         }
         post_state_action1(user_ptr);
         break;
-    case 20:
-        pre_state_action1(user_ptr, state_stack);
-        {
-            int reduction_ocurred = 0;
-            /* handle terminals (ACTION table) */
-            switch (terminal__id(terminal)) {
-            case 6:
-                reduce(6);
-                post_reduce_action1(user_ptr, 6);
-                production_attibuted_actions2(user_ptr, 6);
-                reduction_ocurred = 1;
-                break;
-            case 7:
-                reduce(6);
-                post_reduce_action1(user_ptr, 6);
-                production_attibuted_actions2(user_ptr, 6);
-                reduction_ocurred = 1;
-                break;
-            case 9:
-                reduce(6);
-                post_reduce_action1(user_ptr, 6);
-                production_attibuted_actions2(user_ptr, 6);
-                reduction_ocurred = 1;
-                break;
-            default:
-                error(state_stack__access(state_stack));
-                break;
-            }
-            /* handle nonterminals (GOTO table) */
-            if (reduction_ocurred) {
-                int A = psym_str_idx(
-                    *parse_tree__data(parse_tree_stack__access(parse_tree_stack)));
-                parser_goto(state_stack, A);
-            }
-        }
-        post_state_action1(user_ptr);
-        break;
     case 21:
         pre_state_action1(user_ptr, state_stack);
         {
             int reduction_ocurred = 0;
             /* handle terminals (ACTION table) */
             switch (terminal__id(terminal)) {
-            case 5:
-                reduce(11);
-                post_reduce_action1(user_ptr, 11);
-                production_attibuted_actions2(user_ptr, 11);
-                reduction_ocurred = 1;
-                break;
             case 6:
-                reduce(11);
-                post_reduce_action1(user_ptr, 11);
-                production_attibuted_actions2(user_ptr, 11);
+                reduce(6);
+                post_reduce_action1(user_ptr, 6);
+                production_attibuted_actions2(user_ptr, 6);
                 reduction_ocurred = 1;
                 break;
             case 7:
-                reduce(11);
-                post_reduce_action1(user_ptr, 11);
-                production_attibuted_actions2(user_ptr, 11);
-                reduction_ocurred = 1;
-                break;
-            case 8:
-                reduce(11);
-                post_reduce_action1(user_ptr, 11);
-                production_attibuted_actions2(user_ptr, 11);
+                reduce(6);
+                post_reduce_action1(user_ptr, 6);
+                production_attibuted_actions2(user_ptr, 6);
                 reduction_ocurred = 1;
                 break;
             case 9:
-                reduce(11);
-                post_reduce_action1(user_ptr, 11);
-                production_attibuted_actions2(user_ptr, 11);
-                reduction_ocurred = 1;
-                break;
-            case 10:
-                reduce(11);
-                post_reduce_action1(user_ptr, 11);
-                production_attibuted_actions2(user_ptr, 11);
-                reduction_ocurred = 1;
-                break;
-            case 11:
-                reduce(11);
-                post_reduce_action1(user_ptr, 11);
-                production_attibuted_actions2(user_ptr, 11);
-                reduction_ocurred = 1;
-                break;
-            case 12:
-                reduce(11);
-                post_reduce_action1(user_ptr, 11);
-                production_attibuted_actions2(user_ptr, 11);
+                reduce(6);
+                post_reduce_action1(user_ptr, 6);
+                production_attibuted_actions2(user_ptr, 6);
                 reduction_ocurred = 1;
                 break;
             default:
@@ -1328,52 +1373,28 @@ void parser_actions0(void *user_ptr, node_t *state_stack, terminal_t terminal)
             int reduction_ocurred = 0;
             /* handle terminals (ACTION table) */
             switch (terminal__id(terminal)) {
-            case 5:
-                reduce(12);
-                post_reduce_action1(user_ptr, 12);
-                production_attibuted_actions2(user_ptr, 12);
-                reduction_ocurred = 1;
-                break;
             case 6:
-                reduce(12);
-                post_reduce_action1(user_ptr, 12);
-                production_attibuted_actions2(user_ptr, 12);
+                reduce(8);
+                post_reduce_action1(user_ptr, 8);
+                production_attibuted_actions2(user_ptr, 8);
                 reduction_ocurred = 1;
                 break;
             case 7:
-                reduce(12);
-                post_reduce_action1(user_ptr, 12);
-                production_attibuted_actions2(user_ptr, 12);
-                reduction_ocurred = 1;
-                break;
-            case 8:
-                reduce(12);
-                post_reduce_action1(user_ptr, 12);
-                production_attibuted_actions2(user_ptr, 12);
+                reduce(8);
+                post_reduce_action1(user_ptr, 8);
+                production_attibuted_actions2(user_ptr, 8);
                 reduction_ocurred = 1;
                 break;
             case 9:
-                reduce(12);
-                post_reduce_action1(user_ptr, 12);
-                production_attibuted_actions2(user_ptr, 12);
+                reduce(8);
+                post_reduce_action1(user_ptr, 8);
+                production_attibuted_actions2(user_ptr, 8);
                 reduction_ocurred = 1;
                 break;
-            case 10:
-                reduce(12);
-                post_reduce_action1(user_ptr, 12);
-                production_attibuted_actions2(user_ptr, 12);
-                reduction_ocurred = 1;
-                break;
-            case 11:
-                reduce(12);
-                post_reduce_action1(user_ptr, 12);
-                production_attibuted_actions2(user_ptr, 12);
-                reduction_ocurred = 1;
-                break;
-            case 12:
-                reduce(12);
-                post_reduce_action1(user_ptr, 12);
-                production_attibuted_actions2(user_ptr, 12);
+            case 13:
+                reduce(8);
+                post_reduce_action1(user_ptr, 8);
+                production_attibuted_actions2(user_ptr, 8);
                 reduction_ocurred = 1;
                 break;
             default:
@@ -1395,64 +1416,58 @@ void parser_actions0(void *user_ptr, node_t *state_stack, terminal_t terminal)
             int reduction_ocurred = 0;
             /* handle terminals (ACTION table) */
             switch (terminal__id(terminal)) {
-            case 2:
-                reduce(17);
-                post_reduce_action1(user_ptr, 17);
-                production_attibuted_actions2(user_ptr, 17);
-                reduction_ocurred = 1;
-                break;
-            case 3:
-                reduce(17);
-                post_reduce_action1(user_ptr, 17);
-                production_attibuted_actions2(user_ptr, 17);
-                reduction_ocurred = 1;
-                break;
             case 5:
-                reduce(17);
-                post_reduce_action1(user_ptr, 17);
-                production_attibuted_actions2(user_ptr, 17);
+                reduce(13);
+                post_reduce_action1(user_ptr, 13);
+                production_attibuted_actions2(user_ptr, 13);
                 reduction_ocurred = 1;
                 break;
             case 6:
-                reduce(17);
-                post_reduce_action1(user_ptr, 17);
-                production_attibuted_actions2(user_ptr, 17);
+                reduce(13);
+                post_reduce_action1(user_ptr, 13);
+                production_attibuted_actions2(user_ptr, 13);
                 reduction_ocurred = 1;
                 break;
             case 7:
-                reduce(17);
-                post_reduce_action1(user_ptr, 17);
-                production_attibuted_actions2(user_ptr, 17);
+                reduce(13);
+                post_reduce_action1(user_ptr, 13);
+                production_attibuted_actions2(user_ptr, 13);
                 reduction_ocurred = 1;
                 break;
             case 8:
-                reduce(17);
-                post_reduce_action1(user_ptr, 17);
-                production_attibuted_actions2(user_ptr, 17);
+                reduce(13);
+                post_reduce_action1(user_ptr, 13);
+                production_attibuted_actions2(user_ptr, 13);
                 reduction_ocurred = 1;
                 break;
             case 9:
-                reduce(17);
-                post_reduce_action1(user_ptr, 17);
-                production_attibuted_actions2(user_ptr, 17);
+                reduce(13);
+                post_reduce_action1(user_ptr, 13);
+                production_attibuted_actions2(user_ptr, 13);
                 reduction_ocurred = 1;
                 break;
             case 10:
-                reduce(17);
-                post_reduce_action1(user_ptr, 17);
-                production_attibuted_actions2(user_ptr, 17);
+                reduce(13);
+                post_reduce_action1(user_ptr, 13);
+                production_attibuted_actions2(user_ptr, 13);
                 reduction_ocurred = 1;
                 break;
             case 11:
-                reduce(17);
-                post_reduce_action1(user_ptr, 17);
-                production_attibuted_actions2(user_ptr, 17);
+                reduce(13);
+                post_reduce_action1(user_ptr, 13);
+                production_attibuted_actions2(user_ptr, 13);
                 reduction_ocurred = 1;
                 break;
             case 12:
-                reduce(17);
-                post_reduce_action1(user_ptr, 17);
-                production_attibuted_actions2(user_ptr, 17);
+                reduce(13);
+                post_reduce_action1(user_ptr, 13);
+                production_attibuted_actions2(user_ptr, 13);
+                reduction_ocurred = 1;
+                break;
+            case 13:
+                reduce(13);
+                post_reduce_action1(user_ptr, 13);
+                production_attibuted_actions2(user_ptr, 13);
                 reduction_ocurred = 1;
                 break;
             default:
@@ -1469,6 +1484,164 @@ void parser_actions0(void *user_ptr, node_t *state_stack, terminal_t terminal)
         post_state_action1(user_ptr);
         break;
     case 24:
+        pre_state_action1(user_ptr, state_stack);
+        {
+            int reduction_ocurred = 0;
+            /* handle terminals (ACTION table) */
+            switch (terminal__id(terminal)) {
+            case 5:
+                reduce(14);
+                post_reduce_action1(user_ptr, 14);
+                production_attibuted_actions2(user_ptr, 14);
+                reduction_ocurred = 1;
+                break;
+            case 6:
+                reduce(14);
+                post_reduce_action1(user_ptr, 14);
+                production_attibuted_actions2(user_ptr, 14);
+                reduction_ocurred = 1;
+                break;
+            case 7:
+                reduce(14);
+                post_reduce_action1(user_ptr, 14);
+                production_attibuted_actions2(user_ptr, 14);
+                reduction_ocurred = 1;
+                break;
+            case 8:
+                reduce(14);
+                post_reduce_action1(user_ptr, 14);
+                production_attibuted_actions2(user_ptr, 14);
+                reduction_ocurred = 1;
+                break;
+            case 9:
+                reduce(14);
+                post_reduce_action1(user_ptr, 14);
+                production_attibuted_actions2(user_ptr, 14);
+                reduction_ocurred = 1;
+                break;
+            case 10:
+                reduce(14);
+                post_reduce_action1(user_ptr, 14);
+                production_attibuted_actions2(user_ptr, 14);
+                reduction_ocurred = 1;
+                break;
+            case 11:
+                reduce(14);
+                post_reduce_action1(user_ptr, 14);
+                production_attibuted_actions2(user_ptr, 14);
+                reduction_ocurred = 1;
+                break;
+            case 12:
+                reduce(14);
+                post_reduce_action1(user_ptr, 14);
+                production_attibuted_actions2(user_ptr, 14);
+                reduction_ocurred = 1;
+                break;
+            case 13:
+                reduce(14);
+                post_reduce_action1(user_ptr, 14);
+                production_attibuted_actions2(user_ptr, 14);
+                reduction_ocurred = 1;
+                break;
+            default:
+                error(state_stack__access(state_stack));
+                break;
+            }
+            /* handle nonterminals (GOTO table) */
+            if (reduction_ocurred) {
+                int A = psym_str_idx(
+                    *parse_tree__data(parse_tree_stack__access(parse_tree_stack)));
+                parser_goto(state_stack, A);
+            }
+        }
+        post_state_action1(user_ptr);
+        break;
+    case 25:
+        pre_state_action1(user_ptr, state_stack);
+        {
+            int reduction_ocurred = 0;
+            /* handle terminals (ACTION table) */
+            switch (terminal__id(terminal)) {
+            case 2:
+                reduce(19);
+                post_reduce_action1(user_ptr, 19);
+                production_attibuted_actions2(user_ptr, 19);
+                reduction_ocurred = 1;
+                break;
+            case 3:
+                reduce(19);
+                post_reduce_action1(user_ptr, 19);
+                production_attibuted_actions2(user_ptr, 19);
+                reduction_ocurred = 1;
+                break;
+            case 5:
+                reduce(19);
+                post_reduce_action1(user_ptr, 19);
+                production_attibuted_actions2(user_ptr, 19);
+                reduction_ocurred = 1;
+                break;
+            case 6:
+                reduce(19);
+                post_reduce_action1(user_ptr, 19);
+                production_attibuted_actions2(user_ptr, 19);
+                reduction_ocurred = 1;
+                break;
+            case 7:
+                reduce(19);
+                post_reduce_action1(user_ptr, 19);
+                production_attibuted_actions2(user_ptr, 19);
+                reduction_ocurred = 1;
+                break;
+            case 8:
+                reduce(19);
+                post_reduce_action1(user_ptr, 19);
+                production_attibuted_actions2(user_ptr, 19);
+                reduction_ocurred = 1;
+                break;
+            case 9:
+                reduce(19);
+                post_reduce_action1(user_ptr, 19);
+                production_attibuted_actions2(user_ptr, 19);
+                reduction_ocurred = 1;
+                break;
+            case 10:
+                reduce(19);
+                post_reduce_action1(user_ptr, 19);
+                production_attibuted_actions2(user_ptr, 19);
+                reduction_ocurred = 1;
+                break;
+            case 11:
+                reduce(19);
+                post_reduce_action1(user_ptr, 19);
+                production_attibuted_actions2(user_ptr, 19);
+                reduction_ocurred = 1;
+                break;
+            case 12:
+                reduce(19);
+                post_reduce_action1(user_ptr, 19);
+                production_attibuted_actions2(user_ptr, 19);
+                reduction_ocurred = 1;
+                break;
+            case 13:
+                reduce(19);
+                post_reduce_action1(user_ptr, 19);
+                production_attibuted_actions2(user_ptr, 19);
+                reduction_ocurred = 1;
+                break;
+            default:
+                error(state_stack__access(state_stack));
+                break;
+            }
+            /* handle nonterminals (GOTO table) */
+            if (reduction_ocurred) {
+                int A = psym_str_idx(
+                    *parse_tree__data(parse_tree_stack__access(parse_tree_stack)));
+                parser_goto(state_stack, A);
+            }
+        }
+        post_state_action1(user_ptr);
+        break;
+    case 26:
         pre_state_action1(user_ptr, state_stack);
         {
             int reduction_ocurred = 0;

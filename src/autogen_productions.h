@@ -1,5 +1,5 @@
-#ifndef MANGEN_PRODUCTIONS
-#define MANGEN_PRODUCTIONS
+#ifndef AUTOGEN_PRODUCTIONS
+#define AUTOGEN_PRODUCTIONS
 
 enum {
     sym__start,
@@ -16,15 +16,15 @@ enum {
 
 static
 char *psym_str[] = {
-    "start",
-    "productions",
-    "production",
-    "expr",
-    "expr_0",
-    "expr_1",
-    "expr_2",
-    "expr_3",
-    "expr_4"
+"start",
+"productions",
+"production",
+"expr",
+"expr_0",
+"expr_1",
+"expr_2",
+"expr_3",
+"expr_4",
 };
 
 static
@@ -46,7 +46,7 @@ const int psym[] = {
     sym__expr_4,
     sym__expr_4,
     sym__expr_4,
-    sym__expr_4
+    sym__expr_4,
 };
 
 static
@@ -68,7 +68,7 @@ const int pnsym[] = {
     1,
     1,
     1,
-    3
+    3,
 };
 
 #endif

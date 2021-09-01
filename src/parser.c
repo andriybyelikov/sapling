@@ -6,7 +6,7 @@
 #include <libsapling/cc/terminal.h>
 #include "lexer.h"
 #include "state_stack.h"
-#include "mangen_productions.h"
+#include "autogen_productions.h"
 #include "parser_actions.h"
 #include "mangen_user_data.h"
 

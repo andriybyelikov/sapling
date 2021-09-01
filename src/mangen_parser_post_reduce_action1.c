@@ -1,7 +1,7 @@
 #include <libsapling/cc/parse_tree.h>
 #include <libsapling/dm/stack.h>
 #include "mangen_user_data.h"
-#include "mangen_productions.h"
+#include "autogen_productions.h"
 
 IMPLEMENT_TYPED_STACK(node_stack, node_t, NULL)
 

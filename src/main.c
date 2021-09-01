@@ -9,7 +9,7 @@
 #include "lexer.h"
 #include "parser.h"
 
-#include "mangen_terminals.h"
+#include "autogen_terminals.h"
 #include "mangen_user_data.h"
 
 static

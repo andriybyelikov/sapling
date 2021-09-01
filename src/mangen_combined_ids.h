@@ -2,8 +2,8 @@
 #define MANGEN_COMBINED_IDS
 
 #include <string.h>
-#include "mangen_terminals.h"
-#include "mangen_productions.h"
+#include "autogen_terminals.h"
+#include "autogen_productions.h"
 
 static
 int psym_str_idx(const char *str)

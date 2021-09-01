@@ -1,0 +1,22 @@
+#! /bin/sh
+
+terminals=$(./sapling-backup ../spec/meta -fprint-terminals 2> /dev/null)
+
+echo "#ifndef AUTOGEN_TERMINALS"
+echo "#define AUTOGEN_TERMINALS"
+echo ""
+echo "enum {"
+for t in $terminals; do
+    echo "    $t,"
+done
+echo "    NUM_TERMINALS"
+echo "};"
+echo ""
+echo "static"
+echo "char *terminal_str[] = {"
+for t in $terminals; do
+    echo "    \"$t\","
+done
+echo "};"
+echo ""
+echo "#endif"

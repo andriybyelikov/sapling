@@ -1,0 +1,10 @@
+#! /bin/sh
+
+# lexer stuff
+sh ../tools/regen/terminals_h > ../src/autogen_terminals.h
+sh ../tools/regen/lexer_c > ../src/autogen_lexer.c
+sh ../tools/regen/lexer_actions_c > ../src/autogen_lexer_actions.c
+
+# parser stuff
+sh ../tools/regen/productions_h > ../src/autogen_productions.h
+sh ../tools/regen/parser_actions0_c > ../src/autogen_parser_actions0.c

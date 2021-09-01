@@ -1,5 +1,5 @@
-#ifndef MANGEN_TERMINALS
-#define MANGEN_TERMINALS
+#ifndef AUTOGEN_TERMINALS
+#define AUTOGEN_TERMINALS
 
 enum {
     t_gobble__blank,
@@ -34,7 +34,7 @@ char *terminal_str[] = {
     "t_symbol",
     "t_literal",
     "t_class",
-    "t_eof"
+    "t_eof",
 };
 
 #endif

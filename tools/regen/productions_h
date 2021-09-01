@@ -1,0 +1,38 @@
+#! /bin/sh
+
+nonterminals=$(./sapling-backup ../spec/meta -fprint-nonterminals 2> /dev/null)
+productions=$(./sapling-backup ../spec/meta -fprint-productions 2> /dev/null)
+
+echo "#ifndef AUTOGEN_PRODUCTIONS"
+echo "#define AUTOGEN_PRODUCTIONS"
+echo ""
+echo "enum {"
+for nt in $nonterminals; do
+    echo "    sym__$nt,"
+done
+echo "    NUM_NONTERMINALS"
+echo "};"
+echo ""
+echo "static"
+echo "char *psym_str[] = {"
+for nt in $nonterminals; do
+    echo "\"$nt\","
+done
+echo "};"
+echo ""
+echo "static"
+echo "const int psym[] = {"
+for p in $(echo "$productions" | awk '{ print $1 }'); do
+    echo "    sym__$p,"
+done
+echo "};"
+echo ""
+echo "static"
+echo "const int pnsym[] = {"
+for nc in $(echo "$productions" | awk '{ print NF }'); do
+    n=$((nc - 2))
+    echo "    $n,"
+done
+echo "};"
+echo ""
+echo "#endif"

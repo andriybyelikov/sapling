@@ -1,13 +1,11 @@
 #include <libsapling/cc/terminal.h>
-#include "mangen_terminals.h"
+#include "autogen_terminals.h"
 #include "mangen_user_data.h"
 
 void lexer_action(terminal_t terminal, void *user_ptr)
 {
     struct user *user = user_ptr;
     switch (terminal__id(terminal)) {
-    case t_eof:
-        break;
     case t_gobble__blank:
         break;
     case t_gobble__linecomment:
@@ -33,6 +31,8 @@ void lexer_action(terminal_t terminal, void *user_ptr)
     case t_literal:
         break;
     case t_class:
+        break;
+    case t_eof:
         break;
     }
 }

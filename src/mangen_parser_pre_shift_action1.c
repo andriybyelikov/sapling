@@ -5,7 +5,7 @@
 #include <libsapling/dm/stack.h>
 #include <libsapling/cc/terminal.h>
 #include "mangen_user_data.h"
-#include "mangen_terminals.h"
+#include "autogen_terminals.h"
 
 IMPLEMENT_TYPED_STACK(node_stack, node_t, NULL)
 

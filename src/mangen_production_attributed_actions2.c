@@ -21,7 +21,7 @@
 
 #include "options.h"
 #include "mangen_user_data.h"
-#include "mangen_productions.h"
+#include "autogen_productions.h"
 #include "mangen_combined_ids.h"
 
 IMPLEMENT_TYPED_STACK(state_node_stack, node_t, NULL)
@@ -219,6 +219,10 @@ void production_attibuted_actions2(void *user_ptr, int pid)
                 }
                 if (output_file != stdout)
                     fclose(output_file);
+            }
+            if (user->options[OPTION_FPRINT_LEXER_AUTOMATON]) {
+                lexer__print(stdout, &user->lexer_final, string__print);
+                fprintf(stdout, "\n");
             }
             if (user->options[OPTION_FPRINT_SLR_TABLES]) {
                 grammar_t g = new_grammar(&user->productions,

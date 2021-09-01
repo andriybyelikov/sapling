@@ -4,8 +4,8 @@
 #include "parser_actions.h"
 #include "parse_tree_stack.h"
 #include "state_stack.h"
-#include "mangen_terminals.h"
-#include "mangen_productions.h"
+#include "autogen_terminals.h"
+#include "autogen_productions.h"
 #include "mangen_combined_ids.h"
 #include "mangen_user_data.h"
 

@@ -1,0 +1,28 @@
+#! /bin/sh
+
+nonterminals=$(./sapling-backup $1 -fprint-nonterminals 2> /dev/null)
+productions=$(./sapling-backup $1 -fprint-productions 2> /dev/null)
+
+echo "/* This file was automatically generated. */"
+echo ""
+echo "#ifndef $2_PRODUCTIONS_H"
+echo "#define $2_PRODUCTIONS_H"
+echo ""
+echo "#include \"$(echo $2 | tr A-Z a-z)/nonterminals.h\""
+echo ""
+echo "static"
+echo "const int production_symbol[] = {"
+for p in $(echo "$productions" | awk '{ print $1 }'); do
+    echo "    $p,"
+done
+echo "};"
+echo ""
+echo "static"
+echo "const int production_length[] = {"
+for nc in $(echo "$productions" | awk '{ print NF }'); do
+    n=$((nc - 2))
+    echo "    $n,"
+done
+echo "};"
+echo ""
+echo "#endif"

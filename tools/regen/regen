@@ -1,0 +1,49 @@
+#! /bin/sh
+
+if [ ../tools/regen/files/terminals_h -nt ../src/$1/terminals.h ] \
+        || [ ../spec/$1 -nt ../src/$1/terminals.h ]; then
+    sh ../tools/regen/files/terminals_h ../spec/$1 $(echo $1 | tr a-z A-Z) \
+        > ../src/$1/terminals.h
+fi
+
+if [ ../tools/regen/files/nonterminals_h -nt ../src/$1/nonterminals.h ] \
+        || [ ../spec/$1 -nt ../src/$1/nonterminals.h ]; then
+    sh ../tools/regen/files/nonterminals_h ../spec/$1 $(echo $1 | tr a-z A-Z) \
+        > ../src/$1/nonterminals.h
+fi
+
+if [ ../tools/regen/files/productions_h -nt ../src/$1/productions.h ] \
+        || [ ../spec/$1 -nt ../src/$1/productions.h ]; then
+    sh ../tools/regen/files/productions_h ../spec/$1 $(echo $1 | tr a-z A-Z) \
+        > ../src/$1/productions.h
+fi
+
+if [ ../tools/regen/files/lexer_c -nt ../src/$1/$1_lexer.c ] \
+        || [ ../spec/$1 -nt ../src/$1/$1_lexer.c ]; then
+    sh ../tools/regen/files/lexer_c ../spec/$1 $1 > ../src/$1/$1_lexer.c
+fi
+
+if [ ../tools/regen/files/get_grammar_symbol_index_from_string_c -nt \
+            ../src/$1/get_grammar_symbol_index_from_string.c ] \
+        || [ ../spec/$1 -nt \
+            ../src/$1/get_grammar_symbol_index_from_string.c1 ]; then
+    sh ../tools/regen/files/get_grammar_symbol_index_from_string_c $1 \
+        > ../src/$1/get_grammar_symbol_index_from_string.c
+fi
+
+if [ ../tools/regen/files/parser_actions_h -nt ../src/$1/parser_actions.h ] \
+        || [ ../spec/$1 -nt ../src/$1/parser_actions.h ]; then
+    sh ../tools/regen/files/parser_actions_h $(echo $1 | tr a-z A-Z) \
+        > ../src/$1/parser_actions.h
+fi
+
+if [ ../tools/regen/files/parser_actions0_c -nt ../src/$1/parser_actions0.c ] \
+        || [ ../spec/$1 -nt ../src/$1/parser_actions0.c ]; then
+    sh ../tools/regen/files/parser_actions0_c ../spec/$1 $1 \
+        > ../src/$1/parser_actions0.c
+fi
+
+if [ ../tools/regen/files/parser_c -nt ../src/$1/$1_parser.c ] \
+        || [ ../spec/$1 -nt ../src/$1/$1_parser.c ]; then
+    sh ../tools/regen/files/parser_c $1 > ../src/$1/$1_parser.c
+fi

@@ -1,0 +1,14 @@
+t_gobble__blank -> [ \t\r\n]+;
+t_symbol        -> [0-9A-Za-z._-]+; -- filename and "fragment" keyword
+t_frag_code     -> "<".*">";
+
+start -> fragments;
+fragments -> fragment fragments | fragment;
+
+-- Here t_symbol must be the the reserved keyword "fragment", but since the
+-- lexer can't discriminate it from t_symbol it must be asserted at the
+-- semantic level, otherwise the result is a broken lexer automaton with
+-- classless accepting states.
+fragment -> t_symbol translation_stack t_frag_code;
+
+translation_stack -> t_symbol translation_stack | t_symbol;

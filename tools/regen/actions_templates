@@ -1,0 +1,14 @@
+#! /bin/sh
+
+sh ../tools/regen/files/lexer_actions_c ../spec/$1 $1 \
+    > ../src/$1/lexer_actions.c
+sh ../tools/regen/files/parser_post_reduce_action1_c $1 \
+    > ../src/$1/parser_post_reduce_action1.c
+sh ../tools/regen/files/parser_post_state_action1_c $1 \
+    > ../src/$1/parser_post_state_action1.c
+sh ../tools/regen/files/parser_pre_shift_action1_c $1 \
+    > ../src/$1/parser_pre_shift_action1.c
+sh ../tools/regen/files/parser_pre_state_action1_c $1 \
+    > ../src/$1/parser_pre_state_action1.c
+sh ../tools/regen/files/parser_production_attributed_actions2_c $1 \
+    > ../src/$1/parser_production_attributed_actions2.c

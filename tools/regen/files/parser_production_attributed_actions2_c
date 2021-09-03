@@ -1,0 +1,18 @@
+#! /bin/sh
+
+productions=$(./sapling-backup ../spec/$1 -fprint-productions 2> /dev/null)
+
+echo "#include \"data.h\""
+echo ""
+echo "void $1__production_attibuted_actions2(void *user_ptr, int pid)"
+echo "{"
+echo "    struct data_common *user = user_ptr;"
+echo "    switch (pid) {"
+(( i=0 ))
+echo "$productions" | while read line ; do
+    echo "    case $i: // $line;"
+    echo "        break;"
+    (( i+=1 ))
+done
+echo "    }"
+echo "}"

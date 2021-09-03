@@ -1,4 +1,7 @@
 #! /bin/sh
 
+# autofiles command:
+# find . -exec awk 'NR==1&&/This file was automatically generated./{print FILENAME}' {} \; 2> /dev/null
+
 cloc --include-lang=C,C/C++\ Header {include,src} \
     --exclude-list-file=tools/autofiles

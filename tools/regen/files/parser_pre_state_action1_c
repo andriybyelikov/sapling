@@ -1,0 +1,7 @@
+#! /bin/sh
+
+echo "#include \"aux/state_stack.h\""
+echo ""
+echo "void $1__pre_state_action1(void *user_ptr, node_t *state_stack)"
+echo "{"
+echo "}"

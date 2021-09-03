@@ -1,0 +1,18 @@
+#! /bin/sh
+
+echo "/* This file was automatically generated. */"
+echo ""
+echo "#include <string.h>"
+echo "#include \"$1/terminals.h\""
+echo "#include \"$1/nonterminals.h\""
+echo ""
+echo "int $1__get_grammar_symbol_index_from_string(const char *str)"
+echo "{"
+echo "    int i = 0;"
+echo "    for (; i < NUM_TERMINALS; i++)"
+echo "        if (!strcmp(str, terminal_string[i]))"
+echo "            return i;"
+echo "    for (; i - NUM_TERMINALS < NUM_NONTERMINALS; i++)"
+echo "        if (!strcmp(str, nonterminal_string[i - NUM_TERMINALS]))"
+echo "            return i;"
+echo "}"

@@ -1,0 +1,24 @@
+#! /bin/sh
+
+terminals=$(./sapling-backup $1 -fprint-terminals 2> /dev/null)
+
+echo "/* This file was automatically generated. */"
+echo ""
+echo "#ifndef $2_TERMINALS_H"
+echo "#define $2_TERMINALS_H"
+echo ""
+echo "enum {"
+for t in $terminals; do
+    echo "    $t,"
+done
+echo "    NUM_TERMINALS"
+echo "};"
+echo ""
+echo "static"
+echo "char *terminal_string[] = {"
+for t in $terminals; do
+    echo "    \"$t\","
+done
+echo "};"
+echo ""
+echo "#endif"

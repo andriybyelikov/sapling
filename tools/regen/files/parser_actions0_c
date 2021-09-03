@@ -1,0 +1,113 @@
+#! /bin/sh
+
+num_terminals=$(./sapling-backup $1 -fprint-terminals 2> /dev/null \
+    | wc -l)
+num_nonterminals=$(./sapling-backup $1 -fprint-nonterminals 2> /dev/null \
+    | wc -l)
+tables=$(./sapling-backup $1 -fprint-slr-tables 2> /dev/null \
+    | sed '1,4d' | colrm 1 6)
+num_rows=$(echo "$tables" | wc -l)
+num_cols=$(echo "$tables" | awk '{ print NF }' | head -n 1)
+
+echo "/* This file was automatically generated. */"
+echo ""
+echo "#include <libsapling/cc/parse_tree.h>"
+echo "#include \"aux/state_stack.h\""
+echo "#include \"aux/parse_tree_stack.h\""
+echo "#include \"data.h\""
+echo "#include \"$2/parser_actions.h\""
+echo "#include \"$2/$2_parser.h\""
+echo ""
+echo "int $2__get_grammar_symbol_index_from_string(const char *str);"
+echo ""
+echo "static"
+echo "void parser_goto(node_t *state_stack, int gsym)"
+echo "{"
+echo "    internal_parser_t parser = get_$2_parser();"
+echo ""
+echo "    switch (state_stack__access(state_stack)) {"
+for ((k = 0 ; k < $num_rows ; k++)); do
+    echo "    case $k:"
+    echo "        switch (gsym) {"
+    for ((j = $num_terminals + 1 ; j < $num_nonterminals + $num_terminals ; j++)); do
+        val=$(echo "$tables" | awk -v i=$k -v j=$j 'FNR == (i + 1) { print $j }')
+        if [[ ! "$val" == "-" ]]; then
+            echo "        case $j:"
+            echo "            state_stack__insert(state_stack, $val);"
+            echo "            break;"
+        fi
+    done
+    echo "        default:"
+    echo "            internal_parser__error(state_stack__access(state_stack));"
+    echo "            break;"
+    echo "        }"
+    echo "        break;"
+done
+echo "    default:"
+echo "        internal_parser__error(state_stack__access(state_stack));"
+echo "        break;"
+echo "    }"
+echo "}"
+echo ""
+echo "void $2__parser_actions0(void *user_ptr, node_t *state_stack, terminal_t terminal)"
+echo "{"
+echo "    internal_parser_t parser = get_$2_parser();"
+echo ""
+echo "    struct data_common *user = user_ptr;"
+echo "    node_t *parse_tree_stack = &user->parse_tree_stack;"
+echo ""
+echo "    int state = state_stack__access(state_stack);"
+echo "    switch (state) {"
+
+for ((i = 0 ; i < $num_rows ; i++)); do
+    echo "    case $i:"
+    echo "        $2__pre_state_action1(user_ptr, state_stack);"
+    echo "        {"
+    echo "            int reduction_ocurred = 0;"
+    echo "            /* handle terminals (ACTION table) */"
+    echo "            switch (terminal__id(terminal)) {"
+    for ((j = 0 ; j < $num_terminals ; j++)); do
+        val=$(echo "$tables" | awk -v i=$i -v j=$j 'FNR == (i + 1) { print $(j + 1) }')
+        if [[ ! "$val" == "-" ]]; then
+            action=$(echo $val | sed 's/\(.\).*/\1/')
+            action_info=$(echo $val | sed 's/.\(.*\)/\1/')
+            if [[ "$action" == "s" ]]; then # shift
+                echo "            case $j:"
+                echo "                $2__pre_shift_action1(user_ptr, terminal);"
+                echo "                internal_parser__shift(parser, $action_info);"
+                echo "                break;"
+            elif [[ "$action" == "r" ]]; then # reduce
+                echo "            case $j:"
+                echo "                internal_parser__reduce(parser, $action_info);"
+                echo "                $2__post_reduce_action1(user_ptr, $action_info);"
+                echo "                $2__production_attibuted_actions2(user_ptr, $action_info);"
+                echo "                reduction_ocurred = 1;"
+                echo "                break;"
+            elif [[ "$action" == "a" ]]; then # accept
+                echo "            case $j:"
+                echo "                internal_parser__reduce(parser, 0);"
+                echo "                $2__post_reduce_action1(user_ptr, 0);"
+                echo "                $2__production_attibuted_actions2(user_ptr, 0);"
+                echo "                internal_parser__accept(parser);"
+                echo "                break;"
+            fi
+        fi
+    done
+    echo "            default:"
+    echo "                internal_parser__error(state_stack__access(state_stack));"
+    echo "                break;"
+    echo "            }"
+    echo "            /* handle nonterminals (GOTO table) */"
+    echo "            if (reduction_ocurred) {"
+    echo "                int gsym = $2__get_grammar_symbol_index_from_string("
+    echo "                    *parse_tree__data(parse_tree_stack__access("
+    echo "                        parse_tree_stack)));"
+    echo "                parser_goto(state_stack, gsym);"
+    echo "            }"
+    echo "        }"
+    echo "        $2__post_state_action1(user_ptr);"
+    echo "        break;"
+done
+
+echo "    }"
+echo "}"

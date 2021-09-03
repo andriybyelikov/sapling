@@ -1,0 +1,24 @@
+#! /bin/sh
+
+nonterminals=$(./sapling-backup $1 -fprint-nonterminals 2> /dev/null)
+
+echo "/* This file was automatically generated. */"
+echo ""
+echo "#ifndef $2_NONTERMINALS_H"
+echo "#define $2_NONTERMINALS_H"
+echo ""
+echo "enum {"
+for nt in $nonterminals; do
+    echo "    $nt,"
+done
+echo "    NUM_NONTERMINALS"
+echo "};"
+echo ""
+echo "static"
+echo "char *nonterminal_string[] = {"
+for nt in $nonterminals; do
+    echo "    \"$nt\","
+done
+echo "};"
+echo ""
+echo "#endif"

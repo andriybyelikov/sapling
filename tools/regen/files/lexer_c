@@ -1,0 +1,160 @@
+#! /bin/sh
+
+lexer=$(./sapling-backup $1 -fprint-lexer-automaton 2> /dev/null)
+terminals=$(./sapling-backup $1 -fprint-terminals 2> /dev/null)
+
+echo "/* This file was automatically generated. */"
+echo ""
+echo "#include <stdio.h>"
+echo "#include <libsapling/idiom.h>"
+echo "#include \"$2/terminals.h\""
+echo "#include \"internal_lexer.h\""
+echo ""
+echo "static"
+echo "int get_initial_state(void)"
+echo "{"
+initial_state=$(echo "$lexer" | sed 's/{ (\(0x[[:alnum:]]\+\).*$/\1/')
+echo "    return 0x${initial_state:6:8};"
+echo "}"
+echo ""
+echo "static"
+echo "int next_state(int current_state, char input)"
+echo "{"
+echo "    switch (current_state) {"
+((parbal = 0))
+for i in $(seq 1 ${#lexer}); do
+    if [[ "${lexer:i-1:1}" == "(" ]]; then
+        if (( parbal == 0 )); then
+            savpos=$i
+        fi
+        ((parbal += 1))
+    elif [[ "${lexer:i-1:1}" == ")" ]]; then
+        ((parbal -= 1))
+        if (( parbal == 0 )); then
+            sta=${lexer:savpos-1:i-savpos+1}
+            id=$(echo "$sta" | sed 's/(\(0x[[:alnum:]]\+\), {.*/\1/')
+            echo "    case 0x${id:6:8}:"
+            echo "        switch (input) {"
+            edges=$(echo "$sta" | sed 's/.*{\(.*\)}.*$/\1/')
+            ((parbal_edges = 0))
+            for j in $(seq 1 ${#edges}); do
+                if [[ "${edges:j-1:1}" == "(" && (( j > 1 )) && "${edges:j-2:1}" != "'" ]]; then
+                    if (( parbal_edges == 0 )); then
+                        savpos_edges=$j
+                    fi
+                    ((parbal_edges += 1))
+                elif [[ "${edges:j-1:1}" == ")" && "${edges:j:1}" != "'" ]]; then
+                    ((parbal_edges -= 1))
+                    if (( parbal_edges == 0 )); then
+                        edge=${edges:savpos_edges-1:j-savpos_edges+1}
+                        attr=$(echo "$edge" | sed "s/.*\('.*'\).*$/\1/")
+                        sta2=$(echo "$edge" | sed 's/.*\(0x[[:alnum:]]\+\).*$/\1/')
+                        echo "        case $attr:"
+                        echo "            return 0x${sta2:6:8};"
+                    fi
+                fi
+            done
+            anything_edge=$(echo "$sta" | sed 's/.*}, \(.*\), ., .*$/\1/')
+            echo "        default:"
+            if [[ "$anything_edge" != "(nil)" ]]; then
+                echo "            return 0x${anything_edge:6:8};"
+            else
+                echo "            return -1;"
+            fi
+            echo "        }"
+            echo "        break;"
+        fi
+    fi
+done
+echo "        default:"
+echo "            return -1;"
+echo "    }"
+echo "}"
+echo ""
+echo "static"
+echo "int is_accepting_state(int state)"
+echo "{"
+echo "    switch (state) {"
+((parbal = 0))
+for i in $(seq 1 ${#lexer}); do
+    if [[ "${lexer:i-1:1}" == "(" ]]; then
+        if (( parbal == 0 )); then
+            savpos=$i
+        fi
+        ((parbal += 1))
+    elif [[ "${lexer:i-1:1}" == ")" ]]; then
+        ((parbal -= 1))
+        if (( parbal == 0 )); then
+            sta=${lexer:savpos-1:i-savpos+1}
+            id=$(echo "$sta" | sed 's/(\(0x[[:alnum:]]\+\), {.*/\1/')
+            acc=$(echo "$sta" | sed 's/.*}, .*, \(.\), .*$/\1/')
+            echo "    case 0x${id:6:8}:"
+            echo "        return $acc;"
+        fi
+    fi
+done
+echo "    }"
+echo "}"
+echo ""
+echo "static"
+echo "int get_class(int state)"
+echo "{"
+echo "    switch (state) {"
+((parbal = 0))
+for i in $(seq 1 ${#lexer}); do
+    if [[ "${lexer:i-1:1}" == "(" ]]; then
+        if (( parbal == 0 )); then
+            savpos=$i
+        fi
+        ((parbal += 1))
+    elif [[ "${lexer:i-1:1}" == ")" ]]; then
+        ((parbal -= 1))
+        if (( parbal == 0 )); then
+            sta=${lexer:savpos-1:i-savpos+1}
+            id=$(echo "$sta" | sed 's/(\(0x[[:alnum:]]\+\), {.*/\1/')
+            class=$(echo "$sta" | sed 's/.*}, .*, ., \(.*\))$/\1/')
+            if [[ "$class" != "(nil)" ]]; then
+                echo "    case 0x${id:6:8}:"
+                echo "        return $class;"
+            fi
+        fi
+    fi
+done
+echo "    }"
+echo "}"
+echo ""
+echo "static"
+echo "int class_has_gobble_modifier(int class)"
+echo "{"
+echo "    switch (class) {"
+for t in $terminals; do
+    if [[ "${t:0:10}" == "t_gobble__" ]]; then
+        echo "    case $t:"
+        echo "        return 1;"
+    fi
+done
+echo "    default:"
+echo "        return 0;"
+echo "    }"
+echo "}"
+echo ""
+echo "static"
+echo "int get_eof_class(void)"
+echo "{"
+echo "    return t_eof;"
+echo "}"
+echo ""
+echo "void $2__lexer_actions(terminal_t terminal, UNUSED void *user_ptr);"
+echo ""
+echo "static"
+echo "internal_lexer_t $2_lexer = NULL;"
+echo ""
+echo "internal_lexer_t get_$2_lexer(void)"
+echo "{"
+echo "    if ($2_lexer == NULL) {"
+echo "        $2_lexer = new_internal_lexer(get_initial_state, next_state,"
+echo "            is_accepting_state, get_class, class_has_gobble_modifier,"
+echo "            get_eof_class, $2__lexer_actions);"
+echo "    }"
+echo "    return $2_lexer;"
+echo "}"

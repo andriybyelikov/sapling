@@ -1,0 +1,5 @@
+#! /bin/sh
+
+echo "void $1__post_state_action1(void *user_ptr)"
+echo "{"
+echo "}"

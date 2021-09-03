@@ -1,0 +1,21 @@
+#! /bin/sh
+
+terminals=$(./sapling-backup $1 -fprint-terminals 2> /dev/null)
+
+echo "/* This file was automatically generated. */"
+echo ""
+echo "#include <libsapling/idiom.h>"
+echo "#include <libsapling/cc/terminal.h>"
+echo "#include \"$2/terminals.h\""
+echo ""
+echo "void $2__lexer_actions(terminal_t terminal, UNUSED void *user_ptr)"
+echo "{"
+echo "    switch (terminal__id(terminal)) {"
+for t in $terminals; do
+    if [[ "${t:0:10}" != "t_gobble__" ]]; then
+        echo "    case $t:"
+        echo "        break;"
+    fi
+done
+echo "    }"
+echo "}"

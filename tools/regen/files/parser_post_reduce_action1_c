@@ -1,0 +1,5 @@
+#! /bin/sh
+
+echo "void $1__post_reduce_action1(void *user_ptr, int num_symbols)"
+echo "{"
+echo "}"

@@ -10,7 +10,7 @@
 static
 void print_version(void)
 {
-    printf("sapling r11.e611c73\n");
+    printf("sapling 20210904-1\n");
     printf("Copyright (C) 2021 Andriy Byelikov\n");
 }
 
@@ -38,7 +38,7 @@ void print_help(void)
     printf("  -print-slr-tables         Prints the specification's Simple LR parsing tables.\n");
 }
 
-void print_lexer_output_only(FILE *input_file);
+void print_lexer_output_only(input_stream_t input_stream);
 
 int main(int argc, char *argv[])
 {
@@ -92,7 +92,9 @@ int main(int argc, char *argv[])
         FILE *input_file = fopen(input_filename, "r");
         if (options[OPTION_META_MODE]) {
             if (options[OPTION_PRINT_LEXER_OUTPUT_ONLY]) {
-                print_lexer_output_only(input_file);            
+                print_lexer_output_only(
+                    new_input_stream(INPUT_STREAM_MODE_FILE, input_file,
+                        NULL));
             } else {
                 // init meta parser user data
                 struct data_meta user = {
@@ -108,10 +110,13 @@ int main(int argc, char *argv[])
                     .cnt_nonterm = 0,
                     .nonterminals = NULL,
                     .nonterminals2 = NULL,
-                    .productions = NULL
+                    .productions = NULL,
+                    .composition_mode = 0
                 };
                 // run meta parser
-                internal_parser__parse(get_meta_parser(), input_file, &user);
+                internal_parser__parse(get_meta_parser(),
+                    new_input_stream(INPUT_STREAM_MODE_FILE, input_file, NULL),
+                        &user);
                 fprintf(stderr, "Parse successful!\n");
             }
         } else { // composition mode
@@ -126,7 +131,8 @@ int main(int argc, char *argv[])
                 .output_file = output_file
             };
             // run composition parser
-            internal_parser__parse(get_composition_parser(), input_file,
+            internal_parser__parse(get_composition_parser(),
+                new_input_stream(INPUT_STREAM_MODE_FILE, input_file, NULL),
                 &user);
             fclose(output_file);
         }

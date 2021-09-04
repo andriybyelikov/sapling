@@ -1,6 +1,6 @@
 #! /bin/sh
 
-terminals=$(./sapling-backup $1 -fprint-terminals 2> /dev/null)
+terminals=$(./sapling -m $1 -print-terminals 2> /dev/null)
 
 echo "/* This file was automatically generated. */"
 echo ""

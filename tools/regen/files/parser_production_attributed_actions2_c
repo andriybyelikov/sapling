@@ -1,6 +1,6 @@
 #! /bin/sh
 
-productions=$(./sapling-backup ../spec/$1 -fprint-productions 2> /dev/null)
+productions=$(./sapling -m ../spec/$1 -print-productions 2> /dev/null)
 
 echo "#include \"data.h\""
 echo ""

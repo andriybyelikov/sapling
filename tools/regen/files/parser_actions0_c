@@ -1,10 +1,10 @@
 #! /bin/sh
 
-num_terminals=$(./sapling-backup $1 -fprint-terminals 2> /dev/null \
+num_terminals=$(./sapling -m $1 -print-terminals 2> /dev/null \
     | wc -l)
-num_nonterminals=$(./sapling-backup $1 -fprint-nonterminals 2> /dev/null \
+num_nonterminals=$(./sapling -m $1 -print-nonterminals 2> /dev/null \
     | wc -l)
-tables=$(./sapling-backup $1 -fprint-slr-tables 2> /dev/null \
+tables=$(./sapling -m $1 -print-slr-tables 2> /dev/null \
     | sed '1,4d' | colrm 1 6)
 num_rows=$(echo "$tables" | wc -l)
 num_cols=$(echo "$tables" | awk '{ print NF }' | head -n 1)

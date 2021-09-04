@@ -9,7 +9,7 @@ struct internal_parser {
     const int *production_length;
     void (*parser_actions0)(void *, node_t *, terminal_t);
     terminal_t terminal;
-    FILE *input_file;
+    input_stream_t input_stream;
     node_t state_stack;
     int cont;
 };
@@ -30,7 +30,7 @@ void internal_parser__shift(internal_parser_t parser, int state)
 {
     delete_terminal(parser->terminal);
     parser->terminal = internal_lexer__fetch_terminal(parser->internal_lexer,
-        parser->input_file, NULL);
+        parser->input_stream, NULL);
     state_stack__insert(&parser->state_stack, state);
 }
 
@@ -51,13 +51,13 @@ void internal_parser__error(int state)
     exit(EXIT_FAILURE);
 }
 
-void internal_parser__parse(internal_parser_t parser, FILE *input_file,
-    void *user_ptr)
+void internal_parser__parse(internal_parser_t parser,
+    input_stream_t input_stream, void *user_ptr)
 {
-    parser->input_file = input_file;
+    parser->input_stream = input_stream;
     parser->state_stack = NULL;
     parser->terminal = internal_lexer__fetch_terminal(
-        parser->internal_lexer, input_file, user_ptr);
+        parser->internal_lexer, input_stream, user_ptr);
     parser->cont = 1;
 
     state_stack__insert(&parser->state_stack, 0);

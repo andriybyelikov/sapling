@@ -24,4 +24,7 @@ Usage:
 
 `lexeme`
 
+
+## Binary
+
 `emit_byte`

@@ -14,7 +14,7 @@ void internal_parser__shift(internal_parser_t parser, int state);
 void internal_parser__reduce(internal_parser_t parser, int production);
 void internal_parser__accept(internal_parser_t parser);
 void internal_parser__error(int state);
-void internal_parser__parse(internal_parser_t parser, FILE *input_file,
-    void *user_ptr);
+void internal_parser__parse(internal_parser_t parser,
+    input_stream_t input_stream, void *user_ptr);
 
 #endif

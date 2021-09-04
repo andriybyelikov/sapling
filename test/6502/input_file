@@ -1,4 +1,4 @@
-fragment u6502
+fragment ../spec/sample/6502_to_bin
 <
     SEI
     CLD

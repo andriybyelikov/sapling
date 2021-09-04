@@ -37,7 +37,7 @@ terminal_t build_terminal(char *buf, int bufc, int id)
 }
 
 terminal_t internal_lexer__fetch_terminal(internal_lexer_t internal_lexer,
-    FILE *input_file, void *user_ptr)
+    input_stream_t input_stream, void *user_ptr)
 {
     char c;                                      // single character buffer
     int s = internal_lexer->get_initial_state(); // state
@@ -49,7 +49,7 @@ terminal_t internal_lexer__fetch_terminal(internal_lexer_t internal_lexer,
     int cont = 1;
 
     while (cont) {
-        c = getc(input_file);
+        c = input_stream__getc(input_stream);
         if (c == EOF) {
             terminal = build_terminal(buf, bufc,
                 internal_lexer->get_eof_class());
@@ -65,7 +65,7 @@ terminal_t internal_lexer__fetch_terminal(internal_lexer_t internal_lexer,
             overread++;
             if (s == -1) {
                 for (int i = 0; i < overread; i++) {
-                    ungetc(c, input_file);
+                    input_stream__ungetc(input_stream, c);
                     bufc--;
                 }
                 overread = 0;

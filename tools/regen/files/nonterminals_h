@@ -1,6 +1,6 @@
 #! /bin/sh
 
-nonterminals=$(./sapling-backup $1 -fprint-nonterminals 2> /dev/null)
+nonterminals=$(./sapling -m $1 -print-nonterminals 2> /dev/null)
 
 echo "/* This file was automatically generated. */"
 echo ""

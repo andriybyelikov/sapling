@@ -5,9 +5,9 @@ start             -> instructions;
 instructions      -> instruction instructions | instruction;
 instruction       -> t_mnemonic
 <
-    (if (strequ (lexeme t_mnemonic) "SEI")
-        (emit_byte (strtol (0x78)))
-    (if (strequ (lexeme t_mnemonic) "CLD")
-        (emit_byte (strtol (0xD8)))
+    (if (strequ (lexeme "t_mnemonic") "SEI")
+        (emit_byte (strtol 0x78))
+    (if (strequ (lexeme "t_mnemonic") "CLD")
+        (emit_byte (strtol 0xD8))
     ))
 >;

@@ -1,5 +1,5 @@
 t_gobble__blank -> [ \t\r\n]+;
-t_symbol        -> [0-9A-Za-z._-]+; -- filename and "fragment" keyword
+t_symbol        -> [0-9A-Za-z._-\\/]+; -- filename and "fragment" keyword
 t_frag_code     -> "<".*">";
 
 start -> fragments;

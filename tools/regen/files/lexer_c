@@ -1,7 +1,7 @@
 #! /bin/sh
 
-lexer=$(./sapling-backup $1 -fprint-lexer-automaton 2> /dev/null)
-terminals=$(./sapling-backup $1 -fprint-terminals 2> /dev/null)
+lexer=$(./sapling -m $1 -print-lexer-automaton 2> /dev/null)
+terminals=$(./sapling -m $1 -print-terminals 2> /dev/null)
 
 echo "/* This file was automatically generated. */"
 echo ""

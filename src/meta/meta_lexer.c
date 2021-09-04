@@ -8,312 +8,312 @@
 static
 int get_initial_state(void)
 {
-    return 0xa0b987f0;
+    return 0xf30ae810;
 }
 
 static
 int next_state(int current_state, char input)
 {
     switch (current_state) {
-    case 0xa0b987f0:
+    case 0xf30ae810:
         switch (input) {
         case '\t':
-            return 0xa0b98820;
+            return 0xf30ae840;
         case '\n':
-            return 0xa0b98820;
+            return 0xf30ae840;
         case '\r':
-            return 0xa0b98820;
+            return 0xf30ae840;
         case ' ':
-            return 0xa0b98820;
+            return 0xf30ae840;
         case '\"':
-            return 0xa0e12260;
+            return 0xf3327c40;
         case '(':
-            return 0xa0ba76b0;
+            return 0xf30bd250;
         case ')':
-            return 0xa0ba9750;
+            return 0xf30bf270;
         case '*':
-            return 0xa0b9e1d0;
+            return 0xf30b4070;
         case '+':
-            return 0xa0b9f400;
+            return 0xf30b5220;
         case '-':
-            return 0xa0b9c250;
+            return 0xf30b21d0;
         case '.':
-            return 0xa0ba2450;
+            return 0xf30b8170;
         case ';':
-            return 0xa0ba3de0;
+            return 0xf30b9a80;
         case '<':
-            return 0xa0e218c0;
+            return 0xf3337040;
         case '[':
-            return 0xa0e1a400;
+            return 0xf332fc60;
         case 'a':
-            return 0xa0baba00;
+            return 0xf30c14a0;
         case 'b':
-            return 0xa0baba00;
+            return 0xf30c14a0;
         case 'c':
-            return 0xa0baba00;
+            return 0xf30c14a0;
         case 'd':
-            return 0xa0baba00;
+            return 0xf30c14a0;
         case 'e':
-            return 0xa0baba00;
+            return 0xf30c14a0;
         case 'f':
-            return 0xa0baba00;
+            return 0xf30c14a0;
         case 'g':
-            return 0xa0baba00;
+            return 0xf30c14a0;
         case 'h':
-            return 0xa0baba00;
+            return 0xf30c14a0;
         case 'i':
-            return 0xa0baba00;
+            return 0xf30c14a0;
         case 'j':
-            return 0xa0baba00;
+            return 0xf30c14a0;
         case 'k':
-            return 0xa0baba00;
+            return 0xf30c14a0;
         case 'l':
-            return 0xa0baba00;
+            return 0xf30c14a0;
         case 'm':
-            return 0xa0baba00;
+            return 0xf30c14a0;
         case 'n':
-            return 0xa0baba00;
+            return 0xf30c14a0;
         case 'o':
-            return 0xa0baba00;
+            return 0xf30c14a0;
         case 'p':
-            return 0xa0baba00;
+            return 0xf30c14a0;
         case 'q':
-            return 0xa0baba00;
+            return 0xf30c14a0;
         case 'r':
-            return 0xa0baba00;
+            return 0xf30c14a0;
         case 's':
-            return 0xa0baba00;
+            return 0xf30c14a0;
         case 't':
-            return 0xa0baba00;
+            return 0xf30c14a0;
         case 'u':
-            return 0xa0baba00;
+            return 0xf30c14a0;
         case 'v':
-            return 0xa0baba00;
+            return 0xf30c14a0;
         case 'w':
-            return 0xa0baba00;
+            return 0xf30c14a0;
         case 'x':
-            return 0xa0baba00;
+            return 0xf30c14a0;
         case 'y':
-            return 0xa0baba00;
+            return 0xf30c14a0;
         case 'z':
-            return 0xa0baba00;
+            return 0xf30c14a0;
         case '|':
-            return 0xa0ba5950;
+            return 0xf30bb570;
         default:
             return -1;
         }
         break;
-    case 0xa0ba76b0:
+    case 0xf30bd250:
         switch (input) {
         default:
             return -1;
         }
         break;
-    case 0xa0ba9750:
+    case 0xf30bf270:
         switch (input) {
         default:
             return -1;
         }
         break;
-    case 0xa0ba2450:
+    case 0xf30b8170:
         switch (input) {
         default:
             return -1;
         }
         break;
-    case 0xa0ba3de0:
+    case 0xf30b9a80:
         switch (input) {
         default:
             return -1;
         }
         break;
-    case 0xa0ba5950:
+    case 0xf30bb570:
         switch (input) {
         default:
             return -1;
         }
         break;
-    case 0xa0baba00:
+    case 0xf30c14a0:
         switch (input) {
         case '0':
-            return 0xa0baba00;
+            return 0xf30c14a0;
         case '1':
-            return 0xa0baba00;
+            return 0xf30c14a0;
         case '2':
-            return 0xa0baba00;
+            return 0xf30c14a0;
         case '3':
-            return 0xa0baba00;
+            return 0xf30c14a0;
         case '4':
-            return 0xa0baba00;
+            return 0xf30c14a0;
         case '5':
-            return 0xa0baba00;
+            return 0xf30c14a0;
         case '6':
-            return 0xa0baba00;
+            return 0xf30c14a0;
         case '7':
-            return 0xa0baba00;
+            return 0xf30c14a0;
         case '8':
-            return 0xa0baba00;
+            return 0xf30c14a0;
         case '9':
-            return 0xa0baba00;
+            return 0xf30c14a0;
         case '_':
-            return 0xa0baba00;
+            return 0xf30c14a0;
         case 'a':
-            return 0xa0baba00;
+            return 0xf30c14a0;
         case 'b':
-            return 0xa0baba00;
+            return 0xf30c14a0;
         case 'c':
-            return 0xa0baba00;
+            return 0xf30c14a0;
         case 'd':
-            return 0xa0baba00;
+            return 0xf30c14a0;
         case 'e':
-            return 0xa0baba00;
+            return 0xf30c14a0;
         case 'f':
-            return 0xa0baba00;
+            return 0xf30c14a0;
         case 'g':
-            return 0xa0baba00;
+            return 0xf30c14a0;
         case 'h':
-            return 0xa0baba00;
+            return 0xf30c14a0;
         case 'i':
-            return 0xa0baba00;
+            return 0xf30c14a0;
         case 'j':
-            return 0xa0baba00;
+            return 0xf30c14a0;
         case 'k':
-            return 0xa0baba00;
+            return 0xf30c14a0;
         case 'l':
-            return 0xa0baba00;
+            return 0xf30c14a0;
         case 'm':
-            return 0xa0baba00;
+            return 0xf30c14a0;
         case 'n':
-            return 0xa0baba00;
+            return 0xf30c14a0;
         case 'o':
-            return 0xa0baba00;
+            return 0xf30c14a0;
         case 'p':
-            return 0xa0baba00;
+            return 0xf30c14a0;
         case 'q':
-            return 0xa0baba00;
+            return 0xf30c14a0;
         case 'r':
-            return 0xa0baba00;
+            return 0xf30c14a0;
         case 's':
-            return 0xa0baba00;
+            return 0xf30c14a0;
         case 't':
-            return 0xa0baba00;
+            return 0xf30c14a0;
         case 'u':
-            return 0xa0baba00;
+            return 0xf30c14a0;
         case 'v':
-            return 0xa0baba00;
+            return 0xf30c14a0;
         case 'w':
-            return 0xa0baba00;
+            return 0xf30c14a0;
         case 'x':
-            return 0xa0baba00;
+            return 0xf30c14a0;
         case 'y':
-            return 0xa0baba00;
+            return 0xf30c14a0;
         case 'z':
-            return 0xa0baba00;
+            return 0xf30c14a0;
         default:
             return -1;
         }
         break;
-    case 0xa0e12260:
+    case 0xf3327c40:
         switch (input) {
         case '\"':
-            return 0xa0e13f10;
+            return 0xf33297f0;
         case '\\':
-            return 0xa0e128b0;
+            return 0xf3328210;
         default:
-            return 0xa0e12260;
+            return 0xf3327c40;
         }
         break;
-    case 0xa0b9e1d0:
+    case 0xf30b4070:
         switch (input) {
         default:
             return -1;
         }
         break;
-    case 0xa0b9f400:
+    case 0xf30b5220:
         switch (input) {
         default:
             return -1;
         }
         break;
-    case 0xa0e128b0:
+    case 0xf3328210:
         switch (input) {
         default:
-            return 0xa0e12260;
+            return 0xf3327c40;
         }
         break;
-    case 0xa0e13f10:
+    case 0xf33297f0:
         switch (input) {
         default:
             return -1;
         }
         break;
-    case 0xa0e1a400:
+    case 0xf332fc60:
         switch (input) {
         case ']':
-            return 0xa0e1ab20;
+            return 0xf3330320;
         default:
-            return 0xa0e1a400;
+            return 0xf332fc60;
         }
         break;
-    case 0xa0b9c250:
+    case 0xf30b21d0:
         switch (input) {
         case '-':
-            return 0xa0b9c2b0;
+            return 0xf30b2230;
         case '>':
-            return 0xa0ba0930;
+            return 0xf30b66d0;
         default:
             return -1;
         }
         break;
-    case 0xa0e1ab20:
+    case 0xf3330320:
         switch (input) {
         default:
             return -1;
         }
         break;
-    case 0xa0b9c2b0:
+    case 0xf30b2230:
         switch (input) {
         case '\n':
-            return 0xa0b9c9d0;
+            return 0xf30b28f0;
         default:
-            return 0xa0b9c2b0;
+            return 0xf30b2230;
         }
         break;
-    case 0xa0ba0930:
+    case 0xf30b66d0:
         switch (input) {
         default:
             return -1;
         }
         break;
-    case 0xa0b9c9d0:
+    case 0xf30b28f0:
         switch (input) {
         default:
             return -1;
         }
         break;
-    case 0xa0e218c0:
+    case 0xf3337040:
         switch (input) {
         case '>':
-            return 0xa0e21fe0;
+            return 0xf3337700;
         default:
-            return 0xa0e218c0;
+            return 0xf3337040;
         }
         break;
-    case 0xa0b98820:
+    case 0xf30ae840:
         switch (input) {
         case '\t':
-            return 0xa0b98820;
+            return 0xf30ae840;
         case '\n':
-            return 0xa0b98820;
+            return 0xf30ae840;
         case '\r':
-            return 0xa0b98820;
+            return 0xf30ae840;
         case ' ':
-            return 0xa0b98820;
+            return 0xf30ae840;
         default:
             return -1;
         }
         break;
-    case 0xa0e21fe0:
+    case 0xf3337700:
         switch (input) {
         default:
             return -1;
@@ -328,47 +328,47 @@ static
 int is_accepting_state(int state)
 {
     switch (state) {
-    case 0xa0b987f0:
+    case 0xf30ae810:
         return 0;
-    case 0xa0ba76b0:
+    case 0xf30bd250:
         return 1;
-    case 0xa0ba9750:
+    case 0xf30bf270:
         return 1;
-    case 0xa0ba2450:
+    case 0xf30b8170:
         return 1;
-    case 0xa0ba3de0:
+    case 0xf30b9a80:
         return 1;
-    case 0xa0ba5950:
+    case 0xf30bb570:
         return 1;
-    case 0xa0baba00:
+    case 0xf30c14a0:
         return 1;
-    case 0xa0e12260:
+    case 0xf3327c40:
         return 0;
-    case 0xa0b9e1d0:
+    case 0xf30b4070:
         return 1;
-    case 0xa0b9f400:
+    case 0xf30b5220:
         return 1;
-    case 0xa0e128b0:
+    case 0xf3328210:
         return 0;
-    case 0xa0e13f10:
+    case 0xf33297f0:
         return 1;
-    case 0xa0e1a400:
+    case 0xf332fc60:
         return 0;
-    case 0xa0b9c250:
+    case 0xf30b21d0:
         return 0;
-    case 0xa0e1ab20:
+    case 0xf3330320:
         return 1;
-    case 0xa0b9c2b0:
+    case 0xf30b2230:
         return 0;
-    case 0xa0ba0930:
+    case 0xf30b66d0:
         return 1;
-    case 0xa0b9c9d0:
+    case 0xf30b28f0:
         return 1;
-    case 0xa0e218c0:
+    case 0xf3337040:
         return 0;
-    case 0xa0b98820:
+    case 0xf30ae840:
         return 1;
-    case 0xa0e21fe0:
+    case 0xf3337700:
         return 1;
     }
 }
@@ -377,33 +377,33 @@ static
 int get_class(int state)
 {
     switch (state) {
-    case 0xa0ba76b0:
+    case 0xf30bd250:
         return t_lpar;
-    case 0xa0ba9750:
+    case 0xf30bf270:
         return t_rpar;
-    case 0xa0ba2450:
+    case 0xf30b8170:
         return t_any;
-    case 0xa0ba3de0:
+    case 0xf30b9a80:
         return t_terminator;
-    case 0xa0ba5950:
+    case 0xf30bb570:
         return t_disjunction;
-    case 0xa0baba00:
+    case 0xf30c14a0:
         return t_symbol;
-    case 0xa0b9e1d0:
+    case 0xf30b4070:
         return t_kleenestar;
-    case 0xa0b9f400:
+    case 0xf30b5220:
         return t_kleeneplus;
-    case 0xa0e13f10:
+    case 0xf33297f0:
         return t_literal;
-    case 0xa0e1ab20:
+    case 0xf3330320:
         return t_class;
-    case 0xa0ba0930:
+    case 0xf30b66d0:
         return t_rightarrow;
-    case 0xa0b9c9d0:
+    case 0xf30b28f0:
         return t_gobble__linecomment;
-    case 0xa0b98820:
+    case 0xf30ae840:
         return t_gobble__blank;
-    case 0xa0e21fe0:
+    case 0xf3337700:
         return t_ulisp_routine;
     }
 }

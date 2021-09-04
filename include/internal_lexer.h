@@ -3,6 +3,7 @@
 
 #include <stdio.h>
 #include <libsapling/cc/terminal.h>
+#include "input_stream.h"
 
 typedef struct internal_lexer *internal_lexer_t;
 
@@ -15,6 +16,6 @@ internal_lexer_t new_internal_lexer(
     int (*get_eof_class)(void),
     void (*lexer_actions)(terminal_t, void *));
 terminal_t internal_lexer__fetch_terminal(internal_lexer_t internal_lexer,
-    FILE *input_file, void *user_ptr);
+    input_stream_t input_stream, void *user_ptr);
 
 #endif

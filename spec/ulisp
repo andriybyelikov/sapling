@@ -5,9 +5,10 @@ t_rpar                -> ")";
 t_symbol              -> [a-z][a-z0-9_]*;
 t_string              -> "\""(.|"\\".)*"\"";
 t_integer             -> [0-9]+;
-t_hexadecimal         -> [0-9A-Fa-f]+;
+t_hexadecimal         -> "0x"[0-9A-Fa-f]+;
 
-start -> list;
+start -> lists;
+lists -> list lists | list;
 list  -> t_lpar t_symbol args t_rpar;
-args  -> args arg;
+args  -> arg args | arg;
 arg   -> t_string | t_integer | t_hexadecimal | list;

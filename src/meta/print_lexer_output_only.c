@@ -4,7 +4,7 @@
 #include "meta/meta_lexer.h"
 #include "meta/terminals.h"
 
-void print_lexer_output_only(FILE *input_file)
+void print_lexer_output_only(input_stream_t input_stream)
 {
     FILE *output_file = stdout;
     internal_lexer_t lexer = get_meta_lexer();
@@ -18,7 +18,7 @@ void print_lexer_output_only(FILE *input_file)
     fprintf(output_file, "%*s  %-*s  %s\n", id_digits, "--", longest_id, "------", "------");
     terminal_t terminal;
     do {
-        terminal = internal_lexer__fetch_terminal(lexer, input_file, NULL);
+        terminal = internal_lexer__fetch_terminal(lexer, input_stream, NULL);
         fprintf(output_file, "%*d  %-*s  %s\n",
             id_digits, terminal__id(terminal),
             longest_id, terminal_string[terminal__id(terminal)],

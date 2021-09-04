@@ -8,6 +8,7 @@
 #include <libsapling/cc/parser/aux/production_set.h>
 #include <libsapling/cc/parser/slr.h>
 #include "aux/parse_tree_stack.h"
+#include "aux/string_list.h"
 #include "options.h"
 #include "data.h"
 
@@ -191,6 +192,22 @@ void meta__production_attibuted_actions2(void *user_ptr, int pid)
                 goto_table_t gt = goto_table__build(g, C);
                 slr__print_tables(stdout, at, gt, C, g);
             }
+            if (user->composition_mode) {
+                node_t *lexer = malloc(sizeof(node_t));
+                *lexer = user->lexer_final;
+
+                grammar_t g = new_grammar(&user->productions,
+                    idxstr_avl__length(&user->terminals2),
+                    idxstr_avl__length(&user->terminals2)
+                        + idxstr_avl__length(&user->nonterminals2));
+                node_t *C = slr__build_set_of_sets_of_lr0_items(g);
+
+                action_table_t at = action_table__build(g, C);
+                goto_table_t gt = goto_table__build(g, C);
+
+                user->runtime_compiler =
+                    new_runtime_compiler(lexer, at, gt);
+            }
         }
         break;
     case 1: // productions -> production productions;
@@ -219,7 +236,8 @@ void meta__production_attibuted_actions2(void *user_ptr, int pid)
             if (user->in_terminals_section) {
                 if (user->options[OPTION_PRINT_TERMINALS]
                     || user->options[OPTION_PRINT_PRODUCTIONS]
-                    || user->options[OPTION_PRINT_SLR_TABLES]) {
+                    || user->options[OPTION_PRINT_SLR_TABLES]
+                    || user->composition_mode) {
                         int_trie__insert(&user->terminals, id, user->cnt_term);
                         idxstr_avl__insert(&user->terminals2,
                             (idxstr_t){ user->cnt_term, id },
@@ -229,7 +247,8 @@ void meta__production_attibuted_actions2(void *user_ptr, int pid)
             } else {
                 if (user->options[OPTION_PRINT_NONTERMINALS]
                     || user->options[OPTION_PRINT_PRODUCTIONS]
-                    || user->options[OPTION_PRINT_SLR_TABLES]) {
+                    || user->options[OPTION_PRINT_SLR_TABLES]
+                    || user->composition_mode) {
                     get_or_assign_id_to_grammar_symbol(id, &user->terminals,
                         &user->nonterminals, &user->nonterminals2,
                         &user->cnt_nonterm);
@@ -250,7 +269,9 @@ void meta__production_attibuted_actions2(void *user_ptr, int pid)
             }
 
             if (!user->in_terminals_section
-                && (user->options[OPTION_PRINT_PRODUCTIONS] || user->options[OPTION_PRINT_SLR_TABLES])) {
+                && (user->options[OPTION_PRINT_PRODUCTIONS]
+                    || user->options[OPTION_PRINT_SLR_TABLES]
+                    || user->composition_mode)) {
                 node_t body = NULL;
                 node_t expr = parse_tree__get_child_by_string(&_production, "expr");
                 while (expr != NULL) {
@@ -306,6 +327,14 @@ void meta__production_attibuted_actions2(void *user_ptr, int pid)
     case 5: // expr -> expr_a;
         break;
     case 6: // expr_a -> expr_0 t_ulisp_routine;
+        {
+            node_t expr_a = parse_tree_stack__access(&user->parse_tree_stack);
+            node_t t_ulisp_routine = parse_tree__get_child_by_string(&expr_a,
+                "t_ulisp_routine");
+            node_t lx = parse_tree__get_child_by_position(&t_ulisp_routine, 0);
+            const char *routine = *parse_tree__data(lx);
+            string_queue__insert(&user->ulisp_routines, routine);
+        }
         break;
     case 7: // expr_a -> expr_0;
         break;

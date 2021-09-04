@@ -3,6 +3,7 @@
 
 #include <stdio.h>
 #include <libsapling/dm/graph.h>
+#include "runtime_compiler.h"
 
 struct data_common {
     int *options;
@@ -27,6 +28,11 @@ struct data_meta {
     node_t nonterminals2; // id x nonterminal avl
 
     node_t productions;
+
+
+    int composition_mode;
+    runtime_compiler_t runtime_compiler; // write compiler here
+    node_t ulisp_routines;
 };
 
 struct data_composition {

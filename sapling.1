@@ -6,7 +6,7 @@ sapling \- general\-purpose compiler
 
 .SH SYNOPSIS
 .B sapling
-[\fB\-f\fIoption\fR...] spec_file
+[\fB\-\fIoption\fR...] spec_file
 
 
 .SH DESCRIPTION
@@ -23,15 +23,15 @@ where to redirect the output. If it is not specified the output is redirected
 to standard output.
 
 .SS \fI Lexer Diagnostics
-.B \-fprint\-lexer\-output\-only[=\fIfile\fR]
+.B \-print\-lexer\-output\-only[=\fIfile\fR]
 
 .SS \fI Parser Diagnostics
-.B \-flog\-state\-stack \-flog\-parse\-tree\-stack
-.B \-fdump\-parse\-tree[=\fIfile\fR]
+.B \-log\-state\-stack \-log\-parse\-tree\-stack
+.B \-dump\-parse\-tree[=\fIfile\fR]
 
 .SS \fI Output Diagnostics
-.B \-fprint\-terminals
-.B \-fprint\-nonterminals
-.B \-fprint\-productions
-.B \-fdump\-lexer\-automaton[=\fIfile\fR]
-.B \-fprint\-slr\-tables
+.B \-print\-terminals
+.B \-print\-nonterminals
+.B \-print\-productions
+.B \-dump\-lexer\-automaton[=\fIfile\fR]
+.B \-print\-slr\-tables

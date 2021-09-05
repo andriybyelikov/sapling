@@ -11,6 +11,8 @@
 #include "aux/string_list.h"
 #include "options.h"
 #include "data.h"
+#include "ulisp/ulisp_parser.h"
+#include "aux/ulisp_parse_tree_list.h"
 
 
 typedef struct {
@@ -53,10 +55,25 @@ void apply_get_str(idxstr_t *data, void *info)
     idxstr->str = data->str;
 }
 
+struct info_dump_ulisp_parse_tree {
+    int i;
+    FILE *stream;
+};
+
+static
+void dump_ulisp_parse_tree_apply(pidxpt_t *data, void *info)
+{
+    CAST_USER_INFO(struct info_dump_ulisp_parse_tree *, user, info);
+
+    parse_tree__dump_dot(user->stream, &data->ulisp_parse_tree);
+}
+
 struct info_pphr {
     FILE *stream;
     node_t *terminals;
     node_t *nonterminals;
+    node_t *ulisp_parse_trees;
+    int i;
 };
 
 static
@@ -103,13 +120,26 @@ void print_production_apply(production_t *data, void *info)
             idxstr_avl__equ_predicate, apply_get_str);
     }
     fprintf(stream, "%s\n", idxstr.str);
+
+    // print uLisp parse tree for this production
+    if ((user->ulisp_parse_trees) != NULL
+            &&ulisp_parse_tree_avl__in(
+                user->ulisp_parse_trees, (pidxpt_t){ .prod_id = user->i })) {
+        struct info_dump_ulisp_parse_tree idupt = { user->i, stream };
+        ulisp_parse_tree_avl__access(E_QT, user->ulisp_parse_trees, &idupt,
+            ulisp_parse_tree_avl__equ_predicate, dump_ulisp_parse_tree_apply);
+    } else {
+        fprintf(stream, "\n");
+    }
+    user->i++;
 }
 
 static
 void print_production_human_readable(FILE *stream, node_t *productions,
-    node_t *terminals, node_t *nonterminals)
+    node_t *terminals, node_t *nonterminals, node_t *ulisp_parse_trees)
 {
-    struct info_pphr info = { stream, terminals, nonterminals };
+    struct info_pphr info = { stream, terminals, nonterminals,
+        ulisp_parse_trees, 0 };
     production_path__access(U_QT, productions, &info,
         production_path__predicate_1, print_production_apply);
 }
@@ -168,7 +198,7 @@ void meta__production_attibuted_actions2(void *user_ptr, int pid)
             }
             if (user->options[OPTION_PRINT_PRODUCTIONS]) {
                 print_production_human_readable(stdout, &user->productions,
-                    &user->terminals2, &user->nonterminals2);
+                    &user->terminals2, &user->nonterminals2, NULL);
             }
             if (user->options[OPTION_DUMP_PARSE_TREE]) {
                 node_t root = parse_tree_stack__access(&user->parse_tree_stack);
@@ -191,6 +221,11 @@ void meta__production_attibuted_actions2(void *user_ptr, int pid)
                 action_table_t at = action_table__build(g, C);
                 goto_table_t gt = goto_table__build(g, C);
                 slr__print_tables(stdout, at, gt, C, g);
+            }
+            if (user->options[OPTION_DUMP_ULISP_PARSE_TREES]) {
+                print_production_human_readable(stdout, &user->productions,
+                    &user->terminals2, &user->nonterminals2,
+                    &user->ulisp_parse_trees);
             }
             if (user->composition_mode) {
                 node_t *lexer = malloc(sizeof(node_t));
@@ -237,6 +272,7 @@ void meta__production_attibuted_actions2(void *user_ptr, int pid)
                 if (user->options[OPTION_PRINT_TERMINALS]
                     || user->options[OPTION_PRINT_PRODUCTIONS]
                     || user->options[OPTION_PRINT_SLR_TABLES]
+                    || user->options[OPTION_DUMP_ULISP_PARSE_TREES]
                     || user->composition_mode) {
                         int_trie__insert(&user->terminals, id, user->cnt_term);
                         idxstr_avl__insert(&user->terminals2,
@@ -248,6 +284,7 @@ void meta__production_attibuted_actions2(void *user_ptr, int pid)
                 if (user->options[OPTION_PRINT_NONTERMINALS]
                     || user->options[OPTION_PRINT_PRODUCTIONS]
                     || user->options[OPTION_PRINT_SLR_TABLES]
+                    || user->options[OPTION_DUMP_ULISP_PARSE_TREES]
                     || user->composition_mode) {
                     get_or_assign_id_to_grammar_symbol(id, &user->terminals,
                         &user->nonterminals, &user->nonterminals2,
@@ -271,6 +308,7 @@ void meta__production_attibuted_actions2(void *user_ptr, int pid)
             if (!user->in_terminals_section
                 && (user->options[OPTION_PRINT_PRODUCTIONS]
                     || user->options[OPTION_PRINT_SLR_TABLES]
+                    || user->options[OPTION_DUMP_ULISP_PARSE_TREES]
                     || user->composition_mode)) {
                 node_t body = NULL;
                 node_t expr = parse_tree__get_child_by_string(&_production, "expr");
@@ -302,7 +340,8 @@ void meta__production_attibuted_actions2(void *user_ptr, int pid)
                                 &user->nonterminals, &user->nonterminals2,
                                 &user->cnt_nonterm);
 
-                    production_t p = new_production(int_id + int_trie__length(&user->terminals), &body);
+                    production_t p = new_production(int_id +
+                        int_trie__length(&user->terminals), &body);
                     production_queue__insert(&user->productions, p);
 
                     body = NULL;
@@ -328,12 +367,35 @@ void meta__production_attibuted_actions2(void *user_ptr, int pid)
         break;
     case 6: // expr_a -> expr_0 t_ulisp_routine;
         {
-            node_t expr_a = parse_tree_stack__access(&user->parse_tree_stack);
-            node_t t_ulisp_routine = parse_tree__get_child_by_string(&expr_a,
-                "t_ulisp_routine");
-            node_t lx = parse_tree__get_child_by_position(&t_ulisp_routine, 0);
-            const char *routine = *parse_tree__data(lx);
-            string_queue__insert(&user->ulisp_routines, routine);
+            if (user->options[OPTION_DUMP_ULISP_PARSE_TREES]
+                    || user->composition_mode) {
+                node_t expr_a =
+                    parse_tree_stack__access(&user->parse_tree_stack);
+                node_t t_ulisp_routine =
+                    parse_tree__get_child_by_string(&expr_a,
+                        "t_ulisp_routine");
+                node_t lx =
+                    parse_tree__get_child_by_position(&t_ulisp_routine, 0);
+                const char *routine = *parse_tree__data(lx);
+
+                // compile uLisp routine into parse tree
+                char *buf = malloc(strlen(routine) + 1);
+                text__unescape(buf, routine);
+                char *buf_trimmed = buf + 1;
+                buf_trimmed[strlen(buf_trimmed) - 1] = 0;
+                struct data_common data_ulisp = {
+                    .options = NULL,
+                    .parse_tree_stack = NULL
+                };
+                internal_parser__parse(get_ulisp_parser(),
+                    new_input_stream(INPUT_STREAM_MODE_ARRAY, NULL,
+                        buf_trimmed), &data_ulisp);
+                free(buf);
+                ulisp_parse_tree_avl__insert(&user->ulisp_parse_trees,
+                    (pidxpt_t) { production_queue__length(&user->productions),
+                        parse_tree_stack__access(&data_ulisp.parse_tree_stack)
+                    }, ulisp_parse_tree_avl__cmp_predicate);
+            }
         }
         break;
     case 7: // expr_a -> expr_0;

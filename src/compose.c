@@ -6,31 +6,9 @@
 #include "aux/string_list.h"
 #include "aux/compiler_cache.h"
 #include "meta/meta_parser.h"
-#include "ulisp/ulisp_parser.h"
 #include "data.h"
 
 static node_t compiler_cache = NULL;
-
-
-static
-void print_ulisp_routines_apply(const char **data, UNUSED void *info)
-{
-    char *buf = malloc(strlen(*data) + 1);
-    text__unescape(buf, *data);
-    char *buf_trimmed = buf + 1;
-    buf_trimmed[strlen(buf_trimmed) - 1] = 0;
-
-    printf("%s\n", buf_trimmed);
-
-    struct data_common user = {
-        .options = NULL,
-        .parse_tree_stack = NULL
-    };
-    internal_parser__parse(get_ulisp_parser(),
-        new_input_stream(INPUT_STREAM_MODE_ARRAY, NULL, buf_trimmed), &user);
-
-    free(buf);
-}
 
 
 static
@@ -54,17 +32,13 @@ runtime_compiler_t compile_compiler(const char *spec_filename, void *user_ptr)
         .nonterminals2 = NULL,
         .productions = NULL,
         .composition_mode = 1,
-        .ulisp_routines = NULL
+        .ulisp_parse_trees = NULL
     };
     // run meta parser
     FILE *spec_file = fopen(spec_filename, "r");
     internal_parser__parse(get_meta_parser(),
         new_input_stream(INPUT_STREAM_MODE_FILE, spec_file, NULL), &user);
     fclose(spec_file);
-
-    // process uLisp routines
-    string_path__access(U_QT, &user.ulisp_routines, NULL,
-        string_path__predicate_1, print_ulisp_routines_apply);
 
     return user.runtime_compiler;
 }

@@ -1,3 +1,5 @@
+#include <libsapling/cc/parse_tree.h>
+#include "aux/parse_tree_stack.h"
 #include "data.h"
 
 void ulisp__production_attibuted_actions2(void *user_ptr, int pid)

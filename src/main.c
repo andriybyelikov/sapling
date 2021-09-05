@@ -10,7 +10,7 @@
 static
 void print_version(void)
 {
-    printf("sapling 20210904-1\n");
+    printf("sapling 20210905-1\n");
     printf("Copyright (C) 2021 Andriy Byelikov\n");
 }
 
@@ -36,6 +36,7 @@ void print_help(void)
     printf("  -print-lexer_automaton    Prints the specification's lexer automaton as a set of states.\n");
     printf("  -dump-lexer-automaton     Dumps the specification's lexer automaton in DOT.\n");
     printf("  -print-slr-tables         Prints the specification's Simple LR parsing tables.\n");
+    printf("  -dump-ulisp-parse-trees   Dumps the specification's uLisp routines' parse trees in DOT.\n");
 }
 
 void print_lexer_output_only(input_stream_t input_stream);

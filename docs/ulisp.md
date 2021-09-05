@@ -4,13 +4,13 @@
 
 `[]` Optional
 
+---
+
 ## Flow control
 
-`if`
+### if
 
-Usage:
-
-`(if (cond) (runs when cond true) [runs when cond false])`
+Usage: `(if (cond) (runs when cond true) [runs when cond false])`
 
 
 ## C standard library function wrappers

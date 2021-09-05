@@ -16,6 +16,7 @@ enum {
     OPTION_PRINT_LEXER_AUTOMATON,
     OPTION_DUMP_LEXER_AUTOMATON,
     OPTION_PRINT_SLR_TABLES,
+    OPTION_DUMP_ULISP_PARSE_TREES,
     NUM_OPTIONS
 };
 
@@ -35,6 +36,7 @@ const char *option_string[] = {
     "-print-lexer-automaton",
     "-dump-lexer-automaton",
     "-print-slr-tables",
+    "-dump-ulisp-parse-trees"
 };
 
 #endif

@@ -8,381 +8,381 @@
 static
 int get_initial_state(void)
 {
-    return 0xa511a840;
+    return 0x27566840;
 }
 
 static
 int next_state(int current_state, char input)
 {
     switch (current_state) {
-    case 0xa511a840:
+    case 0x27566840:
         switch (input) {
         case '\t':
-            return 0xa511a870;
+            return 0x27566870;
         case '\n':
-            return 0xa511a870;
+            return 0x27566870;
         case '\r':
-            return 0xa511a870;
+            return 0x27566870;
         case ' ':
-            return 0xa511a870;
+            return 0x27566870;
         case '\"':
-            return 0xa5386820;
+            return 0x277d2820;
         case '(':
-            return 0xa5120090;
+            return 0x2756c090;
         case ')':
-            return 0xa5121230;
+            return 0x2756d230;
         case '-':
-            return 0xa511e200;
+            return 0x2756a200;
         case '0':
-            return 0xa538d3f0;
+            return 0x277d93f0;
         case '1':
-            return 0xa538d3f0;
+            return 0x277d93f0;
         case '2':
-            return 0xa538d3f0;
+            return 0x277d93f0;
         case '3':
-            return 0xa538d3f0;
+            return 0x277d93f0;
         case '4':
-            return 0xa538d3f0;
+            return 0x277d93f0;
         case '5':
-            return 0xa538d3f0;
+            return 0x277d93f0;
         case '6':
-            return 0xa538d3f0;
+            return 0x277d93f0;
         case '7':
-            return 0xa538d3f0;
+            return 0x277d93f0;
         case '8':
-            return 0xa538d3f0;
+            return 0x277d93f0;
         case '9':
-            return 0xa538d3f0;
+            return 0x277d93f0;
         case 'a':
-            return 0xa5122640;
+            return 0x2756e640;
         case 'b':
-            return 0xa5122640;
+            return 0x2756e640;
         case 'c':
-            return 0xa5122640;
+            return 0x2756e640;
         case 'd':
-            return 0xa5122640;
+            return 0x2756e640;
         case 'e':
-            return 0xa5122640;
+            return 0x2756e640;
         case 'f':
-            return 0xa5122640;
+            return 0x2756e640;
         case 'g':
-            return 0xa5122640;
+            return 0x2756e640;
         case 'h':
-            return 0xa5122640;
+            return 0x2756e640;
         case 'i':
-            return 0xa5122640;
+            return 0x2756e640;
         case 'j':
-            return 0xa5122640;
+            return 0x2756e640;
         case 'k':
-            return 0xa5122640;
+            return 0x2756e640;
         case 'l':
-            return 0xa5122640;
+            return 0x2756e640;
         case 'm':
-            return 0xa5122640;
+            return 0x2756e640;
         case 'n':
-            return 0xa5122640;
+            return 0x2756e640;
         case 'o':
-            return 0xa5122640;
+            return 0x2756e640;
         case 'p':
-            return 0xa5122640;
+            return 0x2756e640;
         case 'q':
-            return 0xa5122640;
+            return 0x2756e640;
         case 'r':
-            return 0xa5122640;
+            return 0x2756e640;
         case 's':
-            return 0xa5122640;
+            return 0x2756e640;
         case 't':
-            return 0xa5122640;
+            return 0x2756e640;
         case 'u':
-            return 0xa5122640;
+            return 0x2756e640;
         case 'v':
-            return 0xa5122640;
+            return 0x2756e640;
         case 'w':
-            return 0xa5122640;
+            return 0x2756e640;
         case 'x':
-            return 0xa5122640;
+            return 0x2756e640;
         case 'y':
-            return 0xa5122640;
+            return 0x2756e640;
         case 'z':
-            return 0xa5122640;
+            return 0x2756e640;
         default:
             return -1;
         }
         break;
-    case 0xa5120090:
+    case 0x2756c090:
         switch (input) {
         default:
             return -1;
         }
         break;
-    case 0xa5121230:
+    case 0x2756d230:
         switch (input) {
         default:
             return -1;
         }
         break;
-    case 0xa5122640:
+    case 0x2756e640:
         switch (input) {
         case '0':
-            return 0xa5122640;
+            return 0x2756e640;
         case '1':
-            return 0xa5122640;
+            return 0x2756e640;
         case '2':
-            return 0xa5122640;
+            return 0x2756e640;
         case '3':
-            return 0xa5122640;
+            return 0x2756e640;
         case '4':
-            return 0xa5122640;
+            return 0x2756e640;
         case '5':
-            return 0xa5122640;
+            return 0x2756e640;
         case '6':
-            return 0xa5122640;
+            return 0x2756e640;
         case '7':
-            return 0xa5122640;
+            return 0x2756e640;
         case '8':
-            return 0xa5122640;
+            return 0x2756e640;
         case '9':
-            return 0xa5122640;
+            return 0x2756e640;
         case '_':
-            return 0xa5122640;
+            return 0x2756e640;
         case 'a':
-            return 0xa5122640;
+            return 0x2756e640;
         case 'b':
-            return 0xa5122640;
+            return 0x2756e640;
         case 'c':
-            return 0xa5122640;
+            return 0x2756e640;
         case 'd':
-            return 0xa5122640;
+            return 0x2756e640;
         case 'e':
-            return 0xa5122640;
+            return 0x2756e640;
         case 'f':
-            return 0xa5122640;
+            return 0x2756e640;
         case 'g':
-            return 0xa5122640;
+            return 0x2756e640;
         case 'h':
-            return 0xa5122640;
+            return 0x2756e640;
         case 'i':
-            return 0xa5122640;
+            return 0x2756e640;
         case 'j':
-            return 0xa5122640;
+            return 0x2756e640;
         case 'k':
-            return 0xa5122640;
+            return 0x2756e640;
         case 'l':
-            return 0xa5122640;
+            return 0x2756e640;
         case 'm':
-            return 0xa5122640;
+            return 0x2756e640;
         case 'n':
-            return 0xa5122640;
+            return 0x2756e640;
         case 'o':
-            return 0xa5122640;
+            return 0x2756e640;
         case 'p':
-            return 0xa5122640;
+            return 0x2756e640;
         case 'q':
-            return 0xa5122640;
+            return 0x2756e640;
         case 'r':
-            return 0xa5122640;
+            return 0x2756e640;
         case 's':
-            return 0xa5122640;
+            return 0x2756e640;
         case 't':
-            return 0xa5122640;
+            return 0x2756e640;
         case 'u':
-            return 0xa5122640;
+            return 0x2756e640;
         case 'v':
-            return 0xa5122640;
+            return 0x2756e640;
         case 'w':
-            return 0xa5122640;
+            return 0x2756e640;
         case 'x':
-            return 0xa5122640;
+            return 0x2756e640;
         case 'y':
-            return 0xa5122640;
+            return 0x2756e640;
         case 'z':
-            return 0xa5122640;
+            return 0x2756e640;
         default:
             return -1;
         }
         break;
-    case 0xa5386820:
+    case 0x277d2820:
         switch (input) {
         case '\"':
-            return 0xa53883d0;
+            return 0x277d43d0;
         case '\\':
-            return 0xa5386df0;
+            return 0x277d2df0;
         default:
-            return 0xa5386820;
+            return 0x277d2820;
         }
         break;
-    case 0xa511e200:
+    case 0x2756a200:
         switch (input) {
         case '-':
-            return 0xa511e260;
+            return 0x2756a260;
         default:
             return -1;
         }
         break;
-    case 0xa5386df0:
+    case 0x277d2df0:
         switch (input) {
         default:
-            return 0xa5386820;
+            return 0x277d2820;
         }
         break;
-    case 0xa53883d0:
+    case 0x277d43d0:
         switch (input) {
         default:
             return -1;
         }
         break;
-    case 0xa511e260:
+    case 0x2756a260:
         switch (input) {
         case '\n':
-            return 0xa511e920;
+            return 0x2756a920;
         default:
-            return 0xa511e260;
+            return 0x2756a260;
         }
         break;
-    case 0xa511e920:
+    case 0x2756a920:
         switch (input) {
         default:
             return -1;
         }
         break;
-    case 0xa538d3f0:
+    case 0x277d93f0:
         switch (input) {
         case '0':
-            return 0xa538d3f0;
+            return 0x277d93f0;
         case '1':
-            return 0xa538d3f0;
+            return 0x277d93f0;
         case '2':
-            return 0xa538d3f0;
+            return 0x277d93f0;
         case '3':
-            return 0xa538d3f0;
+            return 0x277d93f0;
         case '4':
-            return 0xa538d3f0;
+            return 0x277d93f0;
         case '5':
-            return 0xa538d3f0;
+            return 0x277d93f0;
         case '6':
-            return 0xa538d3f0;
+            return 0x277d93f0;
         case '7':
-            return 0xa538d3f0;
+            return 0x277d93f0;
         case '8':
-            return 0xa538d3f0;
+            return 0x277d93f0;
         case '9':
-            return 0xa538d3f0;
+            return 0x277d93f0;
         case 'x':
-            return 0xa53af690;
+            return 0x277fb690;
         default:
             return -1;
         }
         break;
-    case 0xa511a870:
+    case 0x27566870:
         switch (input) {
         case '\t':
-            return 0xa511a870;
+            return 0x27566870;
         case '\n':
-            return 0xa511a870;
+            return 0x27566870;
         case '\r':
-            return 0xa511a870;
+            return 0x27566870;
         case ' ':
-            return 0xa511a870;
+            return 0x27566870;
         default:
             return -1;
         }
         break;
-    case 0xa53af690:
+    case 0x277fb690:
         switch (input) {
         case '0':
-            return 0xa53af690;
+            return 0x277fb690;
         case '1':
-            return 0xa53af870;
+            return 0x277fb870;
         case '2':
-            return 0xa53af870;
+            return 0x277fb870;
         case '3':
-            return 0xa53af870;
+            return 0x277fb870;
         case '4':
-            return 0xa53af870;
+            return 0x277fb870;
         case '5':
-            return 0xa53af870;
+            return 0x277fb870;
         case '6':
-            return 0xa53af870;
+            return 0x277fb870;
         case '7':
-            return 0xa53af870;
+            return 0x277fb870;
         case '8':
-            return 0xa53af870;
+            return 0x277fb870;
         case '9':
-            return 0xa53af870;
+            return 0x277fb870;
         case 'A':
-            return 0xa53af870;
+            return 0x277fb870;
         case 'B':
-            return 0xa53af870;
+            return 0x277fb870;
         case 'C':
-            return 0xa53af870;
+            return 0x277fb870;
         case 'D':
-            return 0xa53af870;
+            return 0x277fb870;
         case 'E':
-            return 0xa53af870;
+            return 0x277fb870;
         case 'F':
-            return 0xa53af870;
+            return 0x277fb870;
         case 'a':
-            return 0xa53af870;
+            return 0x277fb870;
         case 'b':
-            return 0xa53af870;
+            return 0x277fb870;
         case 'c':
-            return 0xa53af870;
+            return 0x277fb870;
         case 'd':
-            return 0xa53af870;
+            return 0x277fb870;
         case 'e':
-            return 0xa53af870;
+            return 0x277fb870;
         case 'f':
-            return 0xa53af870;
+            return 0x277fb870;
         default:
             return -1;
         }
         break;
-    case 0xa53af870:
+    case 0x277fb870:
         switch (input) {
         case '0':
-            return 0xa53af870;
+            return 0x277fb870;
         case '1':
-            return 0xa53af870;
+            return 0x277fb870;
         case '2':
-            return 0xa53af870;
+            return 0x277fb870;
         case '3':
-            return 0xa53af870;
+            return 0x277fb870;
         case '4':
-            return 0xa53af870;
+            return 0x277fb870;
         case '5':
-            return 0xa53af870;
+            return 0x277fb870;
         case '6':
-            return 0xa53af870;
+            return 0x277fb870;
         case '7':
-            return 0xa53af870;
+            return 0x277fb870;
         case '8':
-            return 0xa53af870;
+            return 0x277fb870;
         case '9':
-            return 0xa53af870;
+            return 0x277fb870;
         case 'A':
-            return 0xa53af870;
+            return 0x277fb870;
         case 'B':
-            return 0xa53af870;
+            return 0x277fb870;
         case 'C':
-            return 0xa53af870;
+            return 0x277fb870;
         case 'D':
-            return 0xa53af870;
+            return 0x277fb870;
         case 'E':
-            return 0xa53af870;
+            return 0x277fb870;
         case 'F':
-            return 0xa53af870;
+            return 0x277fb870;
         case 'a':
-            return 0xa53af870;
+            return 0x277fb870;
         case 'b':
-            return 0xa53af870;
+            return 0x277fb870;
         case 'c':
-            return 0xa53af870;
+            return 0x277fb870;
         case 'd':
-            return 0xa53af870;
+            return 0x277fb870;
         case 'e':
-            return 0xa53af870;
+            return 0x277fb870;
         case 'f':
-            return 0xa53af870;
+            return 0x277fb870;
         default:
             return -1;
         }
@@ -396,33 +396,33 @@ static
 int is_accepting_state(int state)
 {
     switch (state) {
-    case 0xa511a840:
+    case 0x27566840:
         return 0;
-    case 0xa5120090:
+    case 0x2756c090:
         return 1;
-    case 0xa5121230:
+    case 0x2756d230:
         return 1;
-    case 0xa5122640:
+    case 0x2756e640:
         return 1;
-    case 0xa5386820:
+    case 0x277d2820:
         return 0;
-    case 0xa511e200:
+    case 0x2756a200:
         return 0;
-    case 0xa5386df0:
+    case 0x277d2df0:
         return 0;
-    case 0xa53883d0:
+    case 0x277d43d0:
         return 1;
-    case 0xa511e260:
+    case 0x2756a260:
         return 0;
-    case 0xa511e920:
+    case 0x2756a920:
         return 1;
-    case 0xa538d3f0:
+    case 0x277d93f0:
         return 1;
-    case 0xa511a870:
+    case 0x27566870:
         return 1;
-    case 0xa53af690:
+    case 0x277fb690:
         return 0;
-    case 0xa53af870:
+    case 0x277fb870:
         return 1;
     }
 }
@@ -431,21 +431,21 @@ static
 int get_class(int state)
 {
     switch (state) {
-    case 0xa5120090:
+    case 0x2756c090:
         return t_lpar;
-    case 0xa5121230:
+    case 0x2756d230:
         return t_rpar;
-    case 0xa5122640:
+    case 0x2756e640:
         return t_symbol;
-    case 0xa53883d0:
+    case 0x277d43d0:
         return t_string;
-    case 0xa511e920:
+    case 0x2756a920:
         return t_gobble__linecomment;
-    case 0xa538d3f0:
+    case 0x277d93f0:
         return t_integer;
-    case 0xa511a870:
+    case 0x27566870:
         return t_gobble__blank;
-    case 0xa53af870:
+    case 0x277fb870:
         return t_hexadecimal;
     }
 }

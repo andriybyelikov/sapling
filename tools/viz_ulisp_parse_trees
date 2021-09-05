@@ -1,0 +1,8 @@
+#! /bin/sh
+
+mkdir -p viz
+while IFS= read line; do
+    filename=$(echo ulisp_parse_tree____$line | sed -e 's/ -> /____/' -e 's/ /__/')
+    read -r line
+    echo -E "$line" | dot -Tsvg -o viz/$filename.svg
+done

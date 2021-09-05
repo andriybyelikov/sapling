@@ -36,3 +36,7 @@ start -> {starting_symbol};
 
 Terminal symbols prefixed with ```t_gobble__``` are not emitted from the lexer
 to the parser.
+
+## uLisp parse trees visualization
+
+From the `build` folder run `./sapling -m ../spec/sample/6502_to_bin -dump-ulisp-parse-trees | sh ../tools/viz_ulisp_parse_trees`

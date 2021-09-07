@@ -39,4 +39,4 @@ to the parser.
 
 ## uLisp parse trees visualization
 
-From the `build` folder run `./sapling -m ../spec/sample/6502_to_bin -dump-ulisp-parse-trees | sh ../tools/viz_ulisp_parse_trees`
+From the `build` folder run `./sapling-backup -m ../spec/sample/6502_to_bin -dump-ulisp-parse-trees | sh ../tools/viz_ulisp_parse_trees`

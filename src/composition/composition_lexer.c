@@ -8,330 +8,354 @@
 static
 int get_initial_state(void)
 {
-    return 0xaa6af810;
+    return 0x1bdb5810;
 }
 
 static
 int next_state(int current_state, char input)
 {
     switch (current_state) {
-    case 0xaa6af810:
+    case 0x1bdb5810:
         switch (input) {
         case '\t':
-            return 0xaa6af840;
+            return 0x1bdb5840;
         case '\n':
-            return 0xaa6af840;
+            return 0x1bdb5840;
         case '\r':
-            return 0xaa6af840;
+            return 0x1bdb5840;
         case ' ':
-            return 0xaa6af840;
+            return 0x1bdb5840;
+        case '-':
+            return 0x1bdb91d0;
         case '.':
-            return 0xaa6b31a0;
+            return 0x1bdbb050;
         case '/':
-            return 0xaa6b31a0;
+            return 0x1bdbb050;
         case '0':
-            return 0xaa6b31a0;
+            return 0x1bdbb050;
         case '1':
-            return 0xaa6b31a0;
+            return 0x1bdbb050;
         case '2':
-            return 0xaa6b31a0;
+            return 0x1bdbb050;
         case '3':
-            return 0xaa6b31a0;
+            return 0x1bdbb050;
         case '4':
-            return 0xaa6b31a0;
+            return 0x1bdbb050;
         case '5':
-            return 0xaa6b31a0;
+            return 0x1bdbb050;
         case '6':
-            return 0xaa6b31a0;
+            return 0x1bdbb050;
         case '7':
-            return 0xaa6b31a0;
+            return 0x1bdbb050;
         case '8':
-            return 0xaa6b31a0;
+            return 0x1bdbb050;
         case '9':
-            return 0xaa6b31a0;
+            return 0x1bdbb050;
         case '<':
-            return 0xab09def0;
+            return 0x1c7a91e0;
         case 'A':
-            return 0xaa6b31a0;
+            return 0x1bdbb050;
         case 'B':
-            return 0xaa6b31a0;
+            return 0x1bdbb050;
         case 'C':
-            return 0xaa6b31a0;
+            return 0x1bdbb050;
         case 'D':
-            return 0xaa6b31a0;
+            return 0x1bdbb050;
         case 'E':
-            return 0xaa6b31a0;
+            return 0x1bdbb050;
         case 'F':
-            return 0xaa6b31a0;
+            return 0x1bdbb050;
         case 'G':
-            return 0xaa6b31a0;
+            return 0x1bdbb050;
         case 'H':
-            return 0xaa6b31a0;
+            return 0x1bdbb050;
         case 'I':
-            return 0xaa6b31a0;
+            return 0x1bdbb050;
         case 'J':
-            return 0xaa6b31a0;
+            return 0x1bdbb050;
         case 'K':
-            return 0xaa6b31a0;
+            return 0x1bdbb050;
         case 'L':
-            return 0xaa6b31a0;
+            return 0x1bdbb050;
         case 'M':
-            return 0xaa6b31a0;
+            return 0x1bdbb050;
         case 'N':
-            return 0xaa6b31a0;
+            return 0x1bdbb050;
         case 'O':
-            return 0xaa6b31a0;
+            return 0x1bdbb050;
         case 'P':
-            return 0xaa6b31a0;
+            return 0x1bdbb050;
         case 'Q':
-            return 0xaa6b31a0;
+            return 0x1bdbb050;
         case 'R':
-            return 0xaa6b31a0;
+            return 0x1bdbb050;
         case 'S':
-            return 0xaa6b31a0;
+            return 0x1bdbb050;
         case 'T':
-            return 0xaa6b31a0;
+            return 0x1bdbb050;
         case 'U':
-            return 0xaa6b31a0;
+            return 0x1bdbb050;
         case 'V':
-            return 0xaa6b31a0;
+            return 0x1bdbb050;
         case 'W':
-            return 0xaa6b31a0;
+            return 0x1bdbb050;
         case 'X':
-            return 0xaa6b31a0;
+            return 0x1bdbb050;
         case 'Y':
-            return 0xaa6b31a0;
+            return 0x1bdbb050;
         case 'Z':
-            return 0xaa6b31a0;
+            return 0x1bdbb050;
         case '\\':
-            return 0xaa6b31a0;
+            return 0x1bdbb050;
         case ']':
-            return 0xaa6b31a0;
+            return 0x1bdbb050;
         case '^':
-            return 0xaa6b31a0;
+            return 0x1bdbb050;
         case '_':
-            return 0xaa6b31a0;
+            return 0x1bdbb050;
         case 'a':
-            return 0xaa6b31a0;
+            return 0x1bdbb050;
         case 'b':
-            return 0xaa6b31a0;
+            return 0x1bdbb050;
         case 'c':
-            return 0xaa6b31a0;
+            return 0x1bdbb050;
         case 'd':
-            return 0xaa6b31a0;
+            return 0x1bdbb050;
         case 'e':
-            return 0xaa6b31a0;
+            return 0x1bdbb050;
         case 'f':
-            return 0xaa6b31a0;
+            return 0x1bdbb050;
         case 'g':
-            return 0xaa6b31a0;
+            return 0x1bdbb050;
         case 'h':
-            return 0xaa6b31a0;
+            return 0x1bdbb050;
         case 'i':
-            return 0xaa6b31a0;
+            return 0x1bdbb050;
         case 'j':
-            return 0xaa6b31a0;
+            return 0x1bdbb050;
         case 'k':
-            return 0xaa6b31a0;
+            return 0x1bdbb050;
         case 'l':
-            return 0xaa6b31a0;
+            return 0x1bdbb050;
         case 'm':
-            return 0xaa6b31a0;
+            return 0x1bdbb050;
         case 'n':
-            return 0xaa6b31a0;
+            return 0x1bdbb050;
         case 'o':
-            return 0xaa6b31a0;
+            return 0x1bdbb050;
         case 'p':
-            return 0xaa6b31a0;
+            return 0x1bdbb050;
         case 'q':
-            return 0xaa6b31a0;
+            return 0x1bdbb050;
         case 'r':
-            return 0xaa6b31a0;
+            return 0x1bdbb050;
         case 's':
-            return 0xaa6b31a0;
+            return 0x1bdbb050;
         case 't':
-            return 0xaa6b31a0;
+            return 0x1bdbb050;
         case 'u':
-            return 0xaa6b31a0;
+            return 0x1bdbb050;
         case 'v':
-            return 0xaa6b31a0;
+            return 0x1bdbb050;
         case 'w':
-            return 0xaa6b31a0;
+            return 0x1bdbb050;
         case 'x':
-            return 0xaa6b31a0;
+            return 0x1bdbb050;
         case 'y':
-            return 0xaa6b31a0;
+            return 0x1bdbb050;
         case 'z':
-            return 0xaa6b31a0;
+            return 0x1bdbb050;
         default:
             return -1;
         }
         break;
-    case 0xaa6b31a0:
+    case 0x1bdb91d0:
+        switch (input) {
+        case '-':
+            return 0x1bdb9230;
+        default:
+            return -1;
+        }
+        break;
+    case 0x1bdbb050:
         switch (input) {
         case '.':
-            return 0xaa6b31a0;
+            return 0x1bdbb050;
         case '/':
-            return 0xaa6b31a0;
+            return 0x1bdbb050;
         case '0':
-            return 0xaa6b31a0;
+            return 0x1bdbb050;
         case '1':
-            return 0xaa6b31a0;
+            return 0x1bdbb050;
         case '2':
-            return 0xaa6b31a0;
+            return 0x1bdbb050;
         case '3':
-            return 0xaa6b31a0;
+            return 0x1bdbb050;
         case '4':
-            return 0xaa6b31a0;
+            return 0x1bdbb050;
         case '5':
-            return 0xaa6b31a0;
+            return 0x1bdbb050;
         case '6':
-            return 0xaa6b31a0;
+            return 0x1bdbb050;
         case '7':
-            return 0xaa6b31a0;
+            return 0x1bdbb050;
         case '8':
-            return 0xaa6b31a0;
+            return 0x1bdbb050;
         case '9':
-            return 0xaa6b31a0;
+            return 0x1bdbb050;
         case 'A':
-            return 0xaa6b31a0;
+            return 0x1bdbb050;
         case 'B':
-            return 0xaa6b31a0;
+            return 0x1bdbb050;
         case 'C':
-            return 0xaa6b31a0;
+            return 0x1bdbb050;
         case 'D':
-            return 0xaa6b31a0;
+            return 0x1bdbb050;
         case 'E':
-            return 0xaa6b31a0;
+            return 0x1bdbb050;
         case 'F':
-            return 0xaa6b31a0;
+            return 0x1bdbb050;
         case 'G':
-            return 0xaa6b31a0;
+            return 0x1bdbb050;
         case 'H':
-            return 0xaa6b31a0;
+            return 0x1bdbb050;
         case 'I':
-            return 0xaa6b31a0;
+            return 0x1bdbb050;
         case 'J':
-            return 0xaa6b31a0;
+            return 0x1bdbb050;
         case 'K':
-            return 0xaa6b31a0;
+            return 0x1bdbb050;
         case 'L':
-            return 0xaa6b31a0;
+            return 0x1bdbb050;
         case 'M':
-            return 0xaa6b31a0;
+            return 0x1bdbb050;
         case 'N':
-            return 0xaa6b31a0;
+            return 0x1bdbb050;
         case 'O':
-            return 0xaa6b31a0;
+            return 0x1bdbb050;
         case 'P':
-            return 0xaa6b31a0;
+            return 0x1bdbb050;
         case 'Q':
-            return 0xaa6b31a0;
+            return 0x1bdbb050;
         case 'R':
-            return 0xaa6b31a0;
+            return 0x1bdbb050;
         case 'S':
-            return 0xaa6b31a0;
+            return 0x1bdbb050;
         case 'T':
-            return 0xaa6b31a0;
+            return 0x1bdbb050;
         case 'U':
-            return 0xaa6b31a0;
+            return 0x1bdbb050;
         case 'V':
-            return 0xaa6b31a0;
+            return 0x1bdbb050;
         case 'W':
-            return 0xaa6b31a0;
+            return 0x1bdbb050;
         case 'X':
-            return 0xaa6b31a0;
+            return 0x1bdbb050;
         case 'Y':
-            return 0xaa6b31a0;
+            return 0x1bdbb050;
         case 'Z':
-            return 0xaa6b31a0;
+            return 0x1bdbb050;
         case '\\':
-            return 0xaa6b31a0;
+            return 0x1bdbb050;
         case ']':
-            return 0xaa6b31a0;
+            return 0x1bdbb050;
         case '^':
-            return 0xaa6b31a0;
+            return 0x1bdbb050;
         case '_':
-            return 0xaa6b31a0;
+            return 0x1bdbb050;
         case 'a':
-            return 0xaa6b31a0;
+            return 0x1bdbb050;
         case 'b':
-            return 0xaa6b31a0;
+            return 0x1bdbb050;
         case 'c':
-            return 0xaa6b31a0;
+            return 0x1bdbb050;
         case 'd':
-            return 0xaa6b31a0;
+            return 0x1bdbb050;
         case 'e':
-            return 0xaa6b31a0;
+            return 0x1bdbb050;
         case 'f':
-            return 0xaa6b31a0;
+            return 0x1bdbb050;
         case 'g':
-            return 0xaa6b31a0;
+            return 0x1bdbb050;
         case 'h':
-            return 0xaa6b31a0;
+            return 0x1bdbb050;
         case 'i':
-            return 0xaa6b31a0;
+            return 0x1bdbb050;
         case 'j':
-            return 0xaa6b31a0;
+            return 0x1bdbb050;
         case 'k':
-            return 0xaa6b31a0;
+            return 0x1bdbb050;
         case 'l':
-            return 0xaa6b31a0;
+            return 0x1bdbb050;
         case 'm':
-            return 0xaa6b31a0;
+            return 0x1bdbb050;
         case 'n':
-            return 0xaa6b31a0;
+            return 0x1bdbb050;
         case 'o':
-            return 0xaa6b31a0;
+            return 0x1bdbb050;
         case 'p':
-            return 0xaa6b31a0;
+            return 0x1bdbb050;
         case 'q':
-            return 0xaa6b31a0;
+            return 0x1bdbb050;
         case 'r':
-            return 0xaa6b31a0;
+            return 0x1bdbb050;
         case 's':
-            return 0xaa6b31a0;
+            return 0x1bdbb050;
         case 't':
-            return 0xaa6b31a0;
+            return 0x1bdbb050;
         case 'u':
-            return 0xaa6b31a0;
+            return 0x1bdbb050;
         case 'v':
-            return 0xaa6b31a0;
+            return 0x1bdbb050;
         case 'w':
-            return 0xaa6b31a0;
+            return 0x1bdbb050;
         case 'x':
-            return 0xaa6b31a0;
+            return 0x1bdbb050;
         case 'y':
-            return 0xaa6b31a0;
+            return 0x1bdbb050;
         case 'z':
-            return 0xaa6b31a0;
+            return 0x1bdbb050;
         default:
             return -1;
         }
         break;
-    case 0xab09def0:
+    case 0x1bdb9230:
+        switch (input) {
+        case '\n':
+            return 0x1bdb98f0;
+        default:
+            return 0x1bdb9230;
+        }
+        break;
+    case 0x1bdb98f0:
+        switch (input) {
+        default:
+            return -1;
+        }
+        break;
+    case 0x1c7a91e0:
         switch (input) {
         case '>':
-            return 0xab09e5b0;
+            return 0x1c7a98a0;
         default:
-            return 0xab09def0;
+            return 0x1c7a91e0;
         }
         break;
-    case 0xaa6af840:
+    case 0x1bdb5840:
         switch (input) {
         case '\t':
-            return 0xaa6af840;
+            return 0x1bdb5840;
         case '\n':
-            return 0xaa6af840;
+            return 0x1bdb5840;
         case '\r':
-            return 0xaa6af840;
+            return 0x1bdb5840;
         case ' ':
-            return 0xaa6af840;
+            return 0x1bdb5840;
         default:
             return -1;
         }
         break;
-    case 0xab09e5b0:
+    case 0x1c7a98a0:
         switch (input) {
         default:
             return -1;
@@ -346,15 +370,21 @@ static
 int is_accepting_state(int state)
 {
     switch (state) {
-    case 0xaa6af810:
+    case 0x1bdb5810:
         return 0;
-    case 0xaa6b31a0:
-        return 1;
-    case 0xab09def0:
+    case 0x1bdb91d0:
         return 0;
-    case 0xaa6af840:
+    case 0x1bdbb050:
         return 1;
-    case 0xab09e5b0:
+    case 0x1bdb9230:
+        return 0;
+    case 0x1bdb98f0:
+        return 1;
+    case 0x1c7a91e0:
+        return 0;
+    case 0x1bdb5840:
+        return 1;
+    case 0x1c7a98a0:
         return 1;
     }
 }
@@ -363,11 +393,13 @@ static
 int get_class(int state)
 {
     switch (state) {
-    case 0xaa6b31a0:
+    case 0x1bdbb050:
         return t_symbol;
-    case 0xaa6af840:
+    case 0x1bdb98f0:
+        return t_gobble__linecomment;
+    case 0x1bdb5840:
         return t_gobble__blank;
-    case 0xab09e5b0:
+    case 0x1c7a98a0:
         return t_frag_code;
     }
 }
@@ -377,6 +409,8 @@ int class_has_gobble_modifier(int class)
 {
     switch (class) {
     case t_gobble__blank:
+        return 1;
+    case t_gobble__linecomment:
         return 1;
     default:
         return 0;

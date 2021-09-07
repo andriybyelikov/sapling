@@ -5,6 +5,7 @@
 #include <libsapling/dm/trie.h>
 #include <libsapling/cc/text.h>
 #include <libsapling/cc/parse_tree.h>
+#include <libsapling/cc/parser/aux/symbol_set.h>
 #include <libsapling/cc/parser/aux/production_set.h>
 #include <libsapling/cc/parser/slr.h>
 #include "aux/parse_tree_stack.h"
@@ -13,22 +14,8 @@
 #include "data.h"
 #include "ulisp/ulisp_parser.h"
 #include "aux/ulisp_parse_tree_list.h"
-
-
-typedef struct {
-    int id;
-    const char *str;
-} idxstr_t;
-
-static
-void idxstr__print(FILE *stream, const void *data)
-{
-    idxstr_t *a = (idxstr_t *)data;
-    fprintf(stream, "(%d, \"%s\")", a->id, a->str);
-}
-
-IMPLEMENT_TYPED_AVL(idxstr_avl, idxstr_t, int__compare, int__equals,
-    idxstr__print)
+#include "aux/int_trie.h"
+#include "aux/string_to_int_avl.h"
 
 
 static
@@ -46,14 +33,6 @@ void print_avl_str_line_by_line(FILE *stream, node_t *ref)
         print_avl_str_line_by_line_apply);
 }
 
-
-static
-void apply_get_str(idxstr_t *data, void *info)
-{
-    CAST_USER_INFO(idxstr_t *, idxstr, info);
-
-    idxstr->str = data->str;
-}
 
 struct info_dump_ulisp_parse_tree {
     int i;
@@ -86,50 +65,42 @@ void print_production_apply(production_t *data, void *info)
 
     production_t prod = *data;
 
-    idxstr_t idxstr = {
-        production__id(prod) - idxstr_avl__length(terminals), NULL };
-    idxstr_avl__access(E_QT, nonterminals, &idxstr, idxstr_avl__equ_predicate,
-        apply_get_str);
-
-    fprintf(stream, "%s -> ", idxstr.str);
+    fprintf(stream, "%s -> ", idxstr_get_string(nonterminals,
+        production__id(prod) - idxstr_avl__length(terminals)));
 
     int i;
     for (i = 0; i < production__len(prod) - 1; i++) {
         int id = *production__get(prod, i);
-        idxstr.id = id;
-        idxstr.str = NULL;
+        const char *str = NULL;
         if (id < idxstr_avl__length(terminals)) {
-            idxstr_avl__access(E_QT, terminals, &idxstr,
-                idxstr_avl__equ_predicate, apply_get_str);
+            str = idxstr_get_string(terminals, id);
         } else {
-            idxstr.id -= idxstr_avl__length(terminals);
-            idxstr_avl__access(E_QT, nonterminals, &idxstr,
-                idxstr_avl__equ_predicate, apply_get_str);
+            id -= idxstr_avl__length(terminals);
+            str = idxstr_get_string(nonterminals, id);
         }
-        fprintf(stream, "%s ", idxstr.str);
+        fprintf(stream, "%s ", str);
     }
     int id = *production__get(prod, i);
-    idxstr.id = id;
-    idxstr.str = NULL;
+    const char *str = NULL;
     if (id < idxstr_avl__length(terminals)) {
-        idxstr_avl__access(E_QT, terminals, &idxstr,
-            idxstr_avl__equ_predicate, apply_get_str);
+        str = idxstr_get_string(terminals, id);
     } else {
-        idxstr.id -= idxstr_avl__length(terminals);
-        idxstr_avl__access(E_QT, nonterminals, &idxstr,
-            idxstr_avl__equ_predicate, apply_get_str);
+        id -= idxstr_avl__length(terminals);
+        str = idxstr_get_string(nonterminals, id);
     }
-    fprintf(stream, "%s\n", idxstr.str);
+    fprintf(stream, "%s\n", str);
 
     // print uLisp parse tree for this production
-    if ((user->ulisp_parse_trees) != NULL
-            &&ulisp_parse_tree_avl__in(
-                user->ulisp_parse_trees, (pidxpt_t){ .prod_id = user->i })) {
-        struct info_dump_ulisp_parse_tree idupt = { user->i, stream };
-        ulisp_parse_tree_avl__access(E_QT, user->ulisp_parse_trees, &idupt,
-            ulisp_parse_tree_avl__equ_predicate, dump_ulisp_parse_tree_apply);
-    } else {
-        fprintf(stream, "\n");
+    if ((user->ulisp_parse_trees) != NULL) {
+        if (ulisp_parse_tree_avl__in(user->ulisp_parse_trees,
+                (pidxpt_t){ .prod_id = user->i })) {
+            struct info_dump_ulisp_parse_tree idupt = { user->i, stream };
+            ulisp_parse_tree_avl__access(E_QT, user->ulisp_parse_trees, &idupt,
+                ulisp_parse_tree_avl__equ_predicate,
+                dump_ulisp_parse_tree_apply);
+        } else {
+            fprintf(stream, "\n");
+        }
     }
     user->i++;
 }
@@ -144,16 +115,6 @@ void print_production_human_readable(FILE *stream, node_t *productions,
         production_path__predicate_1, print_production_apply);
 }
 
-
-IMPLEMENT_TYPED_TRIE(int_trie, int, int__print)
-
-static
-void apply_get_id(int *data, void *info)
-{
-    CAST_USER_INFO(int *, id, info);
-
-    *id = **(int **)data;
-}
 
 static
 int get_or_assign_id_to_grammar_symbol(const char *symstr, node_t *terminals,
@@ -201,7 +162,8 @@ void meta__production_attibuted_actions2(void *user_ptr, int pid)
                     &user->terminals2, &user->nonterminals2, NULL);
             }
             if (user->options[OPTION_DUMP_PARSE_TREE]) {
-                node_t root = parse_tree_stack__access(&user->parse_tree_stack);
+                node_t root =
+                    parse_tree_stack__access(&user->parse_tree_stack);
                 parse_tree__dump_dot(stdout, &root);
             }
             if (user->options[OPTION_DUMP_LEXER_AUTOMATON]) {
@@ -231,7 +193,16 @@ void meta__production_attibuted_actions2(void *user_ptr, int pid)
                 node_t *lexer = malloc(sizeof(node_t));
                 *lexer = user->lexer_final;
 
-                grammar_t g = new_grammar(&user->productions,
+                node_t *terminals = malloc(sizeof(node_t));
+                *terminals = user->terminals;
+
+                node_t *nonterminals = malloc(sizeof(node_t));
+                *nonterminals = user->nonterminals2;
+
+                node_t *productions = malloc(sizeof(node_t));
+                *productions = user->productions;
+
+                grammar_t g = new_grammar(productions,
                     idxstr_avl__length(&user->terminals2),
                     idxstr_avl__length(&user->terminals2)
                         + idxstr_avl__length(&user->nonterminals2));
@@ -240,8 +211,11 @@ void meta__production_attibuted_actions2(void *user_ptr, int pid)
                 action_table_t at = action_table__build(g, C);
                 goto_table_t gt = goto_table__build(g, C);
 
-                user->runtime_compiler =
-                    new_runtime_compiler(lexer, at, gt);
+                node_t *ulisp_parse_trees = malloc(sizeof(node_t));
+                *ulisp_parse_trees = user->ulisp_parse_trees;
+
+                user->runtime_compiler = new_runtime_compiler(lexer, terminals,
+                    nonterminals, g, at, gt, ulisp_parse_trees);
             }
         }
         break;
@@ -252,9 +226,12 @@ void meta__production_attibuted_actions2(void *user_ptr, int pid)
     case 3: // production -> t_symbol t_rightarrow expr t_terminator;
         {
             // push expr automaton to symbol table indexed by t_symbol
-            node_t _production = parse_tree_stack__access(&user->parse_tree_stack);
-            node_t t_symbol = parse_tree__get_child_by_string(&_production, "t_symbol");
-            node_t lx = parse_tree__get_child_by_position(&t_symbol, 0); // lexeme
+            node_t _production =
+                parse_tree_stack__access(&user->parse_tree_stack);
+            node_t t_symbol =
+                parse_tree__get_child_by_string(&_production,"t_symbol");
+            // lexeme
+            node_t lx = parse_tree__get_child_by_position(&t_symbol, 0);
             const char *id = *parse_tree__data(lx);
 
             if (!strcmp(id, "start")) {

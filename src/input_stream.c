@@ -7,6 +7,7 @@ struct input_stream {
     FILE *file;
     const char *array;
     int cursor;
+    size_t size;
 };
 
 
@@ -25,7 +26,10 @@ char input_stream__getc(input_stream_t input_stream)
     if (input_stream->mode == INPUT_STREAM_MODE_FILE) {
         return getc(input_stream->file);
     } else {
-        if (input_stream->array[input_stream->cursor] == 0)
+        if ((input_stream->mode == INPUT_STREAM_MODE_ARRAY
+                    && input_stream->array[input_stream->cursor] == 0)
+                || input_stream->mode == INPUT_STREAM_MODE_BINARY_ARRAY
+                    && input_stream->cursor == input_stream->size)
             return EOF;
         else
             return input_stream->array[input_stream->cursor++];
@@ -39,4 +43,9 @@ void input_stream__ungetc(input_stream_t input_stream, char c)
     } else {
         input_stream->cursor--;
     }
+}
+
+const char *input_stream__get_array(input_stream_t input_stream)
+{
+    return input_stream->array;
 }

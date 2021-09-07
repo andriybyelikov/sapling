@@ -1,0 +1,16 @@
+t_gobble__blank -> [ \t\r\n]+;
+t_word          -> [a-z]+;
+
+start -> vegetables;
+vegetables -> vegetable vegetables | vegetable;
+vegetable -> t_word
+<
+    (if (strequ (lexeme "t_word") "col")
+        (emit_line "col")
+    (if (strequ (lexeme "t_word") "patata")
+        (emit_line "patata")
+    (if (strequ (lexeme "t_word") "tomate")
+        (emit_line "tomatiga")
+        (nil)
+    )))
+>;

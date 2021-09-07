@@ -1,0 +1,9 @@
+t_gobble__blank -> [ \t\r\n]+;
+t_hexadecimal   -> "0x"[0-9A-Fa-f]*; -- buggy kleene plus, use kleene star
+
+start  -> values;
+values -> value values | value;
+value  -> t_hexadecimal
+<
+    (emit_byte (strtol (lexeme "t_hexadecimal")))
+>;

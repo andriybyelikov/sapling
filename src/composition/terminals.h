@@ -5,6 +5,7 @@
 
 enum {
     t_gobble__blank,
+    t_gobble__linecomment,
     t_symbol,
     t_frag_code,
     t_eof,
@@ -14,6 +15,7 @@ enum {
 static
 char *terminal_string[] = {
     "t_gobble__blank",
+    "t_gobble__linecomment",
     "t_symbol",
     "t_frag_code",
     "t_eof",

@@ -1,0 +1,14 @@
+fragment
+    ../spec/vegetables/english_to_castilian
+    ../spec/vegetables/castilian_to_catalan
+    ../spec/vegetables/catalan_to_polish
+<
+    cabbage
+    potato
+    tomato
+>
+
+fragment ../spec/sample/hex_to_bin
+<
+    0x0a 0x68 0x65 0x6c 0x6c 0x6f 0x0a
+>

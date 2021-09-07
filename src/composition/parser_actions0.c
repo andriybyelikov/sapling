@@ -17,10 +17,10 @@ void parser_goto(node_t *state_stack, int gsym)
     switch (state_stack__access(state_stack)) {
     case 0:
         switch (gsym) {
-        case 5:
+        case 6:
             state_stack__insert(state_stack, 2);
             break;
-        case 6:
+        case 7:
             state_stack__insert(state_stack, 3);
             break;
         default:
@@ -30,7 +30,7 @@ void parser_goto(node_t *state_stack, int gsym)
         break;
     case 1:
         switch (gsym) {
-        case 7:
+        case 8:
             state_stack__insert(state_stack, 5);
             break;
         default:
@@ -47,10 +47,10 @@ void parser_goto(node_t *state_stack, int gsym)
         break;
     case 3:
         switch (gsym) {
-        case 5:
+        case 6:
             state_stack__insert(state_stack, 6);
             break;
-        case 6:
+        case 7:
             state_stack__insert(state_stack, 3);
             break;
         default:
@@ -60,7 +60,7 @@ void parser_goto(node_t *state_stack, int gsym)
         break;
     case 4:
         switch (gsym) {
-        case 7:
+        case 8:
             state_stack__insert(state_stack, 7);
             break;
         default:
@@ -117,7 +117,7 @@ void composition__parser_actions0(void *user_ptr, node_t *state_stack, terminal_
             int reduction_ocurred = 0;
             /* handle terminals (ACTION table) */
             switch (terminal__id(terminal)) {
-            case 1:
+            case 2:
                 composition__pre_shift_action1(user_ptr, terminal);
                 internal_parser__shift(parser, 1);
                 break;
@@ -141,7 +141,7 @@ void composition__parser_actions0(void *user_ptr, node_t *state_stack, terminal_
             int reduction_ocurred = 0;
             /* handle terminals (ACTION table) */
             switch (terminal__id(terminal)) {
-            case 1:
+            case 2:
                 composition__pre_shift_action1(user_ptr, terminal);
                 internal_parser__shift(parser, 4);
                 break;
@@ -165,7 +165,7 @@ void composition__parser_actions0(void *user_ptr, node_t *state_stack, terminal_
             int reduction_ocurred = 0;
             /* handle terminals (ACTION table) */
             switch (terminal__id(terminal)) {
-            case 3:
+            case 4:
                 internal_parser__reduce(parser, 0);
                 composition__post_reduce_action1(user_ptr, 0);
                 composition__production_attibuted_actions2(user_ptr, 0);
@@ -191,11 +191,11 @@ void composition__parser_actions0(void *user_ptr, node_t *state_stack, terminal_
             int reduction_ocurred = 0;
             /* handle terminals (ACTION table) */
             switch (terminal__id(terminal)) {
-            case 1:
+            case 2:
                 composition__pre_shift_action1(user_ptr, terminal);
                 internal_parser__shift(parser, 1);
                 break;
-            case 3:
+            case 4:
                 internal_parser__reduce(parser, 2);
                 composition__post_reduce_action1(user_ptr, 2);
                 composition__production_attibuted_actions2(user_ptr, 2);
@@ -221,11 +221,11 @@ void composition__parser_actions0(void *user_ptr, node_t *state_stack, terminal_
             int reduction_ocurred = 0;
             /* handle terminals (ACTION table) */
             switch (terminal__id(terminal)) {
-            case 1:
+            case 2:
                 composition__pre_shift_action1(user_ptr, terminal);
                 internal_parser__shift(parser, 4);
                 break;
-            case 2:
+            case 3:
                 internal_parser__reduce(parser, 5);
                 composition__post_reduce_action1(user_ptr, 5);
                 composition__production_attibuted_actions2(user_ptr, 5);
@@ -251,7 +251,7 @@ void composition__parser_actions0(void *user_ptr, node_t *state_stack, terminal_
             int reduction_ocurred = 0;
             /* handle terminals (ACTION table) */
             switch (terminal__id(terminal)) {
-            case 2:
+            case 3:
                 composition__pre_shift_action1(user_ptr, terminal);
                 internal_parser__shift(parser, 8);
                 break;
@@ -275,7 +275,7 @@ void composition__parser_actions0(void *user_ptr, node_t *state_stack, terminal_
             int reduction_ocurred = 0;
             /* handle terminals (ACTION table) */
             switch (terminal__id(terminal)) {
-            case 3:
+            case 4:
                 internal_parser__reduce(parser, 1);
                 composition__post_reduce_action1(user_ptr, 1);
                 composition__production_attibuted_actions2(user_ptr, 1);
@@ -301,7 +301,7 @@ void composition__parser_actions0(void *user_ptr, node_t *state_stack, terminal_
             int reduction_ocurred = 0;
             /* handle terminals (ACTION table) */
             switch (terminal__id(terminal)) {
-            case 2:
+            case 3:
                 internal_parser__reduce(parser, 4);
                 composition__post_reduce_action1(user_ptr, 4);
                 composition__production_attibuted_actions2(user_ptr, 4);
@@ -327,13 +327,13 @@ void composition__parser_actions0(void *user_ptr, node_t *state_stack, terminal_
             int reduction_ocurred = 0;
             /* handle terminals (ACTION table) */
             switch (terminal__id(terminal)) {
-            case 1:
+            case 2:
                 internal_parser__reduce(parser, 3);
                 composition__post_reduce_action1(user_ptr, 3);
                 composition__production_attibuted_actions2(user_ptr, 3);
                 reduction_ocurred = 1;
                 break;
-            case 3:
+            case 4:
                 internal_parser__reduce(parser, 3);
                 composition__post_reduce_action1(user_ptr, 3);
                 composition__production_attibuted_actions2(user_ptr, 3);

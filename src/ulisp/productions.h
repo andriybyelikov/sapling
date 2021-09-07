@@ -17,6 +17,7 @@ const int production_symbol[] = {
     arg,
     arg,
     arg,
+    arg,
 };
 
 static
@@ -24,8 +25,9 @@ const int production_length[] = {
     1,
     2,
     1,
-    4,
+    3,
     2,
+    1,
     1,
     1,
     1,

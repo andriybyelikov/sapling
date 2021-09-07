@@ -1,13 +1,14 @@
 t_gobble__blank -> [ \t\r\n]+;
-t_mnemonic      -> [A-Z][A-Z][A-Z];
+t_mnemonic      -> [A-Z]+;
 
 start             -> instructions;
 instructions      -> instruction instructions | instruction;
 instruction       -> t_mnemonic
 <
     (if (strequ (lexeme "t_mnemonic") "SEI")
-        (emit_byte (strtol 0x78))
+        (emit_byte 0x78)
     (if (strequ (lexeme "t_mnemonic") "CLD")
-        (emit_byte (strtol 0xD8))
+        (emit_byte 0xD8)
+        (nil)
     ))
 >;

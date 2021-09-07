@@ -6,4 +6,7 @@
 
 IMPLEMENT_TYPED_TRIE(compiler_cache, runtime_compiler_t, NULL)
 
+runtime_compiler_t compiler_cache__get_compiler(node_t *cache,
+    const char *key);
+
 #endif

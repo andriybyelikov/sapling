@@ -1,5 +1,24 @@
+-- iNES Header
+-- https://wiki.nesdev.com/w/index.php/INES
+
+fragment ../spec/sample/hex_to_bin
+<
+    0x4E 0x45 0x53 0x1A 0x01 0x01 0x00 0x00
+    0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00
+>
+
+
+-- NES init code
+-- https://wiki.nesdev.com/w/index.php/Init_code
+
 fragment ../spec/sample/6502_to_bin
 <
     SEI
     CLD
 >
+
+
+--  fragment ../spec/sample/ulisp_to_6502 ../spec/sample/6502_to_bin
+--  <
+--      (print "HELLO SAPLING")
+--  >

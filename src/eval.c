@@ -7,7 +7,8 @@
 #include "aux/parse_tree_stack.h"
 
 //#define ULISP_EXPLAIN_EVAL_ORDER
-#define ULISP_LOG_STACK
+//#define ULISP_LOG_STACK
+//#define ULISP_LOG_OUTPUTTED
 
 #define child(ref, string) parse_tree__get_child_by_string(ref, string)
 #define num_children(node) parse_tree__num_children(node)
@@ -346,6 +347,9 @@ struct atom *call_function(const char *name, node_t *pts, output_stream_t out,
             assert(val.type == ATOM_INT);
         }
         output_stream__putc(out, val.value);
+        #ifdef ULISP_LOG_OUTPUTTED
+        fprintf(stderr, "emit_byte %x\n", val.value);
+        #endif
         return NULL;
     } else if (!strcmp(name, "strtol")) {
         // take 1 argument

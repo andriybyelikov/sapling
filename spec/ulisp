@@ -11,4 +11,4 @@ start -> lists;
 lists -> list lists | list;
 list  -> t_lpar args t_rpar;
 args  -> arg args | arg;
-arg   -> t_symbol | t_string | t_integer | t_hexadecimal | lists;
+arg   -> t_symbol | t_string | t_integer | t_hexadecimal | list;

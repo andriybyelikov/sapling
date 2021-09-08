@@ -1,0 +1,12 @@
+fragment ../spec/sample/lists
+<
+    (if 1 (emit_byte 0x00) (emit_byte 0x01))
+    (if (strequ (lexeme "t_mnemonic") "SEI")
+        (emit_byte 0x78)
+    (if (strequ (lexeme "t_mnemonic") "CLD")
+        (emit_byte 0xD8)
+        (nil)
+    ))
+>
+
+

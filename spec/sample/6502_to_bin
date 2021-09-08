@@ -1,9 +1,21 @@
 t_gobble__blank -> [ \t\r\n]+;
 t_mnemonic      -> [A-Z]+;
+t_directive     -> "."[a-z]*; -- buggy kleene plus, use kleene star
+t_symbol        -> [a-z][a-z0-9_]*;
+t_colon         -> ":";
+t_immediate     -> "#";
+t_hex           -> "$"[0-9A-Fa-f]*;
+t_with_x_reg    -> ",X";
 
-start             -> instructions;
-instructions      -> instruction instructions | instruction;
-instruction       -> t_mnemonic
+start       -> expressions;
+expressions -> expression expressions | expression;
+expression  -> instruction | directive | label;
+
+instruction ->
+t_mnemonic operand
+<
+    (emit_byte 0x42)
+>| t_mnemonic
 <
     (if (strequ (lexeme "t_mnemonic") "SEI")
         (emit_byte 0x78)
@@ -12,3 +24,11 @@ instruction       -> t_mnemonic
         (nil)
     ))
 >;
+
+
+operand -> t_immediate t_hex | t_hex t_with_x_reg | t_hex | t_symbol;
+
+directive -> t_directive darg | t_directive;
+darg -> t_hex | t_symbol;
+
+label -> t_symbol t_colon | t_symbol;

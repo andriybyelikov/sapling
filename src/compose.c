@@ -44,7 +44,9 @@ runtime_compiler_t compile_compiler(const char *spec_filename, void *user_ptr)
         .productions = NULL,
         .composition_mode = 1,
         .ulisp_parse_trees = NULL,
-        .gsym_strtoi = NULL
+        .gsym_strtoi = NULL,
+        .cnt_prod = 0,
+        .last_prod = -1
     };
     // run meta parser
     FILE *spec_file = fopen(spec_filename, "r");
@@ -118,12 +120,12 @@ struct lexer_output next_terminal(node_t *lexer, struct lexer_state *lsta,
     } while (lo.is_gobble);
 
     // debug log
-    char *esc_lexeme = malloc(2 * strlen(lsta->lexeme));
+    /*char *esc_lexeme = malloc(2 * strlen(lsta->lexeme));
     text__escape(esc_lexeme, lsta->lexeme);
     fprintf(stderr, "(%d, \"%s\", \"%s\", %d)\n", lo.id, lo.symbol,
         (strcmp(lo.symbol, "t_eof") != 0) ? esc_lexeme: "",
         lo.is_gobble);
-    free(esc_lexeme);
+    free(esc_lexeme);*/
 
     return lo;
 }

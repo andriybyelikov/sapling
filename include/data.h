@@ -34,6 +34,8 @@ struct data_meta {
     runtime_compiler_t runtime_compiler; // write compiler here
     node_t ulisp_parse_trees;
     node_t gsym_strtoi;
+    int cnt_prod;
+    int last_prod; // last prod with associated ulisp routine
 };
 
 struct data_composition {

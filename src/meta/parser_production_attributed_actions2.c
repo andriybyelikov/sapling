@@ -320,6 +320,7 @@ void meta__production_attibuted_actions2(void *user_ptr, int pid)
                     production_t p = new_production(int_id +
                         int_trie__length(&user->terminals), &body);
                     production_queue__insert(&user->productions, p);
+                    user->cnt_prod++;
 
                     body = NULL;
                     expr = parse_tree__get_child_by_string(&expr, "expr");
@@ -368,8 +369,17 @@ void meta__production_attibuted_actions2(void *user_ptr, int pid)
                     new_input_stream(INPUT_STREAM_MODE_ARRAY, NULL,
                         buf_trimmed), &data_ulisp);
                 free(buf);
+
+                // debug
+                /*fprintf(stderr, "%d\n", user->cnt_prod);
+                node_t t = parse_tree_stack__access(&data_ulisp.parse_tree_stack);
+                parse_tree__dump_dot(stdout, &t);*/
+
+                int key = user->cnt_prod == user->last_prod ?
+                            user->cnt_prod + 1: user->cnt_prod;
+                user->last_prod = key;
                 ulisp_parse_tree_avl__insert(&user->ulisp_parse_trees,
-                    (pidxpt_t) { production_queue__length(&user->productions),
+                    (pidxpt_t) { key,
                         parse_tree_stack__access(&data_ulisp.parse_tree_stack)
                     }, ulisp_parse_tree_avl__cmp_predicate);
             }

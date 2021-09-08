@@ -30,11 +30,8 @@ void parser_goto(node_t *state_stack, int gsym)
         break;
     case 1:
         switch (gsym) {
-        case 10:
-            state_stack__insert(state_stack, 8);
-            break;
         case 11:
-            state_stack__insert(state_stack, 3);
+            state_stack__insert(state_stack, 8);
             break;
         case 12:
             state_stack__insert(state_stack, 9);
@@ -111,11 +108,8 @@ void parser_goto(node_t *state_stack, int gsym)
         break;
     case 10:
         switch (gsym) {
-        case 10:
-            state_stack__insert(state_stack, 8);
-            break;
         case 11:
-            state_stack__insert(state_stack, 3);
+            state_stack__insert(state_stack, 8);
             break;
         case 12:
             state_stack__insert(state_stack, 13);
@@ -261,40 +255,8 @@ void ulisp__parser_actions0(void *user_ptr, node_t *state_stack, terminal_t term
             /* handle terminals (ACTION table) */
             switch (terminal__id(terminal)) {
             case 2:
-                internal_parser__reduce(parser, 2);
-                ulisp__post_reduce_action1(user_ptr, 2);
-                ulisp__production_attibuted_actions2(user_ptr, 2);
-                reduction_ocurred = 1;
-                break;
-            case 3:
-                internal_parser__reduce(parser, 2);
-                ulisp__post_reduce_action1(user_ptr, 2);
-                ulisp__production_attibuted_actions2(user_ptr, 2);
-                reduction_ocurred = 1;
-                break;
-            case 4:
-                internal_parser__reduce(parser, 2);
-                ulisp__post_reduce_action1(user_ptr, 2);
-                ulisp__production_attibuted_actions2(user_ptr, 2);
-                reduction_ocurred = 1;
-                break;
-            case 5:
-                internal_parser__reduce(parser, 2);
-                ulisp__post_reduce_action1(user_ptr, 2);
-                ulisp__production_attibuted_actions2(user_ptr, 2);
-                reduction_ocurred = 1;
-                break;
-            case 6:
-                internal_parser__reduce(parser, 2);
-                ulisp__post_reduce_action1(user_ptr, 2);
-                ulisp__production_attibuted_actions2(user_ptr, 2);
-                reduction_ocurred = 1;
-                break;
-            case 7:
-                internal_parser__reduce(parser, 2);
-                ulisp__post_reduce_action1(user_ptr, 2);
-                ulisp__production_attibuted_actions2(user_ptr, 2);
-                reduction_ocurred = 1;
+                ulisp__pre_shift_action1(user_ptr, terminal);
+                internal_parser__shift(parser, 1);
                 break;
             case 8:
                 internal_parser__reduce(parser, 2);
@@ -672,42 +634,6 @@ void ulisp__parser_actions0(void *user_ptr, node_t *state_stack, terminal_t term
             int reduction_ocurred = 0;
             /* handle terminals (ACTION table) */
             switch (terminal__id(terminal)) {
-            case 2:
-                internal_parser__reduce(parser, 1);
-                ulisp__post_reduce_action1(user_ptr, 1);
-                ulisp__production_attibuted_actions2(user_ptr, 1);
-                reduction_ocurred = 1;
-                break;
-            case 3:
-                internal_parser__reduce(parser, 1);
-                ulisp__post_reduce_action1(user_ptr, 1);
-                ulisp__production_attibuted_actions2(user_ptr, 1);
-                reduction_ocurred = 1;
-                break;
-            case 4:
-                internal_parser__reduce(parser, 1);
-                ulisp__post_reduce_action1(user_ptr, 1);
-                ulisp__production_attibuted_actions2(user_ptr, 1);
-                reduction_ocurred = 1;
-                break;
-            case 5:
-                internal_parser__reduce(parser, 1);
-                ulisp__post_reduce_action1(user_ptr, 1);
-                ulisp__production_attibuted_actions2(user_ptr, 1);
-                reduction_ocurred = 1;
-                break;
-            case 6:
-                internal_parser__reduce(parser, 1);
-                ulisp__post_reduce_action1(user_ptr, 1);
-                ulisp__production_attibuted_actions2(user_ptr, 1);
-                reduction_ocurred = 1;
-                break;
-            case 7:
-                internal_parser__reduce(parser, 1);
-                ulisp__post_reduce_action1(user_ptr, 1);
-                ulisp__production_attibuted_actions2(user_ptr, 1);
-                reduction_ocurred = 1;
-                break;
             case 8:
                 internal_parser__reduce(parser, 1);
                 ulisp__post_reduce_action1(user_ptr, 1);

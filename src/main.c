@@ -112,7 +112,9 @@ int main(int argc, char *argv[])
                     .nonterminals = NULL,
                     .nonterminals2 = NULL,
                     .productions = NULL,
-                    .composition_mode = 0
+                    .composition_mode = 0,
+                    .cnt_prod = 0,
+                    .last_prod = -1
                 };
                 // run meta parser
                 internal_parser__parse(get_meta_parser(),

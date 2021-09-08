@@ -9,6 +9,6 @@ typedef struct {
 } pidxpt_t;
 
 IMPLEMENT_TYPED_AVL(ulisp_parse_tree_avl, pidxpt_t, int__compare, int__equals,
-    NULL)
+    int__print)
 
 #endif

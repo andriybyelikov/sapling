@@ -1,0 +1,9 @@
+t_gobble__blank -> [\n]+;
+t_text -> [A-Z ]+;
+t_end  -> "\\0";
+
+start -> text;
+text -> t_text t_end
+<
+    (emit_line (lexeme "t_text"))
+>;

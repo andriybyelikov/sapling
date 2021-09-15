@@ -20,6 +20,10 @@ void push_terminal_to_parse_tree_stack(terminal_t terminal,
 
 void meta__pre_shift_action1(void *user_ptr, terminal_t terminal)
 {
-    struct data_common *user = user_ptr;
+    struct data_meta *user = user_ptr;
     push_terminal_to_parse_tree_stack(terminal, &user->parse_tree_stack);
+
+    if (!strcmp(terminal__lexeme(terminal), "start")) {
+        user->in_terminals_section = 0;
+    }
 }

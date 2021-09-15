@@ -1,34 +1,130 @@
-t_gobble__blank -> [ \t\r\n]+;
+t_gobble__blank       -> [ \t\r\n]+;
+t_gobble__linecomment -> ";".*"\n";
 t_mnemonic      -> [A-Z]+;
-t_directive     -> "."[a-z]*; -- buggy kleene plus, use kleene star
-t_symbol        -> [a-z][a-z0-9_]*;
-t_colon         -> ":";
-t_immediate     -> "#";
-t_hex           -> "$"[0-9A-Fa-f]*;
-t_with_x_reg    -> ",X";
+t_numbersign    -> "#";
+t_hexadecimal   -> "0x"[0-9A-Fa-f]*;
+t_decimal       -> [1-9][0-9]*;
+t_comma         -> ",";
+t_reg           -> [axy];
 
 start       -> expressions;
 expressions -> expression expressions | expression;
-expression  -> instruction | directive | label;
+expression  -> instruction;
 
-instruction ->
-t_mnemonic operand
+instruction -> t_mnemonic
 <
-    (emit_byte 0x42)
->| t_mnemonic
-<
+    (if (strequ (lexeme "t_mnemonic") "BRK")
+        (emit_byte 0)
+    (if (strequ (lexeme "t_mnemonic") "PHP")
+        (emit_byte 0x8)
+    (if (strequ (lexeme "t_mnemonic") "CLC")
+        (emit_byte 0x18)
+    (if (strequ (lexeme "t_mnemonic") "PLP")
+        (emit_byte 0x28)
+    (if (strequ (lexeme "t_mnemonic") "SEC")
+        (emit_byte 0x38)
+    (if (strequ (lexeme "t_mnemonic") "RTI")
+        (emit_byte 0x40)
+    (if (strequ (lexeme "t_mnemonic") "PHA")
+        (emit_byte 0x48)
+    (if (strequ (lexeme "t_mnemonic") "CLI")
+        (emit_byte 0x58)
+    (if (strequ (lexeme "t_mnemonic") "RTS")
+        (emit_byte 0x60)
+    (if (strequ (lexeme "t_mnemonic") "PLA")
+        (emit_byte 0x68)
     (if (strequ (lexeme "t_mnemonic") "SEI")
         (emit_byte 0x78)
+    (if (strequ (lexeme "t_mnemonic") "DEY")
+        (emit_byte 0x88)
+    (if (strequ (lexeme "t_mnemonic") "TXA")
+        (emit_byte 0x8A)
+    (if (strequ (lexeme "t_mnemonic") "TYA")
+        (emit_byte 0x98)
+    (if (strequ (lexeme "t_mnemonic") "TXS")
+        (emit_byte 0x9A)
+    (if (strequ (lexeme "t_mnemonic") "TAY")
+        (emit_byte 0xA8)
+    (if (strequ (lexeme "t_mnemonic") "TAX")
+        (emit_byte 0xAA)
+    (if (strequ (lexeme "t_mnemonic") "CLV")
+        (emit_byte 0xB8)
+    (if (strequ (lexeme "t_mnemonic") "TSX")
+        (emit_byte 0xBA)
+    (if (strequ (lexeme "t_mnemonic") "INY")
+        (emit_byte 0xC8)
+    (if (strequ (lexeme "t_mnemonic") "DEX")
+        (emit_byte 0xCA)
     (if (strequ (lexeme "t_mnemonic") "CLD")
         (emit_byte 0xD8)
+    (if (strequ (lexeme "t_mnemonic") "INX")
+        (emit_byte 0xE8)
+    (if (strequ (lexeme "t_mnemonic") "NOP")
+        (emit_byte 0xEA)
+    (if (strequ (lexeme "t_mnemonic") "SED")
+        (emit_byte 0xF8)
+        (nil)
+    )))))))))))))))))))))))))
+> | t_mnemonic t_numbersign t_hexadecimal -- immediate
+<
+    (if (strequ (lexeme "t_mnemonic") "LDX")
+        (emit_byte 0xA2)
+    (if (strequ (lexeme "t_mnemonic") "LDA")
+        (emit_byte 0xA9)
         (nil)
     ))
+    (emit_byte (strtol (lexeme "t_hexadecimal")))
+> | t_mnemonic t_decimal t_hexadecimal -- absolute
+
+-- trickery: t_decimal is page number while t_hexadecimal is offset
+
+<
+    (if (strequ (lexeme "t_mnemonic") "STX")
+        (emit_byte 0x8E)
+    (if (strequ (lexeme "t_mnemonic") "BIT")
+        (emit_byte 0x2C)
+    (if (strequ (lexeme "t_mnemonic") "STA")
+        (emit_byte 0x8D)
+    (if (strequ (lexeme "t_mnemonic") "JMP")
+        (emit_byte 0x4C)
+        (nil)
+    ))))
+    -- emit in little endian
+    (emit_byte (strtol (lexeme "t_hexadecimal")))
+    (emit_byte (strtol (lexeme "t_decimal")))
+> | t_mnemonic t_hexadecimal -- relative
+<
+    (if (strequ (lexeme "t_mnemonic") "BPL")
+        (emit_byte 0x10)
+    (if (strequ (lexeme "t_mnemonic") "BNE")
+        (emit_byte 0xD0)
+    (if (strequ (lexeme "t_mnemonic") "BEQ")
+        (emit_byte 0xF0)
+        (nil)
+    )))
+    (emit_byte (strtol (lexeme "t_hexadecimal")))
+> | t_mnemonic t_hexadecimal t_comma t_reg -- zeropage x
+<
+    (if (strequ (lexeme "t_reg") "x")
+        (if (strequ (lexeme "t_mnemonic") "STA")
+            (emit_byte 0x85)
+            (nil)
+        )
+        (nil)
+    )
+    (emit_byte (strtol (lexeme "t_hexadecimal")))
+> | t_mnemonic t_decimal t_hexadecimal t_comma t_reg -- absolute x
+<
+    (if (strequ (lexeme "t_reg") "x")
+        (if (strequ (lexeme "t_mnemonic") "STA")
+            (emit_byte 0x9D)
+        (if (strequ (lexeme "t_mnemonic") "LDA")
+            (emit_byte 0xBD)
+            (nil)
+        ))
+        (nil)
+    )
+    -- emit in little endian
+    (emit_byte (strtol (lexeme "t_hexadecimal")))
+    (emit_byte (strtol (lexeme "t_decimal")))
 >;
-
-
-operand -> t_immediate t_hex | t_hex t_with_x_reg | t_hex | t_symbol;
-
-directive -> t_directive darg | t_directive;
-darg -> t_hex | t_symbol;
-
-label -> t_symbol t_colon | t_symbol;

@@ -10,7 +10,7 @@
 static
 void print_version(void)
 {
-    printf("sapling 20210905-1\n");
+    printf("sapling r17.c3036f9\n");
     printf("Copyright (C) 2021 Andriy Byelikov\n");
 }
 

@@ -1,5 +1,6 @@
 .vscode
 build
+win-build
 
 # autotools
 # http://www.gnu.org/software/automake

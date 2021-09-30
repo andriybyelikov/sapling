@@ -1,6 +1,14 @@
 # sapling
 
-A general-purpose compiler
+A general-purpose compiler (WIP)
+
+Currently it has the analytic power of an Simple LR parser, while its humble
+synthetic power is provided by a small Lisp-like language called uLisp or micro
+Lisp. *sapling* accepts a composite source file, written in fragments of
+multiple arbitrary languages, with each fragment either being written in one
+language and translated to another or being written in the highest of a stack
+of languages and being transitively translated into each successive language in
+the stack until finally being translated to the lowest one in the stack.
 
 ## Dependencies
 

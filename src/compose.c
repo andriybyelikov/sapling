@@ -291,6 +291,6 @@ void compose(const char *fragment_buffer, node_t *spec_list, FILE *output_file,
     output_stream_t final_out = new_output_stream(OUTPUT_STREAM_MODE_FILE,
         output_file, NULL);
     char c;
-    while ((c = input_stream__getc(ifio.in)) != EOF)
-        output_stream__putc(final_out, c);
+    while (!input_stream__end(ifio.in))
+        output_stream__putc(final_out, input_stream__getc(ifio.in));
 }

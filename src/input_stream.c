@@ -49,3 +49,22 @@ const char *input_stream__get_array(input_stream_t input_stream)
 {
     return input_stream->array;
 }
+
+int input_stream__end(input_stream_t input_stream)
+{
+    char c;
+    switch (input_stream->mode) {
+    case INPUT_STREAM_MODE_FILE:
+        c = getc(input_stream->file);
+        if (c == EOF) {
+            return 1;
+        } else {
+            ungetc(c, input_stream->file);
+            return 0;
+        }
+    case INPUT_STREAM_MODE_ARRAY:
+        return input_stream->array[input_stream->cursor] == 0;
+    case INPUT_STREAM_MODE_BINARY_ARRAY:
+        return input_stream->cursor == input_stream->size;
+    }
+}

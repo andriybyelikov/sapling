@@ -15,5 +15,6 @@ input_stream_t new_input_stream(int mode, FILE *file, const char *array);
 char input_stream__getc(input_stream_t input_stream);
 void input_stream__ungetc(input_stream_t input_stream, char c);
 const char *input_stream__get_array(input_stream_t input_stream);
+int input_stream__end(input_stream_t input_stream);
 
 #endif

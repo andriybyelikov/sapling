@@ -107,7 +107,7 @@ instruction -> t_mnemonic
 <
     (if (strequ (lexeme "t_reg") "x")
         (if (strequ (lexeme "t_mnemonic") "STA")
-            (emit_byte 0x85)
+            (emit_byte 0x95)
             (nil)
         )
         (nil)

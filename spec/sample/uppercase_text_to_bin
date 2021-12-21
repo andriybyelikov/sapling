@@ -5,5 +5,5 @@ t_end  -> "\\0";
 start -> text;
 text -> t_text t_end
 <
-    (emit_line (lexeme "t_text"))
+    (emit_line (lexeme "t_text" 0))
 >;

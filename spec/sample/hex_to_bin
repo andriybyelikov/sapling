@@ -5,5 +5,5 @@ start  -> values;
 values -> value values | value;
 value  -> t_hexadecimal
 <
-    (emit_byte (strtol (lexeme "t_hexadecimal")))
+    (emit_byte (strtol (lexeme "t_hexadecimal" 0)))
 >;

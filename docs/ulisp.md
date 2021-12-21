@@ -1,30 +1,72 @@
 # uLisp
 
-`()` Necessary
+uLisp (micro Lisp) is the language used in the spec files to write the semantic
+routines.
 
-`[]` Optional
+A semantic routine is made of a sequence of functions. Line comments begin with
+`--`
+
+```
+<
+    -- this is a line comment
+    (fn_a arg1 arg2 ... argn) -- another line comment
+    (fn_b)
+    ...
+    (fn_z)
+>
+```
 
 ---
 
 ## Flow control
 
-### if
+`(if <cond> <runs when cond true> <runs when cond false>)`
 
-Usage: `(if (cond) (runs when cond true) [runs when cond false])`
+If no code should run when condition evaluates then put `(nil)` in its place.
+
+Examples:
+
+```
+(if 1
+    (emit_line "true")
+    (emit_line "false)
+)
+-- will emit "true"
+```
+```
+(if 0
+    (emit_line "true")
+    (nil) -- else do nothing
+)
+-- will do nothing
+```
 
 
 ## C standard library function wrappers
 
-`strequ`
+`(strequ <string> <string>)`
 
-`strtol`
+Returns 1 if the strings are equal, 0 if they are not.
 
+`(strtol <string>)`
+
+Converts strings to integers. Returns the same value as C's strtol called with
+base 0.
 
 ## sapling specific
 
-`lexeme`
+`lexeme <terminal node name: string> <occurrence: int>`
 
+Returns the lexeme corresponding to the n-th occurrence of a terminal symbol
+with the specified name.
 
 ## Binary
 
-`emit_byte`
+`emit_byte <int>`
+
+Emits the value of the specified integer anded with 0xFF.
+
+`emit_line <string>`
+
+Emits the specified string, adding a trailing newline: LF on *nix systems and
+CRLF on Windows systems.

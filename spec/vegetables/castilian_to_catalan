@@ -5,11 +5,11 @@ start -> vegetables;
 vegetables -> vegetable vegetables | vegetable;
 vegetable -> t_word
 <
-    (if (strequ (lexeme "t_word") "col")
+    (if (strequ (lexeme "t_word" 0) "col")
         (emit_line "col")
-    (if (strequ (lexeme "t_word") "patata")
+    (if (strequ (lexeme "t_word" 0) "patata")
         (emit_line "patata")
-    (if (strequ (lexeme "t_word") "tomate")
+    (if (strequ (lexeme "t_word" 0) "tomate")
         (emit_line "tomatiga")
         (nil)
     )))

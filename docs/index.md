@@ -1,5 +1,7 @@
 # sapling
 
+This file is OUTDATED
+
 ## Usage
 
 **`sapling`**`spec_file`

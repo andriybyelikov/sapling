@@ -123,8 +123,9 @@ void remove_atom_or_function_and_its_arguments(node_t *uargs)
                  arg_stack__delete(uargs);
             }
         } else if (!strcmp(name, "lexeme")) {
-            // remove 1 argument
-            // can only have string atoms by design
+            // remove 2 argument
+            // by design let's consider just literals for now
+            arg_stack__delete(uargs);
             arg_stack__delete(uargs);
         } else if (!strcmp(name, "emit_byte")) {
             // remove 1 argument
@@ -284,8 +285,9 @@ struct atom *call_function(const char *name, node_t *pts, output_stream_t out,
         res->value = !strcmp(str1.string, str2.string);
         return res;
     } else if (!strcmp(name, "lexeme")) {
-        // take 1 argument for now -- what if multiple occurences?
         struct atom symbol;
+        struct atom occurrence;
+
         a = arg_stack__delete(uargs);
         #ifdef ULISP_LOG_STACK
         arg_stack__print(stdout, uargs);
@@ -309,8 +311,44 @@ struct atom *call_function(const char *name, node_t *pts, output_stream_t out,
             symbol = a;
             assert(symbol.type == ATOM_STRING);
         }
+
+        a = arg_stack__delete(uargs);
+        #ifdef ULISP_LOG_STACK
+        arg_stack__print(stdout, uargs);
+        fprintf(stdout, "\n");
+        #endif
+        if (a.type == ATOM_FUNCTION) {
+            struct atom *result = call_function(a.name, pts, out, uargs);
+            if (result != NULL) {
+                arg_stack__insert(uargs, *result);
+                #ifdef ULISP_LOG_STACK
+                arg_stack__print(stdout, uargs);
+                fprintf(stdout, "\n");
+                #endif
+            }
+            occurrence = arg_stack__delete(uargs);
+            #ifdef ULISP_LOG_STACK
+            arg_stack__print(stdout, uargs);
+            fprintf(stdout, "\n");
+            #endif
+        } else {
+            occurrence = a;
+            assert(occurrence.type == ATOM_INT);
+        }
+
         node_t production_node = parse_tree_stack__access(pts);
-        node_t symbol_node = child(&production_node, symbol.string);
+
+        node_t symbol_node = NULL;
+        for (int i = 0; i < parse_tree__num_children(production_node); i++) {
+            symbol_node = parse_tree__get_child_by_position(&production_node,
+                i);
+            const char *nname = *parse_tree__data(symbol_node);
+            if (!strcmp(nname, symbol.string) && --occurrence.value < 0) {
+                break;
+            } else {
+                symbol_node = NULL;
+            }
+        }
         assert(symbol_node != NULL);
         node_t lexeme_node =
             parse_tree__get_child_by_position(&symbol_node, 0);

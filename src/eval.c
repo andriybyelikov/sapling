@@ -169,172 +169,65 @@ void remove_atom_or_function_and_its_arguments(node_t *uargs)
 
 static
 struct atom *call_function(const char *name, node_t *pts, output_stream_t out,
+    node_t *uargs);
+
+static
+struct atom fetch_arg(int type, node_t *pts, output_stream_t out,
+    node_t *uargs)
+{
+    struct atom a = arg_stack__delete(uargs);
+    if (a.type == ATOM_FUNCTION) {
+        struct atom *result = call_function(a.name, pts, out, uargs);
+        if (result != NULL) {
+            arg_stack__insert(uargs, *result);
+        }
+        a = arg_stack__delete(uargs);
+    }
+    assert(a.type == type);
+    return a;
+}
+
+static
+struct atom *call_function(const char *name, node_t *pts, output_stream_t out,
     node_t *uargs)
 {
     struct atom a;
     if (!strcmp(name, "if")) {
         // take 3 arguments
-        struct atom cond;
-
-        a = arg_stack__delete(uargs);
-        #ifdef ULISP_LOG_STACK
-        arg_stack__print(stdout, uargs);
-        fprintf(stdout, "\n");
-        #endif
-        if (a.type == ATOM_FUNCTION) {
-            struct atom *result = call_function(a.name, pts, out, uargs);
-            if (result != NULL) {
-                arg_stack__insert(uargs, *result);
-            #ifdef ULISP_LOG_STACK
-            arg_stack__print(stdout, uargs);
-            fprintf(stdout, "\n");
-            #endif
-            }
-            cond = arg_stack__delete(uargs);
-            #ifdef ULISP_LOG_STACK
-            arg_stack__print(stdout, uargs);
-            fprintf(stdout, "\n");
-            #endif
-        } else {
-            cond = a;
-            assert(cond.type == ATOM_INT);
-        }
+        struct atom cond = fetch_arg(ATOM_INT, pts, out, uargs);
+        
         if (cond.value) {
             a = arg_stack__delete(uargs);
-            #ifdef ULISP_LOG_STACK
-            arg_stack__print(stdout, uargs);
-            fprintf(stdout, "\n");
-            #endif
             if (a.type == ATOM_FUNCTION) {
                 struct atom *result = call_function(a.name, pts, out, uargs);
                 if (result != NULL) {
                     arg_stack__insert(uargs, *result);
-                    #ifdef ULISP_LOG_STACK
-                    arg_stack__print(stdout, uargs);
-                    fprintf(stdout, "\n");
-                    #endif
                 }
             }
             remove_atom_or_function_and_its_arguments(uargs);
         } else {
             remove_atom_or_function_and_its_arguments(uargs);
             a = arg_stack__delete(uargs);
-            #ifdef ULISP_LOG_STACK
-            arg_stack__print(stdout, uargs);
-            fprintf(stdout, "\n");
-            #endif
             if (a.type == ATOM_FUNCTION) {
                 struct atom *result = call_function(a.name, pts, out, uargs);
                 if (result != NULL) {
                     arg_stack__insert(uargs, *result);
-                    #ifdef ULISP_LOG_STACK
-                    arg_stack__print(stdout, uargs);
-                    fprintf(stdout, "\n");
-                    #endif
                 }
             }
         }
         return NULL;
     } else if (!strcmp(name, "strequ")) {
         // take 2 arguments
-        struct atom str1, str2;
-        a = arg_stack__delete(uargs);
-        #ifdef ULISP_LOG_STACK
-        arg_stack__print(stdout, uargs);
-        fprintf(stdout, "\n");
-        #endif
-        if (a.type == ATOM_FUNCTION) {
-            struct atom *result = call_function(a.name, pts, out, uargs);
-            if (result != NULL) {
-                arg_stack__insert(uargs, *result);
-                #ifdef ULISP_LOG_STACK
-                arg_stack__print(stdout, uargs);
-                fprintf(stdout, "\n");
-                #endif
-            }
-            str1 = str1 = arg_stack__delete(uargs);
-            #ifdef ULISP_LOG_STACK
-            arg_stack__print(stdout, uargs);
-            fprintf(stdout, "\n");
-            #endif
-        } else {
-            str1 = a;
-            assert(str1.type == ATOM_STRING);
-        }
-        a = arg_stack__delete(uargs);
-        if (a.type == ATOM_FUNCTION) {
-            struct atom *result = call_function(a.name, pts, out, uargs);
-            if (result != NULL) {
-                arg_stack__insert(uargs, *result);
-                #ifdef ULISP_LOG_STACK
-                arg_stack__print(stdout, uargs);
-                fprintf(stdout, "\n");
-                #endif
-            }
-            str2 = arg_stack__delete(uargs);
-            #ifdef ULISP_LOG_STACK
-            arg_stack__print(stdout, uargs);
-            fprintf(stdout, "\n");
-            #endif
-        } else {
-            str2 = a;
-            assert(str2.type == ATOM_STRING);
-        }
+        struct atom str1 = fetch_arg(ATOM_STRING, pts, out, uargs);
+        struct atom str2 = fetch_arg(ATOM_STRING, pts, out, uargs);;
+
         struct atom *res = malloc(sizeof(struct atom));
         res->type = ATOM_INT;
         res->value = !strcmp(str1.string, str2.string);
         return res;
     } else if (!strcmp(name, "lexeme")) {
-        struct atom symbol;
-        struct atom occurrence;
-
-        a = arg_stack__delete(uargs);
-        #ifdef ULISP_LOG_STACK
-        arg_stack__print(stdout, uargs);
-        fprintf(stdout, "\n");
-        #endif
-        if (a.type == ATOM_FUNCTION) {
-            struct atom *result = call_function(a.name, pts, out, uargs);
-            if (result != NULL) {
-                arg_stack__insert(uargs, *result);
-                #ifdef ULISP_LOG_STACK
-                arg_stack__print(stdout, uargs);
-                fprintf(stdout, "\n");
-                #endif
-            }
-            symbol = arg_stack__delete(uargs);
-            #ifdef ULISP_LOG_STACK
-            arg_stack__print(stdout, uargs);
-            fprintf(stdout, "\n");
-            #endif
-        } else {
-            symbol = a;
-            assert(symbol.type == ATOM_STRING);
-        }
-
-        a = arg_stack__delete(uargs);
-        #ifdef ULISP_LOG_STACK
-        arg_stack__print(stdout, uargs);
-        fprintf(stdout, "\n");
-        #endif
-        if (a.type == ATOM_FUNCTION) {
-            struct atom *result = call_function(a.name, pts, out, uargs);
-            if (result != NULL) {
-                arg_stack__insert(uargs, *result);
-                #ifdef ULISP_LOG_STACK
-                arg_stack__print(stdout, uargs);
-                fprintf(stdout, "\n");
-                #endif
-            }
-            occurrence = arg_stack__delete(uargs);
-            #ifdef ULISP_LOG_STACK
-            arg_stack__print(stdout, uargs);
-            fprintf(stdout, "\n");
-            #endif
-        } else {
-            occurrence = a;
-            assert(occurrence.type == ATOM_INT);
-        }
+        struct atom symbol = fetch_arg(ATOM_STRING, pts, out, uargs);
+        struct atom occurrence = fetch_arg(ATOM_INT, pts, out, uargs);
 
         node_t production_node = parse_tree_stack__access(pts);
 
@@ -359,31 +252,8 @@ struct atom *call_function(const char *name, node_t *pts, output_stream_t out,
         return res;
     } else if (!strcmp(name, "emit_byte")) {
         // take 1 argument
-        struct atom val;
+        struct atom val = fetch_arg(ATOM_INT, pts, out, uargs);
 
-        a = arg_stack__delete(uargs);
-        #ifdef ULISP_LOG_STACK
-        arg_stack__print(stdout, uargs);
-        fprintf(stdout, "\n");
-        #endif
-        if (a.type == ATOM_FUNCTION) {
-            struct atom *result = call_function(a.name, pts, out, uargs);
-            if (result != NULL) {
-                arg_stack__insert(uargs, *result);
-                #ifdef ULISP_LOG_STACK
-                arg_stack__print(stdout, uargs);
-                fprintf(stdout, "\n");
-                #endif
-            }
-            val = arg_stack__delete(uargs);
-            #ifdef ULISP_LOG_STACK
-            arg_stack__print(stdout, uargs);
-            fprintf(stdout, "\n");
-            #endif
-        } else {
-            val = a;
-            assert(val.type == ATOM_INT);
-        }
         output_stream__putc(out, val.value);
         #ifdef ULISP_LOG_OUTPUTTED
         fprintf(stderr, "emit_byte %x\n", val.value);
@@ -391,31 +261,8 @@ struct atom *call_function(const char *name, node_t *pts, output_stream_t out,
         return NULL;
     } else if (!strcmp(name, "strtol")) {
         // take 1 argument
-        struct atom val;
+        struct atom val = fetch_arg(ATOM_STRING, pts, out, uargs);
 
-        a = arg_stack__delete(uargs);
-        #ifdef ULISP_LOG_STACK
-        arg_stack__print(stdout, uargs);
-        fprintf(stdout, "\n");
-        #endif
-        if (a.type == ATOM_FUNCTION) {
-            struct atom *result = call_function(a.name, pts, out, uargs);
-            if (result != NULL) {
-                arg_stack__insert(uargs, *result);
-                #ifdef ULISP_LOG_STACK
-                arg_stack__print(stdout, uargs);
-                fprintf(stdout, "\n");
-                #endif
-            }
-            val = arg_stack__delete(uargs);
-            #ifdef ULISP_LOG_STACK
-            arg_stack__print(stdout, uargs);
-            fprintf(stdout, "\n");
-            #endif
-        } else {
-            val = a;
-            assert(val.type == ATOM_STRING);
-        }
         struct atom *res = malloc(sizeof(struct atom));
         res->type = ATOM_INT;
         char *ptr;
@@ -423,31 +270,8 @@ struct atom *call_function(const char *name, node_t *pts, output_stream_t out,
         return res;
     } else if (!strcmp(name, "emit_line")) {
         // take 1 argument
-        struct atom val;
+        struct atom val = fetch_arg(ATOM_STRING, pts, out, uargs);
 
-        a = arg_stack__delete(uargs);
-        #ifdef ULISP_LOG_STACK
-        arg_stack__print(stdout, uargs);
-        fprintf(stdout, "\n");
-        #endif
-        if (a.type == ATOM_FUNCTION) {
-            struct atom *result = call_function(a.name, pts, out, uargs);
-            if (result != NULL) {
-                arg_stack__insert(uargs, *result);
-                #ifdef ULISP_LOG_STACK
-                arg_stack__print(stdout, uargs);
-                fprintf(stdout, "\n");
-                #endif
-            }
-            val = arg_stack__delete(uargs);
-            #ifdef ULISP_LOG_STACK
-            arg_stack__print(stdout, uargs);
-            fprintf(stdout, "\n");
-            #endif
-        } else {
-            val = a;
-            assert(val.type == ATOM_STRING);
-        }
         for (int i = 0; i < strlen(val.string); i++)
             output_stream__putc(out, val.string[i]);
         output_stream__putc(out, '\n');

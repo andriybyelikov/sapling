@@ -36,6 +36,24 @@ struct atom {
 };
 
 static
+struct atom *new_int_atom(int value)
+{
+    struct atom *res = malloc(sizeof(struct atom));
+    res->type = ATOM_INT;
+    res->value = value;
+    return res;
+}
+
+static
+struct atom *new_string_atom(const char *string)
+{
+    struct atom *res = malloc(sizeof(struct atom));
+    res->type = ATOM_STRING;
+    res->string = (char *)string;
+    return res;
+}
+
+static
 void atom__print(FILE *stream, const void *data)
 {
     const struct atom *atom = data;
@@ -191,11 +209,11 @@ static
 struct atom *call_function(const char *name, node_t *pts, output_stream_t out,
     node_t *uargs)
 {
-    struct atom a;
     if (!strcmp(name, "if")) {
         // take 3 arguments
         struct atom cond = fetch_arg(ATOM_INT, pts, out, uargs);
-        
+
+        struct atom a;
         if (cond.value) {
             a = arg_stack__delete(uargs);
             if (a.type == ATOM_FUNCTION) {
@@ -217,14 +235,13 @@ struct atom *call_function(const char *name, node_t *pts, output_stream_t out,
         }
         return NULL;
     } else if (!strcmp(name, "strequ")) {
-        // take 2 arguments
         struct atom str1 = fetch_arg(ATOM_STRING, pts, out, uargs);
-        struct atom str2 = fetch_arg(ATOM_STRING, pts, out, uargs);;
-
-        struct atom *res = malloc(sizeof(struct atom));
-        res->type = ATOM_INT;
-        res->value = !strcmp(str1.string, str2.string);
-        return res;
+        struct atom str2 = fetch_arg(ATOM_STRING, pts, out, uargs);
+        return new_int_atom(!strcmp(str1.string, str2.string));
+    } else if (!strcmp(name, "strtol")) {
+        struct atom val = fetch_arg(ATOM_STRING, pts, out, uargs);
+        char *ptr;
+        return new_int_atom(strtol(val.string, &ptr, 0));
     } else if (!strcmp(name, "lexeme")) {
         struct atom symbol = fetch_arg(ATOM_STRING, pts, out, uargs);
         struct atom occurrence = fetch_arg(ATOM_INT, pts, out, uargs);
@@ -246,32 +263,14 @@ struct atom *call_function(const char *name, node_t *pts, output_stream_t out,
         node_t lexeme_node =
             parse_tree__get_child_by_position(&symbol_node, 0);
         const char *lexeme = *parse_tree__data(lexeme_node);
-        struct atom *res = malloc(sizeof(struct atom));
-        res->type = ATOM_STRING;
-        res->string = (char *)lexeme;
-        return res;
+
+        return new_string_atom(lexeme);
     } else if (!strcmp(name, "emit_byte")) {
-        // take 1 argument
         struct atom val = fetch_arg(ATOM_INT, pts, out, uargs);
-
         output_stream__putc(out, val.value);
-        #ifdef ULISP_LOG_OUTPUTTED
-        fprintf(stderr, "emit_byte %x\n", val.value);
-        #endif
         return NULL;
-    } else if (!strcmp(name, "strtol")) {
-        // take 1 argument
-        struct atom val = fetch_arg(ATOM_STRING, pts, out, uargs);
-
-        struct atom *res = malloc(sizeof(struct atom));
-        res->type = ATOM_INT;
-        char *ptr;
-        res->value = strtol(val.string, &ptr, 0);
-        return res;
     } else if (!strcmp(name, "emit_line")) {
-        // take 1 argument
         struct atom val = fetch_arg(ATOM_STRING, pts, out, uargs);
-
         for (int i = 0; i < strlen(val.string); i++)
             output_stream__putc(out, val.string[i]);
         output_stream__putc(out, '\n');

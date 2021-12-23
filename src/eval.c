@@ -76,111 +76,39 @@ IMPLEMENT_TYPED_QUEUE(arg_list, struct atom, atom__print)
 
 
 static
+void remove_atom_or_function_and_its_arguments(node_t *uargs);
+
+static
+void del_atoms(int n, node_t *uargs)
+{
+    for (int i = 0; i < n; i++) {
+        struct atom a = arg_stack__access(uargs);
+        if (a.type == ATOM_FUNCTION) {
+            remove_atom_or_function_and_its_arguments(uargs);
+        } else {
+            arg_stack__delete(uargs);
+        }
+    }
+}
+
+static
 void remove_atom_or_function_and_its_arguments(node_t *uargs)
 {
     struct atom a = arg_stack__delete(uargs);
-    #ifdef ULISP_LOG_STACK
-    arg_stack__print(stdout, uargs);
-    fprintf(stdout, "\n");
-    #endif
-
-    const char *name = a.name;
     if (a.type == ATOM_FUNCTION) {
+        const char *name = a.name;
         if (!strcmp(name, "if")) {
-            // remove 3 arguments
-            a = arg_stack__access(uargs);
-            if (a.type == ATOM_FUNCTION) {
-                remove_atom_or_function_and_its_arguments(uargs);
-                #ifdef ULISP_LOG_STACK
-                arg_stack__print(stdout, uargs);
-                fprintf(stdout, "\n");
-                #endif
-            } else {
-                arg_stack__delete(uargs);
-            }
-            a = arg_stack__access(uargs);
-            if (a.type == ATOM_FUNCTION) {
-                remove_atom_or_function_and_its_arguments(uargs);
-                #ifdef ULISP_LOG_STACK
-                arg_stack__print(stdout, uargs);
-                fprintf(stdout, "\n");
-                #endif
-            } else {
-                 arg_stack__delete(uargs);
-            }
-            a = arg_stack__access(uargs);
-            if (a.type == ATOM_FUNCTION) {
-                remove_atom_or_function_and_its_arguments(uargs);
-                #ifdef ULISP_LOG_STACK
-                arg_stack__print(stdout, uargs);
-                fprintf(stdout, "\n");
-                #endif
-            } else {
-                 arg_stack__delete(uargs);
-            }
+            del_atoms(3, uargs);
         } else if (!strcmp(name, "strequ")) {
-            // remove 2 arguments
-            a = arg_stack__access(uargs);
-            if (a.type == ATOM_FUNCTION) {
-                remove_atom_or_function_and_its_arguments(uargs);
-                #ifdef ULISP_LOG_STACK
-                arg_stack__print(stdout, uargs);
-                fprintf(stdout, "\n");
-                #endif
-            } else {
-                 arg_stack__delete(uargs);
-            }
-            a = arg_stack__access(uargs);
-            if (a.type == ATOM_FUNCTION) {
-                remove_atom_or_function_and_its_arguments(uargs);
-                #ifdef ULISP_LOG_STACK
-                arg_stack__print(stdout, uargs);
-                fprintf(stdout, "\n");
-                #endif
-            } else {
-                 arg_stack__delete(uargs);
-            }
-        } else if (!strcmp(name, "lexeme")) {
-            // remove 2 argument
-            // by design let's consider just literals for now
-            arg_stack__delete(uargs);
-            arg_stack__delete(uargs);
-        } else if (!strcmp(name, "emit_byte")) {
-            // remove 1 argument
-            a = arg_stack__access(uargs);
-            if (a.type == ATOM_FUNCTION) {
-                remove_atom_or_function_and_its_arguments(uargs);
-                #ifdef ULISP_LOG_STACK
-                arg_stack__print(stdout, uargs);
-                fprintf(stdout, "\n");
-                #endif
-            } else {
-                 arg_stack__delete(uargs);
-            }
+            del_atoms(2, uargs);
         } else if (!strcmp(name, "strtol")) {
-            // remove 1 argument
-            a = arg_stack__access(uargs);
-            if (a.type == ATOM_FUNCTION) {
-                remove_atom_or_function_and_its_arguments(uargs);
-                #ifdef ULISP_LOG_STACK
-                arg_stack__print(stdout, uargs);
-                fprintf(stdout, "\n");
-                #endif
-            } else {
-                 arg_stack__delete(uargs);
-            }
+            del_atoms(1, uargs);
+        } else if (!strcmp(name, "lexeme")) {
+            del_atoms(2, uargs);
+        } else if (!strcmp(name, "emit_byte")) {
+            del_atoms(1, uargs);
         } else if (!strcmp(name, "emit_line")) {
-            // remove 1 argument
-            a = arg_stack__access(uargs);
-            if (a.type == ATOM_FUNCTION) {
-                remove_atom_or_function_and_its_arguments(uargs);
-                #ifdef ULISP_LOG_STACK
-                arg_stack__print(stdout, uargs);
-                fprintf(stdout, "\n");
-                #endif
-            } else {
-                 arg_stack__delete(uargs);
-            }
+            del_atoms(1, uargs);
         }
     }
 }

@@ -1,126 +1,118 @@
 t_gobble__blank       -> [ \t\r\n]+;
 t_gobble__linecomment -> ";".*"\n";
-t_mnemonic      -> [A-Z]+;
-t_numbersign    -> "#";
-t_hexadecimal   -> "0x"[0-9A-Fa-f]*;
-t_decimal       -> [1-9][0-9]*;
-t_comma         -> ",";
-t_reg           -> [axy];
+
+t_mnemonic            -> [A-Z]+;
+t_numbersign          -> "#";
+t_hexadecimal         -> "0x"[0-9A-Fa-f]*;
+t_decimal             -> [1-9][0-9]*;
+t_comma               -> ",";
+t_reg                 -> [axy];
+
 
 start       -> expressions;
 expressions -> expression expressions | expression;
 expression  -> instruction;
 
+-- addressing modes: implied
 instruction -> t_mnemonic
 <
-    (if (strequ (lexeme "t_mnemonic" 0) "BRK")
-        (emit_byte 0)
-    (if (strequ (lexeme "t_mnemonic" 0) "PHP")
-        (emit_byte 0x8)
-    (if (strequ (lexeme "t_mnemonic" 0) "CLC")
-        (emit_byte 0x18)
-    (if (strequ (lexeme "t_mnemonic" 0) "PLP")
-        (emit_byte 0x28)
-    (if (strequ (lexeme "t_mnemonic" 0) "SEC")
-        (emit_byte 0x38)
-    (if (strequ (lexeme "t_mnemonic" 0) "RTI")
-        (emit_byte 0x40)
-    (if (strequ (lexeme "t_mnemonic" 0) "PHA")
-        (emit_byte 0x48)
-    (if (strequ (lexeme "t_mnemonic" 0) "CLI")
-        (emit_byte 0x58)
-    (if (strequ (lexeme "t_mnemonic" 0) "RTS")
-        (emit_byte 0x60)
-    (if (strequ (lexeme "t_mnemonic" 0) "PLA")
-        (emit_byte 0x68)
-    (if (strequ (lexeme "t_mnemonic" 0) "SEI")
-        (emit_byte 0x78)
-    (if (strequ (lexeme "t_mnemonic" 0) "DEY")
-        (emit_byte 0x88)
-    (if (strequ (lexeme "t_mnemonic" 0) "TXA")
-        (emit_byte 0x8A)
-    (if (strequ (lexeme "t_mnemonic" 0) "TYA")
-        (emit_byte 0x98)
-    (if (strequ (lexeme "t_mnemonic" 0) "TXS")
-        (emit_byte 0x9A)
-    (if (strequ (lexeme "t_mnemonic" 0) "TAY")
-        (emit_byte 0xA8)
-    (if (strequ (lexeme "t_mnemonic" 0) "TAX")
-        (emit_byte 0xAA)
-    (if (strequ (lexeme "t_mnemonic" 0) "CLV")
-        (emit_byte 0xB8)
-    (if (strequ (lexeme "t_mnemonic" 0) "TSX")
-        (emit_byte 0xBA)
-    (if (strequ (lexeme "t_mnemonic" 0) "INY")
-        (emit_byte 0xC8)
-    (if (strequ (lexeme "t_mnemonic" 0) "DEX")
-        (emit_byte 0xCA)
-    (if (strequ (lexeme "t_mnemonic" 0) "CLD")
-        (emit_byte 0xD8)
-    (if (strequ (lexeme "t_mnemonic" 0) "INX")
-        (emit_byte 0xE8)
-    (if (strequ (lexeme "t_mnemonic" 0) "NOP")
-        (emit_byte 0xEA)
-    (if (strequ (lexeme "t_mnemonic" 0) "SED")
-        (emit_byte 0xF8)
-        (nil)
-    )))))))))))))))))))))))))
-> | t_mnemonic t_numbersign t_hexadecimal -- immediate
+    (emit_byte
+        (if (strequ (lexeme "t_mnemonic" 0) "BRK") 0
+        (if (strequ (lexeme "t_mnemonic" 0) "PHP") 0x8
+        (if (strequ (lexeme "t_mnemonic" 0) "CLC") 0x18
+        (if (strequ (lexeme "t_mnemonic" 0) "PLP") 0x28
+        (if (strequ (lexeme "t_mnemonic" 0) "SEC") 0x38
+        (if (strequ (lexeme "t_mnemonic" 0) "RTI") 0x40
+        (if (strequ (lexeme "t_mnemonic" 0) "PHA") 0x48
+        (if (strequ (lexeme "t_mnemonic" 0) "CLI") 0x58
+        (if (strequ (lexeme "t_mnemonic" 0) "RTS") 0x60
+        (if (strequ (lexeme "t_mnemonic" 0) "PLA") 0x68
+        (if (strequ (lexeme "t_mnemonic" 0) "SEI") 0x78
+        (if (strequ (lexeme "t_mnemonic" 0) "DEY") 0x88
+        (if (strequ (lexeme "t_mnemonic" 0) "TXA") 0x8A
+        (if (strequ (lexeme "t_mnemonic" 0) "TYA") 0x98
+        (if (strequ (lexeme "t_mnemonic" 0) "TXS") 0x9A
+        (if (strequ (lexeme "t_mnemonic" 0) "TAY") 0xA8
+        (if (strequ (lexeme "t_mnemonic" 0) "TAX") 0xAA
+        (if (strequ (lexeme "t_mnemonic" 0) "CLV") 0xB8
+        (if (strequ (lexeme "t_mnemonic" 0) "TSX") 0xBA
+        (if (strequ (lexeme "t_mnemonic" 0) "INY") 0xC8
+        (if (strequ (lexeme "t_mnemonic" 0) "DEX") 0xCA
+        (if (strequ (lexeme "t_mnemonic" 0) "CLD") 0xD8
+        (if (strequ (lexeme "t_mnemonic" 0) "INX") 0xE8
+        (if (strequ (lexeme "t_mnemonic" 0) "NOP") 0xEA
+        (if (strequ (lexeme "t_mnemonic" 0) "SED") 0xF8
+            (nil)
+    ))))))))))))))))))))))))))
+>
+
+-- addressing modes: immediate
+| t_mnemonic t_numbersign t_hexadecimal
 <
-    (if (strequ (lexeme "t_mnemonic" 0) "LDX")
-        (emit_byte 0xA2)
-    (if (strequ (lexeme "t_mnemonic" 0) "LDA")
-        (emit_byte 0xA9)
-        (nil)
-    ))
+    (emit_byte
+        (if (strequ (lexeme "t_mnemonic" 0) "LDX") 0xA2
+        (if (strequ (lexeme "t_mnemonic" 0) "LDA") 0xA9
+            (nil)
+    )))
+
     (emit_byte (strtol (lexeme "t_hexadecimal" 0)))
-> | t_mnemonic t_hexadecimal t_hexadecimal -- absolute
+>
+
+-- addressing modes: absolute
+| t_mnemonic t_hexadecimal t_hexadecimal
 <
-    (if (strequ (lexeme "t_mnemonic" 0) "STX")
-        (emit_byte 0x8E)
-    (if (strequ (lexeme "t_mnemonic" 0) "BIT")
-        (emit_byte 0x2C)
-    (if (strequ (lexeme "t_mnemonic" 0) "STA")
-        (emit_byte 0x8D)
-    (if (strequ (lexeme "t_mnemonic" 0) "JMP")
-        (emit_byte 0x4C)
-        (nil)
-    ))))
+    (emit_byte
+        (if (strequ (lexeme "t_mnemonic" 0) "STX") 0x8E
+        (if (strequ (lexeme "t_mnemonic" 0) "BIT") 0x2C
+        (if (strequ (lexeme "t_mnemonic" 0) "STA") 0x8D
+        (if (strequ (lexeme "t_mnemonic" 0) "JMP") 0x4C
+            (nil)
+    )))))
+
     -- emit in little endian
     (emit_byte (strtol (lexeme "t_hexadecimal" 1)))
     (emit_byte (strtol (lexeme "t_hexadecimal" 0)))
-> | t_mnemonic t_hexadecimal -- relative
+>
+
+-- addressing modes: relative
+| t_mnemonic t_hexadecimal
 <
-    (if (strequ (lexeme "t_mnemonic" 0) "BPL")
-        (emit_byte 0x10)
-    (if (strequ (lexeme "t_mnemonic" 0) "BNE")
-        (emit_byte 0xD0)
-    (if (strequ (lexeme "t_mnemonic" 0) "BEQ")
-        (emit_byte 0xF0)
-        (nil)
-    )))
+    (emit_byte
+        (if (strequ (lexeme "t_mnemonic" 0) "BPL") 0x10
+        (if (strequ (lexeme "t_mnemonic" 0) "BNE") 0xD0
+        (if (strequ (lexeme "t_mnemonic" 0) "BEQ") 0xF0
+            (nil)
+    ))))
+
     (emit_byte (strtol (lexeme "t_hexadecimal" 0)))
-> | t_mnemonic t_hexadecimal t_comma t_reg -- zeropage x
+>
+
+-- addressing modes: zeropage x
+| t_mnemonic t_hexadecimal t_comma t_reg
 <
     (if (strequ (lexeme "t_reg" 0) "x")
-        (if (strequ (lexeme "t_mnemonic" 0) "STA")
-            (emit_byte 0x95)
-            (nil)
-        )
-        (nil)
-    )
-    (emit_byte (strtol (lexeme "t_hexadecimal" 0)))
-> | t_mnemonic t_hexadecimal t_hexadecimal t_comma t_reg -- absolute x
-<
-    (if (strequ (lexeme "t_reg" 0) "x")
-        (if (strequ (lexeme "t_mnemonic" 0) "STA")
-            (emit_byte 0x9D)
-        (if (strequ (lexeme "t_mnemonic" 0) "LDA")
-            (emit_byte 0xBD)
-            (nil)
+        (emit_byte
+            (if (strequ (lexeme "t_mnemonic" 0) "STA") 0x95
+                (nil)
         ))
         (nil)
     )
+
+    (emit_byte (strtol (lexeme "t_hexadecimal" 0)))
+>
+
+-- addressing modes: absolute x
+| t_mnemonic t_hexadecimal t_hexadecimal t_comma t_reg
+<
+    (if (strequ (lexeme "t_reg" 0) "x")
+        (emit_byte
+            (if (strequ (lexeme "t_mnemonic" 0) "STA") 0x9D
+            (if (strequ (lexeme "t_mnemonic" 0) "LDA") 0xBD
+                (nil)
+        )))
+        (nil)
+    )
+
     -- emit in little endian
     (emit_byte (strtol (lexeme "t_hexadecimal" 1)))
     (emit_byte (strtol (lexeme "t_hexadecimal" 0)))

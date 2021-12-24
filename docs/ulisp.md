@@ -22,10 +22,6 @@ A semantic routine is made of a sequence of functions. Line comments begin with
 
 `(if <cond> <runs when cond true> <runs when cond false>)`
 
-If no code should run when condition evaluates then put `(nil)` in its place.
-
-Examples:
-
 ```
 (if 1
     (emit_line "true")
@@ -33,12 +29,22 @@ Examples:
 )
 -- will emit "true"
 ```
+
+If no code should run when condition evaluates then put `(nil)` in its place.
+
 ```
 (if 0
     (emit_line "true")
     (nil) -- else do nothing
 )
 -- will do nothing
+```
+
+You can also place literals or call functions returning a value, the if will
+evaluate to the corresponding value.
+
+```
+(emit_line (if 1 (lexeme "t_one" 0) "0")) -- emits lexeme of terminal t_one
 ```
 
 

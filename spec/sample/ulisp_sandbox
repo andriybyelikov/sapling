@@ -1,0 +1,15 @@
+t_gobble__blank -> [ \t\r\n]+;
+t_one -> "1";
+
+start -> a;
+a -> t_one
+<
+    (if 1
+        (emit_line "true")
+        (emit_line "false")
+    )
+
+    (emit_line (if 0 "true" "false"))
+
+    (emit_line (if 1 (lexeme "t_one" 0) "0"))
+>;

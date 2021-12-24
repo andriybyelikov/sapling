@@ -54,6 +54,18 @@ struct atom *new_string_atom(const char *string)
 }
 
 static
+struct atom *new_atom_from_atom(struct atom atom)
+{
+    if (atom.type == ATOM_INT) {
+        return new_int_atom(atom.value);
+    } else if (atom.type == ATOM_STRING) {
+        return new_string_atom(atom.string);
+    } else {
+        assert(0);
+    }
+}
+
+static
 void atom__print(FILE *stream, const void *data)
 {
     const struct atom *atom = data;
@@ -76,15 +88,15 @@ IMPLEMENT_TYPED_QUEUE(arg_list, struct atom, atom__print)
 
 
 static
-void remove_atom_or_function_and_its_arguments(node_t *uargs);
+void prune_args(node_t *uargs);
 
 static
-void del_atoms(int n, node_t *uargs)
+void prune_nargs(int n, node_t *uargs)
 {
     for (int i = 0; i < n; i++) {
         struct atom a = arg_stack__access(uargs);
         if (a.type == ATOM_FUNCTION) {
-            remove_atom_or_function_and_its_arguments(uargs);
+            prune_args(uargs);
         } else {
             arg_stack__delete(uargs);
         }
@@ -92,23 +104,23 @@ void del_atoms(int n, node_t *uargs)
 }
 
 static
-void remove_atom_or_function_and_its_arguments(node_t *uargs)
+void prune_args(node_t *uargs)
 {
     struct atom a = arg_stack__delete(uargs);
     if (a.type == ATOM_FUNCTION) {
         const char *name = a.name;
         if (!strcmp(name, "if")) {
-            del_atoms(3, uargs);
+            prune_nargs(3, uargs);
         } else if (!strcmp(name, "strequ")) {
-            del_atoms(2, uargs);
+            prune_nargs(2, uargs);
         } else if (!strcmp(name, "strtol")) {
-            del_atoms(1, uargs);
+            prune_nargs(1, uargs);
         } else if (!strcmp(name, "lexeme")) {
-            del_atoms(2, uargs);
+            prune_nargs(2, uargs);
         } else if (!strcmp(name, "emit_byte")) {
-            del_atoms(1, uargs);
+            prune_nargs(1, uargs);
         } else if (!strcmp(name, "emit_line")) {
-            del_atoms(1, uargs);
+            prune_nargs(1, uargs);
         }
     }
 }
@@ -138,30 +150,26 @@ struct atom *call_function(const char *name, node_t *pts, output_stream_t out,
     node_t *uargs)
 {
     if (!strcmp(name, "if")) {
-        // take 3 arguments
         struct atom cond = fetch_arg(ATOM_INT, pts, out, uargs);
-
-        struct atom a;
+        struct atom *rtn = NULL;
         if (cond.value) {
-            a = arg_stack__delete(uargs);
+            struct atom a = arg_stack__delete(uargs);
             if (a.type == ATOM_FUNCTION) {
-                struct atom *result = call_function(a.name, pts, out, uargs);
-                if (result != NULL) {
-                    arg_stack__insert(uargs, *result);
-                }
+                rtn = call_function(a.name, pts, out, uargs);
+            } else {
+                rtn = new_atom_from_atom(a);
             }
-            remove_atom_or_function_and_its_arguments(uargs);
+            prune_args(uargs);
         } else {
-            remove_atom_or_function_and_its_arguments(uargs);
-            a = arg_stack__delete(uargs);
+            prune_args(uargs);
+            struct atom a = arg_stack__delete(uargs);
             if (a.type == ATOM_FUNCTION) {
-                struct atom *result = call_function(a.name, pts, out, uargs);
-                if (result != NULL) {
-                    arg_stack__insert(uargs, *result);
-                }
+                rtn = call_function(a.name, pts, out, uargs);
+            } else {
+                rtn = new_atom_from_atom(a);
             }
         }
-        return NULL;
+        return rtn;
     } else if (!strcmp(name, "strequ")) {
         struct atom str1 = fetch_arg(ATOM_STRING, pts, out, uargs);
         struct atom str2 = fetch_arg(ATOM_STRING, pts, out, uargs);

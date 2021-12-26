@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <libsapling/dm/queue.h>
+#include <libsapling/dm/trie.h>
 #include <libsapling/cc/parse_tree.h>
 #include "output_stream.h"
 #include "aux/parse_tree_stack.h"
@@ -53,17 +54,6 @@ struct atom *new_string_atom(const char *string)
     return res;
 }
 
-static
-struct atom *new_atom_from_atom(struct atom atom)
-{
-    if (atom.type == ATOM_INT) {
-        return new_int_atom(atom.value);
-    } else if (atom.type == ATOM_STRING) {
-        return new_string_atom(atom.string);
-    } else {
-        assert(0);
-    }
-}
 
 static
 void atom__print(FILE *stream, const void *data)
@@ -80,11 +70,77 @@ void atom__print(FILE *stream, const void *data)
     }
 }
 
+
+static
+struct atom *new_atom_from_atom(struct atom atom)
+{
+    if (atom.type == ATOM_INT) {
+        return new_int_atom(atom.value);
+    } else if (atom.type == ATOM_STRING) {
+        return new_string_atom(atom.string);
+    } else if (atom.type == ATOM_EMPTY_LIST) {
+        return NULL;
+    } else {
+        assert(0);
+    }
+}
+
 // for bottom-up evaluation
 IMPLEMENT_TYPED_STACK(arg_stack, struct atom, atom__print)
 
 // for function execution
 IMPLEMENT_TYPED_QUEUE(arg_list, struct atom, atom__print)
+
+// symbol table
+IMPLEMENT_TYPED_TRIE(symtab, struct atom, atom__print)
+
+static
+void symtab_decl(node_t *symtab, const char *name, const char *type)
+{
+    fprintf(stdout, "decl %s %s\n", name, type);
+    struct atom val;
+    if (!strcmp(type, "int")) {
+        val.type = ATOM_INT;
+        val.value = 0;
+    } else if (!strcmp(type, "string")) {
+        val.type = ATOM_STRING;
+        val.string = NULL;
+    }
+    symtab__insert(symtab, name, val);
+}
+
+static
+void apply_get_atom(struct atom *data, void *info)
+{
+    CAST_USER_INFO(struct atom **, res, info);
+
+    *res = *(struct atom **)data;
+}
+
+static
+void symtab_set(node_t *symtab, const char *name, struct atom val)
+{
+
+    fprintf(stdout, "set %s ", name);
+    atom__print(stdout, &val);
+    fprintf(stdout, "\n");
+    struct atom *res = NULL;
+    symtab__access(E_QT, symtab, name, &res, symtab__predicate_1,
+        apply_get_atom);
+    assert(res != NULL);
+    *res = val;
+    res->type = val.type;
+}
+
+static
+struct atom *symtab_get(node_t *symtab, const char *name)
+{
+    struct atom *res = NULL;
+    symtab__access(E_QT, symtab, name, &res, symtab__predicate_1,
+        apply_get_atom);
+    assert(res != NULL);
+    return res;
+}
 
 
 static
@@ -121,21 +177,35 @@ void prune_args(node_t *uargs)
             prune_nargs(1, uargs);
         } else if (!strcmp(name, "emit_line")) {
             prune_nargs(1, uargs);
+        } else if (!strcmp(name, "decl")) {
+            prune_nargs(2, uargs);
+        } else if (!strcmp(name, "set")) {
+            prune_nargs(2, uargs);
+        } else if (!strcmp(name, "get")) {
+            prune_nargs(1, uargs);
+        } else if (!strcmp(name, "add")) {
+            prune_nargs(2, uargs);
+        } else if (!strcmp(name, "sub")) {
+            prune_nargs(2, uargs);
+        } else if (!strcmp(name, "lobyte")) {
+            prune_nargs(1, uargs);
+        } else if (!strcmp(name, "hibyte")) {
+            prune_nargs(1, uargs);
         }
     }
 }
 
 static
 struct atom *call_function(const char *name, node_t *pts, output_stream_t out,
-    node_t *uargs);
+    node_t *uargs, node_t *symtab);
 
 static
 struct atom fetch_arg(int type, node_t *pts, output_stream_t out,
-    node_t *uargs)
+    node_t *uargs, node_t *symtab)
 {
     struct atom a = arg_stack__delete(uargs);
     if (a.type == ATOM_FUNCTION) {
-        struct atom *result = call_function(a.name, pts, out, uargs);
+        struct atom *result = call_function(a.name, pts, out, uargs, symtab);
         if (result != NULL) {
             arg_stack__insert(uargs, *result);
         }
@@ -146,16 +216,31 @@ struct atom fetch_arg(int type, node_t *pts, output_stream_t out,
 }
 
 static
+struct atom fetch_arg2(node_t *pts, output_stream_t out,
+    node_t *uargs, node_t *symtab)
+{
+    struct atom a = arg_stack__delete(uargs);
+    if (a.type == ATOM_FUNCTION) {
+        struct atom *result = call_function(a.name, pts, out, uargs, symtab);
+        if (result != NULL) {
+            arg_stack__insert(uargs, *result);
+        }
+        a = arg_stack__delete(uargs);
+    }
+    return a;
+}
+
+static
 struct atom *call_function(const char *name, node_t *pts, output_stream_t out,
-    node_t *uargs)
+    node_t *uargs, node_t *symtab)
 {
     if (!strcmp(name, "if")) {
-        struct atom cond = fetch_arg(ATOM_INT, pts, out, uargs);
+        struct atom cond = fetch_arg(ATOM_INT, pts, out, uargs, symtab);
         struct atom *rtn = NULL;
         if (cond.value) {
             struct atom a = arg_stack__delete(uargs);
             if (a.type == ATOM_FUNCTION) {
-                rtn = call_function(a.name, pts, out, uargs);
+                rtn = call_function(a.name, pts, out, uargs, symtab);
             } else {
                 rtn = new_atom_from_atom(a);
             }
@@ -164,23 +249,23 @@ struct atom *call_function(const char *name, node_t *pts, output_stream_t out,
             prune_args(uargs);
             struct atom a = arg_stack__delete(uargs);
             if (a.type == ATOM_FUNCTION) {
-                rtn = call_function(a.name, pts, out, uargs);
+                rtn = call_function(a.name, pts, out, uargs, symtab);
             } else {
                 rtn = new_atom_from_atom(a);
             }
         }
         return rtn;
     } else if (!strcmp(name, "strequ")) {
-        struct atom str1 = fetch_arg(ATOM_STRING, pts, out, uargs);
-        struct atom str2 = fetch_arg(ATOM_STRING, pts, out, uargs);
+        struct atom str1 = fetch_arg(ATOM_STRING, pts, out, uargs, symtab);
+        struct atom str2 = fetch_arg(ATOM_STRING, pts, out, uargs, symtab);
         return new_int_atom(!strcmp(str1.string, str2.string));
     } else if (!strcmp(name, "strtol")) {
-        struct atom val = fetch_arg(ATOM_STRING, pts, out, uargs);
+        struct atom val = fetch_arg(ATOM_STRING, pts, out, uargs, symtab);
         char *ptr;
         return new_int_atom(strtol(val.string, &ptr, 0));
     } else if (!strcmp(name, "lexeme")) {
-        struct atom symbol = fetch_arg(ATOM_STRING, pts, out, uargs);
-        struct atom occurrence = fetch_arg(ATOM_INT, pts, out, uargs);
+        struct atom symbol = fetch_arg(ATOM_STRING, pts, out, uargs, symtab);
+        struct atom occurrence = fetch_arg(ATOM_INT, pts, out, uargs, symtab);
 
         node_t production_node = parse_tree_stack__access(pts);
 
@@ -202,15 +287,43 @@ struct atom *call_function(const char *name, node_t *pts, output_stream_t out,
 
         return new_string_atom(lexeme);
     } else if (!strcmp(name, "emit_byte")) {
-        struct atom val = fetch_arg(ATOM_INT, pts, out, uargs);
+        struct atom val = fetch_arg(ATOM_INT, pts, out, uargs, symtab);
         output_stream__putc(out, val.value);
         return NULL;
     } else if (!strcmp(name, "emit_line")) {
-        struct atom val = fetch_arg(ATOM_STRING, pts, out, uargs);
+        struct atom val = fetch_arg(ATOM_STRING, pts, out, uargs, symtab);
         for (int i = 0; i < strlen(val.string); i++)
             output_stream__putc(out, val.string[i]);
         output_stream__putc(out, '\n');
         return NULL;
+    } else if (!strcmp(name, "decl")) {
+        struct atom name = fetch_arg(ATOM_STRING, pts, out, uargs, symtab);
+        struct atom type = fetch_arg(ATOM_STRING, pts, out, uargs, symtab);
+        symtab_decl(symtab, name.string, type.string);
+        return NULL;
+    } else if (!strcmp(name, "set")) {
+        struct atom sym = fetch_arg(ATOM_STRING, pts, out, uargs, symtab);
+        struct atom val = fetch_arg2(pts, out, uargs, symtab);
+        symtab_set(symtab, sym.string, val);
+        return NULL;
+    } else if (!strcmp(name, "get")) {
+        struct atom sym = fetch_arg(ATOM_STRING, pts, out, uargs, symtab);
+        struct atom res = *symtab_get(symtab, sym.string);
+        return new_atom_from_atom(res);
+    } else if (!strcmp(name, "add")) {
+        struct atom a = fetch_arg(ATOM_INT, pts, out, uargs, symtab);
+        struct atom b = fetch_arg(ATOM_INT, pts, out, uargs, symtab);
+        return new_int_atom(a.value + b.value);
+    } else if (!strcmp(name, "sub")) {
+        struct atom a = fetch_arg(ATOM_INT, pts, out, uargs, symtab);
+        struct atom b = fetch_arg(ATOM_INT, pts, out, uargs, symtab);
+        return new_int_atom(a.value - b.value);
+    } else if (!strcmp(name, "lobyte")) {
+        struct atom word = fetch_arg(ATOM_INT, pts, out, uargs, symtab);
+        return new_int_atom(word.value & 0xFF);
+    } else if (!strcmp(name, "hibyte")) {
+        struct atom word = fetch_arg(ATOM_INT, pts, out, uargs, symtab);
+        return new_int_atom(word.value >> 8 & 0xFF);
     }
     return NULL;
 }
@@ -218,7 +331,7 @@ struct atom *call_function(const char *name, node_t *pts, output_stream_t out,
 
 static
 void true_eval(node_t *t, node_t *pts, output_stream_t out, int *d,
-    node_t *uargs)
+    node_t *uargs, node_t *symtab)
 {
     node_t node = *t;
     if (node == NULL)
@@ -229,8 +342,8 @@ void true_eval(node_t *t, node_t *pts, output_stream_t out, int *d,
         #endif
         node_t lists = child(t, "lists");
         node_t list = child(t, "list");
-        true_eval(&lists, pts, out, d, uargs);
-        true_eval(&list, pts, out, d, uargs);
+        true_eval(&lists, pts, out, d, uargs, symtab);
+        true_eval(&list, pts, out, d, uargs, symtab);
     } else if (id(node, list)) {
         #ifdef ULISP_EXPLAIN_EVAL_ORDER
         fprintf(stderr, "Evaluating <list>\n");
@@ -250,15 +363,15 @@ void true_eval(node_t *t, node_t *pts, output_stream_t out, int *d,
             #endif
             return;
         }
-        true_eval(&args, pts, out, d, uargs);
+        true_eval(&args, pts, out, d, uargs, symtab);
     } else if (id(node, args)) {
         #ifdef ULISP_EXPLAIN_EVAL_ORDER
         fprintf(stderr, "Evaluating <args>\n");
         #endif
         node_t args = child(t, "args");
         node_t arg = child(t, "arg");
-        true_eval(&args, pts, out, d, uargs);
-        true_eval(&arg, pts, out, d, uargs);
+        true_eval(&args, pts, out, d, uargs, symtab);
+        true_eval(&arg, pts, out, d, uargs, symtab);
     } else if (id(node, arg)) {
         #ifdef ULISP_EXPLAIN_EVAL_ORDER
         fprintf(stderr, "Evaluating <arg>\n");
@@ -284,7 +397,7 @@ void true_eval(node_t *t, node_t *pts, output_stream_t out, int *d,
             }
             // call function
             if (*d == 0) {
-                struct atom *result = call_function(lexeme, pts, out, uargs);
+                struct atom *result = call_function(lexeme, pts, out, uargs, symtab);
                 if (result != NULL) {
                     arg_stack__insert(uargs, *result);
                     #ifdef ULISP_LOG_STACK
@@ -340,33 +453,23 @@ void true_eval(node_t *t, node_t *pts, output_stream_t out, int *d,
             fprintf(stdout, "\n");
             #endif
         } else { // lists
-            true_eval(&type, pts, out, d, uargs);
+            true_eval(&type, pts, out, d, uargs, symtab);
         }
     }
 }
 
 void eval(node_t *ulisp_parse_tree, node_t *parse_tree_stack,
-    output_stream_t out)
+    output_stream_t out, node_t *symtab)
 {
     node_t uargs = NULL; // argument stack
     int d = 0;
-
-    #ifdef ULISP_LOG_STACK
-    arg_stack__print(stdout, &uargs);
-    fprintf(stdout, "\n");
-    #endif
 
     // evaluate all lists
     node_t start = *ulisp_parse_tree;
     node_t lists = child(&start, "lists");
     while (lists != NULL) {
         node_t list = child(&lists, "list");
-        true_eval(&list, parse_tree_stack, out, &d, &uargs);
+        true_eval(&list, parse_tree_stack, out, &d, &uargs, symtab);
         lists = child(&lists, "lists");
     }
-
-    #ifdef ULISP_LOG_STACK
-    arg_stack__print(stdout, &uargs);
-    fprintf(stdout, "\n");
-    #endif
 }

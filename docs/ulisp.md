@@ -76,3 +76,41 @@ Emits the value of the specified integer anded with 0xFF.
 
 Emits the specified string, adding a trailing newline: LF on *nix systems and
 CRLF on Windows systems.
+
+## Variables
+
+### Fragment scope
+
+`decl <name: string> <type: string>`
+
+Registers a symbol in the symbol table and maps an atom of the given type.
+
+`set <name: string> <expr>`
+
+Sets the value of the atom associated to the symbol.
+
+`get <name: string>`
+
+Gets the value of the atom associated to the symbol.
+
+## Math
+
+`add <op1: int> <op2: int>`
+
+Evaluates to op1 + op2
+
+`sub <op1: int> <op2: int>`
+
+Evaluates to op1 - op2
+
+## Bitwise
+
+`lobyte`
+
+Evaluates to the low byte of the first word of an integer.
+
+\* emit_byte already does this before emitting a byte to output.
+
+`hibyte`
+
+Evaluates to the high byte of the first word of an integer.

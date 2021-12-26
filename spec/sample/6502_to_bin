@@ -7,11 +7,27 @@ t_hexadecimal         -> "0x"[0-9A-Fa-f]*;
 t_decimal             -> [1-9][0-9]*;
 t_comma               -> ",";
 t_reg                 -> [axy];
+t_directive           -> "."[a-z]*;
+t_label               -> ":"[a-z0-9_]*;
+t_dollarsign          -> "$";
 
 
 start       -> expressions;
 expressions -> expression expressions | expression;
-expression  -> instruction;
+expression  -> instruction | directive | label;
+
+directive   -> t_directive t_hexadecimal
+<
+    (decl "PC" "int")
+    (set "PC" (strtol (lexeme "t_hexadecimal" 0)))
+>;
+
+label       -> t_label
+<
+    (decl (lexeme "t_label" 0) "int")
+    (set (lexeme "t_label" 0) (get "PC"))
+>;
+
 
 -- addressing modes: implied
 instruction -> t_mnemonic
@@ -44,6 +60,8 @@ instruction -> t_mnemonic
         (if (strequ (lexeme "t_mnemonic" 0) "SED") 0xF8
             (nil)
     ))))))))))))))))))))))))))
+
+    (set "PC" (add (get "PC") 1))
 >
 
 -- addressing modes: immediate
@@ -56,6 +74,8 @@ instruction -> t_mnemonic
     )))
 
     (emit_byte (strtol (lexeme "t_hexadecimal" 0)))
+
+    (set "PC" (add (get "PC") 2))
 >
 
 -- addressing modes: absolute
@@ -72,6 +92,8 @@ instruction -> t_mnemonic
     -- emit in little endian
     (emit_byte (strtol (lexeme "t_hexadecimal" 1)))
     (emit_byte (strtol (lexeme "t_hexadecimal" 0)))
+
+    (set "PC" (add (get "PC") 3))
 >
 
 -- addressing modes: relative
@@ -85,6 +107,35 @@ instruction -> t_mnemonic
     ))))
 
     (emit_byte (strtol (lexeme "t_hexadecimal" 0)))
+
+    (set "PC" (add (get "PC") 2))
+>
+
+-- addressing modes: relative using labels
+| t_mnemonic t_dollarsign t_label
+<
+    (emit_byte
+        (if (strequ (lexeme "t_mnemonic" 0) "BPL") 0x10
+        (if (strequ (lexeme "t_mnemonic" 0) "BNE") 0xD0
+        (if (strequ (lexeme "t_mnemonic" 0) "BEQ") 0xF0
+        (if (strequ (lexeme "t_mnemonic" 0) "JMP") 0x4C
+            (nil)
+    )))))
+
+    (if (strequ (lexeme "t_mnemonic" 0) "JMP")
+        (set "PC" (add (get "PC") 3))
+        (set "PC" (add (get "PC") 2))
+    )
+
+    (if (strequ (lexeme "t_mnemonic" 0) "JMP")
+        (emit_byte (get (lexeme "t_label" 0)))
+        (emit_byte (sub (get (lexeme "t_label" 0)) (get "PC")))
+    )
+
+    (if (strequ (lexeme "t_mnemonic" 0) "JMP")
+        (emit_byte (hibyte (get (lexeme "t_label" 0))))
+        (nil)
+    )
 >
 
 -- addressing modes: zeropage x
@@ -99,6 +150,8 @@ instruction -> t_mnemonic
     )
 
     (emit_byte (strtol (lexeme "t_hexadecimal" 0)))
+
+    (set "PC" (add (get "PC") 2))
 >
 
 -- addressing modes: absolute x
@@ -116,4 +169,6 @@ instruction -> t_mnemonic
     -- emit in little endian
     (emit_byte (strtol (lexeme "t_hexadecimal" 1)))
     (emit_byte (strtol (lexeme "t_hexadecimal" 0)))
+
+    (set "PC" (add (get "PC") 3))
 >;

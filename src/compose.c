@@ -177,7 +177,7 @@ void get_ulisp_parse_tree(pidxpt_t *data, void *info)
 
 static
 void run_ulisp_parse_tree(node_t *ulisp_parse_trees, int prod_idx,
-    node_t *parse_tree_stack, output_stream_t out)
+    node_t *parse_tree_stack, output_stream_t out, node_t *symtab)
 {
     pidxpt_t key = { prod_idx, NULL };
     ulisp_parse_tree_avl__access(E_QT, ulisp_parse_trees, &key,
@@ -189,7 +189,7 @@ void run_ulisp_parse_tree(node_t *ulisp_parse_trees, int prod_idx,
     // debug: dump ulisp parse tree
     //parse_tree__dump_dot(stdout, &uroot);
 
-    eval(&uroot, parse_tree_stack, out);
+    eval(&uroot, parse_tree_stack, out, symtab);
 }
 
 
@@ -227,6 +227,8 @@ void compile_fragment_apply(const char **data, void *info)
 
     node_t parse_tree_stack = NULL;
 
+    node_t fragment_symtab = NULL;
+
     int cont = 1;
     while (cont) {
         int s = state_stack__access(&state_stack);
@@ -255,7 +257,7 @@ void compile_fragment_apply(const char **data, void *info)
                 goto_table__get_state(gt, g, s, production__id(prod)));
             // run action
             run_ulisp_parse_tree(ulisp_parse_trees, prod_idx,
-                &parse_tree_stack, user->out);
+                &parse_tree_stack, user->out, &fragment_symtab);
         } else if (action_table__get_action(at, g, s, lo.id)
                 == PARSER_ACTION_ACCEPT) {
             cont = 0;

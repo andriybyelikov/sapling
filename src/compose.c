@@ -5,7 +5,7 @@
 #include <libsapling/dm/graph.h>
 #include <libsapling/cc/text.h>
 #include <libsapling/cc/parse_tree.h>
-#include <libsapling/cc/parser/aux/production_set.h>
+#include <libsapling/cc/parser/defs/production_set.h>
 #include "input_stream.h"
 #include "output_stream.h"
 #include "aux/string_list.h"

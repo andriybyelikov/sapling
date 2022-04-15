@@ -5,8 +5,8 @@
 #include <libsapling/dm/trie.h>
 #include <libsapling/cc/text.h>
 #include <libsapling/cc/parse_tree.h>
-#include <libsapling/cc/parser/aux/symbol_set.h>
-#include <libsapling/cc/parser/aux/production_set.h>
+#include <libsapling/cc/parser/defs/symbol_set.h>
+#include <libsapling/cc/parser/defs/production_set.h>
 #include <libsapling/cc/parser/slr.h>
 #include "aux/parse_tree_stack.h"
 #include "aux/string_list.h"
